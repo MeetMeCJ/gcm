@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jGcmData = new JSONObject();
                         JSONObject jData = new JSONObject();
                         jData.put("message", aux);
-                        jData.put("origen","Jaime");
+                        jData.put("origen","Carmen");
                         // Where to send GCM message.
 
                         jGcmData.put("to", "daTVtHPsOog:APA91bFIFoKLuRm1zC-E6_F74AEnwSjckxI-LlzldRunNjPLdxanky-X8gFUz230nlXVPW7MoW4FQ_VsAdjj5-27SVXvKlfe80FzzSOBTNXamXPACnn0v_rpXC2iS3daBtyGCA8RrpvK");
