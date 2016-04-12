@@ -1,25 +1,11 @@
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package gcm.play.android.samples.com.gcmquickstart;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +13,11 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+
+import java.util.Date;
+
+import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
+import gcm.play.android.samples.com.gcmquickstart.db.Proveedor;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -43,8 +34,8 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
-        String aux=data.getString("origen");
-        Log.d(TAG, "From: " + aux);
+        String tokenSender = data.getString("origen");
+        Log.d(TAG, "From: " + tokenSender);
         Log.d(TAG, "Message: " + message);
 
         if (from.startsWith("/topics/")) {
@@ -60,12 +51,45 @@ public class MyGcmListenerService extends GcmListenerService {
          *     - Store message in local database.
          *     - Update UI.
          */
+        Cursor c = getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, Contrato.TablaUsuario.TOKEN + " = ?",
+                new String[]{tokenSender + ""}, null);
+        if (c.moveToFirst()) {
+            //Esta registrado
+            String nombre = "";
+            String telefono = "";
+            do {
+                nombre = c.getString(c.getColumnIndex(Contrato.TablaUsuario.NOMBRE));
+                telefono = c.getString(c.getColumnIndex(Contrato.TablaUsuario.TELEFONO));
+            } while (c.moveToNext());
+            /**
+             * In some cases it may be useful to show a notification indicating to the user
+             * that a message was received.
+             */
+            sendNotification(nombre, message);
+        } else {
+            //No esta registrado , por lo tanto se buscara el numero de telefono en el servidor nuestro
+            sendNotification("951753456", message);
+        }
 
         /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
-        sendNotification(aux,message);
+         * Guardamos en la base de datos el mensaje
+         * */
+
+        Date dfecha = new Date();
+        String sfecha = dfecha.getDay() + "/" + dfecha.getMonth() + "/" + dfecha.getYear();
+        String hora = dfecha.getHours() + ":" + dfecha.getMinutes();
+
+        Proveedor proveedor = new Proveedor();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Contrato.TablaConversacion.MENSAJE, message);
+        cv.put(Contrato.TablaConversacion.TOKEN, tokenSender);
+        cv.put(Contrato.TablaConversacion.FECHA, sfecha);
+        cv.put(Contrato.TablaConversacion.HORA, hora);
+
+        proveedor.insert(Contrato.TablaConversacion.CONTENT_URI, cv);
+
+
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -75,7 +99,7 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String from,String message) {
+    private void sendNotification(String from, String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

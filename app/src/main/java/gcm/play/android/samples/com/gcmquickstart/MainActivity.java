@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,6 +46,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import gcm.play.android.samples.com.gcmquickstart.db.Ayudante;
+import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
+import gcm.play.android.samples.com.gcmquickstart.db.Proveedor;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -63,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Ayudante ayu=new Ayudante(this);
+
         mRegistrationProgressBar = (ProgressBar) findViewById(R.id.registrationProgressBar);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(context);
+
                 boolean sentToken = sharedPreferences
                         .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
@@ -89,6 +97,19 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+        Proveedor proveedor = new Proveedor();
+        Cursor c = getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, null,
+                null, null);
+
+        String mensaje = "";
+        if (c.moveToFirst()) {
+            //Esta registrado
+
+            do {
+                mensaje = c.getString(c.getColumnIndex(Contrato.TablaConversacion.MENSAJE));
+            } while (c.moveToNext());
+            mInformationTextView.setText(mensaje);
+        }
     }
 
     @Override
@@ -104,13 +125,14 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void registerReceiver(){
-        if(!isReceiverRegistered) {
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
     }
+
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
@@ -138,11 +160,12 @@ public class MainActivity extends AppCompatActivity {
             new AsyncTask() {
 
                 private String aux;
+
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    mandar= (EditText) findViewById(R.id.editText);
-                    aux=mandar.getText().toString();
+                    mandar = (EditText) findViewById(R.id.editText);
+                    aux = mandar.getText().toString();
                 }
 
                 @Override
@@ -152,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jGcmData = new JSONObject();
                         JSONObject jData = new JSONObject();
                         jData.put("message", aux);
-                        jData.put("origen","Carmen");
+                        jData.put("origen", "Carmen");
                         // Where to send GCM message.
 
                         jGcmData.put("to", "daTVtHPsOog:APA91bFIFoKLuRm1zC-E6_F74AEnwSjckxI-LlzldRunNjPLdxanky-X8gFUz230nlXVPW7MoW4FQ_VsAdjj5-27SVXvKlfe80FzzSOBTNXamXPACnn0v_rpXC2iS3daBtyGCA8RrpvK");
