@@ -48,7 +48,6 @@ import java.net.URL;
 
 import gcm.play.android.samples.com.gcmquickstart.db.Ayudante;
 import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
-import gcm.play.android.samples.com.gcmquickstart.db.Proveedor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Ayudante ayu=new Ayudante(this);
+        Ayudante ayu = new Ayudante(this);
 
         mRegistrationProgressBar = (ProgressBar) findViewById(R.id.registrationProgressBar);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -97,19 +96,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
-        Proveedor proveedor = new Proveedor();
-        Cursor c = getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, null,
-                null, null);
 
-        String mensaje = "";
-        if (c.moveToFirst()) {
-            //Esta registrado
-
-            do {
-                mensaje = c.getString(c.getColumnIndex(Contrato.TablaConversacion.MENSAJE));
-            } while (c.moveToNext());
-            mInformationTextView.setText(mensaje);
-        }
     }
 
     @Override
@@ -166,6 +153,25 @@ public class MainActivity extends AppCompatActivity {
                     super.onPreExecute();
                     mandar = (EditText) findViewById(R.id.editText);
                     aux = mandar.getText().toString();
+
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    Cursor c = getContentResolver().query(Contrato.TablaConversacion.CONTENT_URI, null, null,
+                            null, null);
+
+                    String mensaje = "";
+                    if (c.moveToFirst()) {
+                        //Esta registrado
+
+                        do {
+                            mensaje += c.getString(c.getColumnIndex(Contrato.TablaConversacion.MENSAJE)) + "\n";
+                        } while (c.moveToNext());
+                        mInformationTextView.setText(mensaje);
+                    }
+                    mandar.setText("");
                 }
 
                 @Override
@@ -175,10 +181,10 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jGcmData = new JSONObject();
                         JSONObject jData = new JSONObject();
                         jData.put("message", aux);
-                        jData.put("origen", "Carmen");
+                        jData.put("origen", "Nuestro Token");
                         // Where to send GCM message.
 
-                        jGcmData.put("to", "daTVtHPsOog:APA91bFIFoKLuRm1zC-E6_F74AEnwSjckxI-LlzldRunNjPLdxanky-X8gFUz230nlXVPW7MoW4FQ_VsAdjj5-27SVXvKlfe80FzzSOBTNXamXPACnn0v_rpXC2iS3daBtyGCA8RrpvK");
+                        jGcmData.put("to", "ckHzgRiOBBU:APA91bFh0zvC1jXGW2itL7-xidHTVkRGmSI8BmzbqQXIPJUPML3ks9Iq797C-pF6SV_xcgSahJ6gDV0L0jUYkMtg9mRvZlS6ScAdnlWQFbngi0wua7M6COMNw1LIak4eo5yzkjA7SlTn");
 
                         // What to send in GCM message.
                         jGcmData.put("data", jData);
@@ -212,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     return "";
                 }
             }.execute(null, null, null);
+
 
         }
     }

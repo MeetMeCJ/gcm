@@ -73,12 +73,14 @@ public class Proveedor extends ContentProvider {
                 throw new IllegalArgumentException("URI no soportada: " + uri);
         }
 
-        switch (match){
-            case USUARIOS: case USUARIO_ID:
+        switch (match) {
+            case USUARIOS:
+            case USUARIO_ID:
                 c.setNotificationUri(getContext().getContentResolver(), Contrato.TablaUsuario.CONTENT_URI);
                 break;
 
-            case CONVERSACIONES: case CONVERSACIONES_ID:
+            case CONVERSACIONES:
+            case CONVERSACIONES_ID:
                 c.setNotificationUri(getContext().getContentResolver(), Contrato.TablaConversacion.CONTENT_URI);
                 break;
 
@@ -114,6 +116,7 @@ public class Proveedor extends ContentProvider {
                     return uri_actividad;
                 }
                 throw new SQLException("Error al insertar fila en : " + uri);
+
 
             case CONVERSACIONES:
                 long rowIdConversacion = db.insert(Contrato.TablaConversacion.TABLA, null, values);

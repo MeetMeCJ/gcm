@@ -3,6 +3,7 @@ package gcm.play.android.samples.com.gcmquickstart.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Admin on 12/04/2016.
@@ -14,6 +15,7 @@ public class Ayudante extends SQLiteOpenHelper {
     public Ayudante(Context context) {
         super(context, DATABASE_NAME, null,
                 DATABASE_VERSION);
+        Log.v("ASDF","Ayudante constructor");
     }
 
     @Override
@@ -31,7 +33,7 @@ public class Ayudante extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql;
-        sql = "CREATE TABLE " + Contrato.TablaUsuario.TABLA +" (" +
+        sql = "create table " + Contrato.TablaUsuario.TABLA +" (" +
                 Contrato.TablaUsuario._ID + " integer primary key autoincrement, " +
                 Contrato.TablaUsuario.NOMBRE + " text, " +
                 Contrato.TablaUsuario.NICK + " text, " +
@@ -43,8 +45,9 @@ public class Ayudante extends SQLiteOpenHelper {
                 Contrato.TablaUsuario.VERCONEXION + " text )";
         db.execSQL(sql);
 
+
         sql = "CREATE TABLE " + Contrato.TablaConversacion.TABLA +
-                " (" + Contrato.TablaUsuario._ID +
+                " (" + Contrato.TablaConversacion._ID +
                 " integer primary key autoincrement, " +
                 Contrato.TablaConversacion.MENSAJE + " text, " +
                 Contrato.TablaConversacion.TOKEN + " text, " +

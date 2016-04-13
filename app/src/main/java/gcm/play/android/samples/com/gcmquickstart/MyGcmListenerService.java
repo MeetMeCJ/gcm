@@ -17,7 +17,6 @@ import com.google.android.gms.gcm.GcmListenerService;
 import java.util.Date;
 
 import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
-import gcm.play.android.samples.com.gcmquickstart.db.Proveedor;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -37,6 +36,7 @@ public class MyGcmListenerService extends GcmListenerService {
         String tokenSender = data.getString("origen");
         Log.d(TAG, "From: " + tokenSender);
         Log.d(TAG, "Message: " + message);
+
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
@@ -79,7 +79,7 @@ public class MyGcmListenerService extends GcmListenerService {
         String sfecha = dfecha.getDay() + "/" + dfecha.getMonth() + "/" + dfecha.getYear();
         String hora = dfecha.getHours() + ":" + dfecha.getMinutes();
 
-        Proveedor proveedor = new Proveedor();
+
 
         ContentValues cv = new ContentValues();
         cv.put(Contrato.TablaConversacion.MENSAJE, message);
@@ -87,7 +87,7 @@ public class MyGcmListenerService extends GcmListenerService {
         cv.put(Contrato.TablaConversacion.FECHA, sfecha);
         cv.put(Contrato.TablaConversacion.HORA, hora);
 
-        proveedor.insert(Contrato.TablaConversacion.CONTENT_URI, cv);
+        getContentResolver().insert(Contrato.TablaConversacion.CONTENT_URI, cv);
 
 
         // [END_EXCLUDE]
