@@ -76,23 +76,20 @@ public class MyGcmListenerService extends GcmListenerService {
          * */
 
         Date dfecha = new Date();
-        String sfecha = dfecha.getDay() + "/" + dfecha.getMonth() + "/" + dfecha.getYear();
+        String sfecha = dfecha.getDay() + "/" + dfecha.getMonth() + "/" + (1900 + dfecha.getYear());
         String hora = dfecha.getHours() + ":" + dfecha.getMinutes();
-
 
 
         ContentValues cv = new ContentValues();
         cv.put(Contrato.TablaConversacion.MENSAJE, message);
-        cv.put(Contrato.TablaConversacion.TOKEN, tokenSender);
+        cv.put(Contrato.TablaConversacion.CONVERSACION, tokenSender);
+        cv.put(Contrato.TablaConversacion.TOKENEMISOR, tokenSender);
         cv.put(Contrato.TablaConversacion.FECHA, sfecha);
         cv.put(Contrato.TablaConversacion.HORA, hora);
 
         getContentResolver().insert(Contrato.TablaConversacion.CONTENT_URI, cv);
 
-
-        // [END_EXCLUDE]
     }
-    // [END receive_message]
 
     /**
      * Create and show a simple notification containing the received GCM message.
@@ -100,7 +97,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String from, String message) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Splash.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

@@ -50,7 +50,8 @@ public class Ayudante extends SQLiteOpenHelper {
                 " (" + Contrato.TablaConversacion._ID +
                 " integer primary key autoincrement, " +
                 Contrato.TablaConversacion.MENSAJE + " text, " +
-                Contrato.TablaConversacion.TOKEN + " text, " +
+                Contrato.TablaConversacion.TOKENEMISOR + " text, " +
+                Contrato.TablaConversacion.CONVERSACION + " text, " +
                 Contrato.TablaConversacion.FECHA + " text, " +
                 Contrato.TablaConversacion.HORA + " text )";
         db.execSQL(sql);

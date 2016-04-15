@@ -28,7 +28,8 @@ public class Contrato {
     public static abstract class TablaConversacion implements BaseColumns {
         public static final String TABLA = "conversacion";
         public static final String MENSAJE = "mensaje";
-        public static final String TOKEN = "token";
+        public static final String CONVERSACION = "tokenconversacion";//Siempre el del otro
+        public static final String TOKENEMISOR = "tokenemisor";//Puede ser el nuestro o el del otro
         public static final String FECHA = "fecha";
         public static final String HORA = "hora";
 
