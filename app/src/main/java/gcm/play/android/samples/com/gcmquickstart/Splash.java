@@ -47,6 +47,13 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+        if(prefs.getBoolean(getResources().getString(R.string.registrar),false)){
+            Intent i=new Intent(this,ListaConversaciones.class);
+            startActivity(i);
+        }
+
         setContentView(R.layout.activity_splash);
 
         telefono= (EditText) findViewById(R.id.editText);
@@ -58,7 +65,7 @@ public class Splash extends AppCompatActivity {
 
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
-                    Intent i=new Intent(getBaseContext(),Conversacion.class);
+                    Intent i=new Intent(getBaseContext(),ListaConversaciones.class);
                     startActivity(i);
                 } else {
                     mInformationTextView.setText(getString(R.string.token_error_message));

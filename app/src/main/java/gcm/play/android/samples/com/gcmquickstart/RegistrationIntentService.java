@@ -93,11 +93,13 @@ public class RegistrationIntentService extends IntentService {
         BufferedReader in = null;
 
         try {
-            String destinor = urlOrigen + "?op=alta&accion=registrar&tlf=" + tlf + "&token=" + token;
-            Log.v("ASDF",destinor);
-            url = new URL(destinor);
+            String destino = urlOrigen + "?op=alta&accion=registrar&tlf=" + tlf + "&token=" + token;
+            url = new URL(destino);
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             in.close();
+
+            editor.putBoolean(getResources().getString(R.string.registrar),true);
+            editor.commit();
 
         } catch (MalformedURLException e) {
             Log.e("ASDF","error1 "+e.toString());
