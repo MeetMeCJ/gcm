@@ -36,7 +36,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 public class Splash extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "Splah";
 
     private EditText telefono;
 
@@ -48,9 +48,9 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+        final SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         if(prefs.getBoolean(getResources().getString(R.string.registrar),false)){
-            Intent i=new Intent(this,ListaConversaciones.class);
+            Intent i=new Intent(this,MainActivity.class);
             startActivity(i);
         }
 
@@ -64,8 +64,8 @@ public class Splash extends AppCompatActivity {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-                    Intent i=new Intent(getBaseContext(),ListaConversaciones.class);
+                if (sentToken && prefs.getBoolean(getResources().getString(R.string.registrar),false)) {
+                    Intent i=new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
                 } else {
                     mInformationTextView.setText(getString(R.string.token_error_message));

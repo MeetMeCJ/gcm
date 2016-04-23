@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Conversacion" />
+        <activity android:name=".MainActivity" />
 
         <!-- [START gcm_receiver] -->
         <receiver
@@ -69,10 +69,6 @@
             android:name=".RegistrationIntentService"
             android:exported="false" />
 
-        <activity
-            android:name=".ListaConversaciones"
-            android:label="@string/title_activity_lista_conversaciones"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

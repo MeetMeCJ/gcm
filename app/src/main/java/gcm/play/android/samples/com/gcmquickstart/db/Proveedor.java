@@ -173,8 +173,7 @@ public class Proveedor extends ContentProvider {
 
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[]
-            selectionArgs) {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase db = abd.getWritableDatabase();
         int affected;
         switch (convierteUri.match(uri)) {

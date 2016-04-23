@@ -53,6 +53,7 @@ public class MyGcmListenerService extends GcmListenerService {
          */
         Cursor c = getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, Contrato.TablaUsuario.TOKEN + " = ?",
                 new String[]{tokenSender + ""}, null);
+
         if (c.moveToFirst()) {
             //Esta registrado
             String nombre = "";
@@ -61,13 +62,17 @@ public class MyGcmListenerService extends GcmListenerService {
                 nombre = c.getString(c.getColumnIndex(Contrato.TablaUsuario.NOMBRE));
                 telefono = c.getString(c.getColumnIndex(Contrato.TablaUsuario.TELEFONO));
             } while (c.moveToNext());
-            /**
-             * In some cases it may be useful to show a notification indicating to the user
-             * that a message was received.
-             */
+
             sendNotification(nombre, message);
         } else {
-            //No esta registrado , por lo tanto se buscara el numero de telefono en el servidor nuestro
+            ContentValues cv2=new ContentValues();
+            cv2.put(Contrato.TablaUsuario.NICK,"nick");
+            cv2.put(Contrato.TablaUsuario.NOMBRE,"951753456");
+            cv2.put(Contrato.TablaUsuario.TELEFONO,"951753456");
+            cv2.put(Contrato.TablaUsuario.TOKEN,tokenSender);
+
+            getContentResolver().insert(Contrato.TablaUsuario.CONTENT_URI,cv2);
+
             sendNotification("951753456", message);
         }
 
@@ -97,7 +102,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String from, String message) {
-        Intent intent = new Intent(this, Splash.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

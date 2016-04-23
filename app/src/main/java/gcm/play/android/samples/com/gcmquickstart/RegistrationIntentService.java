@@ -17,7 +17,6 @@
 package gcm.play.android.samples.com.gcmquickstart;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -28,18 +27,12 @@ import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
-
-    private String urlOrigen = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
 
     public RegistrationIntentService() {
         super(TAG);
@@ -82,32 +75,7 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(getResources().getString(R.string.token), token);
-        editor.commit();
-
-        String tlf   = prefs.getString(getResources().getString(R.string.telefono), "");
-
-        URL url = null;
-        BufferedReader in = null;
-
-        try {
-            String destino = urlOrigen + "?op=alta&accion=registrar&tlf=" + tlf + "&token=" + token;
-            url = new URL(destino);
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-            in.close();
-
-            editor.putBoolean(getResources().getString(R.string.registrar),true);
-            editor.commit();
-
-        } catch (MalformedURLException e) {
-            Log.e("ASDF","error1 "+e.toString());
-        } catch (IOException e) {
-            Log.e("ASDF","error2 "+e.toString());
-        }
-
-
+        Gestor.registrationToServer(this,token);
     }
 
     /**
