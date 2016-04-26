@@ -34,8 +34,8 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
         String tokenSender = data.getString("origen");
-        Log.d(TAG, "From: " + tokenSender);
-        Log.d(TAG, "Message: " + message);
+        Log.d(TAG, getBaseContext().getString(R.string.str_tag_from) + tokenSender);
+        Log.d(TAG, getBaseContext().getString(R.string.str_tag_message) + message);
 
 
         if (from.startsWith("/topics/")) {

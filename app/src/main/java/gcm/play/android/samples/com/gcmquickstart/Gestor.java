@@ -85,6 +85,7 @@ public class Gestor {
     }
 
     public static void registrationToServer(Context c, String token) {
+
         Log.v("ASDF", "Gestor registrando token");
 
         String urlOrigen = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
@@ -94,7 +95,7 @@ public class Gestor {
         editor.putString(c.getResources().getString(R.string.str_token), token);
         editor.commit();
 
-        String tlf = prefs.getString(c.getResources().getString(R.string.str_telefono), "");
+        String tlf = prefs.getString(c.getResources().getString(R.string.str_telephone), "");
 
         URL url = null;
         BufferedReader in = null;
@@ -106,7 +107,7 @@ public class Gestor {
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             in.close();
 
-            editor.putBoolean(c.getResources().getString(R.string.str_registrar), true);
+            editor.putBoolean(c.getResources().getString(R.string.str_register), true);
             editor.commit();
 
         } catch (MalformedURLException e) {

@@ -9,6 +9,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import gcm.play.android.samples.com.gcmquickstart.R;
+
 /**
  * Created by Admin on 12/04/2016.
  */
@@ -70,7 +72,8 @@ public class Proveedor extends ContentProvider {
                 break;
 
             default:
-                throw new IllegalArgumentException("URI no soportada: " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.str_error_uri) + uri);
+
         }
 
         switch (match) {
@@ -97,7 +100,7 @@ public class Proveedor extends ContentProvider {
 //        }
 
         if (values == null) {
-            throw new IllegalArgumentException("Cliente null");
+            throw new IllegalArgumentException(getContext().getString(R.string.str_error_clientnull));
         }
 
         SQLiteDatabase db = abd.getWritableDatabase();
@@ -115,7 +118,7 @@ public class Proveedor extends ContentProvider {
                     getContext().getContentResolver().notifyChange(uri_actividad, null);
                     return uri_actividad;
                 }
-                throw new SQLException("Error al insertar fila en : " + uri);
+                throw new SQLException(getContext().getString(R.string.str_error_insertrow) + uri);
 
 
             case CONVERSACIONES:
@@ -126,7 +129,7 @@ public class Proveedor extends ContentProvider {
                     getContext().getContentResolver().notifyChange(uri_actividad, null);
                     return uri_actividad;
                 }
-                throw new SQLException("Error al insertar fila en : " + uri);
+                throw new SQLException(getContext().getString(R.string.str_error_insertrow) + uri);
         }
         return null;
     }
@@ -163,7 +166,7 @@ public class Proveedor extends ContentProvider {
 
             default:
                 throw new IllegalArgumentException(
-                        "Elemento actividad desconocido: " + uri);
+                        getContext().getString(R.string.str_error_unknownelement) + uri);
         }
         if (affected > 0) {
             getContext().getContentResolver().notifyChange(uri, null);
@@ -204,7 +207,7 @@ public class Proveedor extends ContentProvider {
                         new String[]{idActividad});
                 break;
             default:
-                throw new IllegalArgumentException("URI desconocida: " +
+                throw new IllegalArgumentException(getContext().getString(R.string.str_error_unknownuri) +
                         uri);
         }
         if (affected > 0) {
@@ -226,7 +229,7 @@ public class Proveedor extends ContentProvider {
                 return Contrato.TablaConversacion.SINGLE_MIME;
             default:
                 throw new IllegalArgumentException(
-                        "Tipo de actividad desconocida: " + uri);
+                        getContext().getString(R.string.str_error_unknownactivity) + uri);
         }
     }
 

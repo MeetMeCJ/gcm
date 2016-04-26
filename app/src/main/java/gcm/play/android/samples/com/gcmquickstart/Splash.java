@@ -55,25 +55,24 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
         final SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        if(prefs.getBoolean(getResources().getString(R.string.str_registrar),false)){
+        if(prefs.getBoolean(getResources().getString(R.string.str_register),false)){
             Intent i=new Intent(this,MainActivity.class);
             startActivity(i);
         }
 
-        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance("Titulo","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar vulputate maximus. " +
-                "Curabitur dictum ipsum sapien, sit amet ultricies eros faucibus ut.",R.drawable.common_google_signin_btn_icon_dark_disabled);
+        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.common_google_signin_btn_icon_dark_disabled);
 
-        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance("Titulo2","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar vulputate maximus. " +
-                "Curabitur dictum ipsum sapien, sit amet ultricies eros faucibus ut.",R.drawable.common_google_signin_btn_icon_dark_disabled);
+
+        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.common_google_signin_btn_icon_dark_disabled);
 
         addSlide(first_fragment);
         addSlide(second_fragment);
 
-        addSlide(AppIntroFragment.newInstance("Conecta con tus seres queridos", "Nunca fue mas facil estar cerca de " +
-                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.RED));
-        addSlide(AppIntroFragment.newInstance("Facilid en un Click", "Nunca fue mas facil estar cerca de " +
-                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.YELLOW));
-        addSlide(SampleSlider.newInstance(R.layout.activity_splash));
+//        addSlide(AppIntroFragment.newInstance("Conecta con tus seres queridos", "Nunca fue mas facil estar cerca de " +
+//                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.RED));
+//        addSlide(AppIntroFragment.newInstance("Facilid en un Click", "Nunca fue mas facil estar cerca de " +
+//                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.YELLOW));
+//        addSlide(SampleSlider.newInstance(R.layout.activity_splash));
 
 
         //showSkipButton(false);
@@ -91,7 +90,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_registrar),false)) {
+                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_register),false)) {
                     Intent i=new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
                 } else {
@@ -142,7 +141,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
             SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(getResources().getString(R.string.str_telefono), telefono.getText().toString());
+            editor.putString(getResources().getString(R.string.str_telephone), telefono.getText().toString());
             editor.commit();
 
             // Start IntentService to register this application with GCM.
@@ -175,7 +174,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                         .show();
             } else {
-                Log.i(TAG, "This device is not supported.");
+                Log.i(TAG, getString(R.string.str_checkplay_tag));
                 finish();
             }
             return false;
