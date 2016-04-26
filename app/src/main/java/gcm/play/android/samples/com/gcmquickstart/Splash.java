@@ -50,7 +50,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private TextView mInformationTextView;
     private boolean isReceiverRegistered;
-//Esto es un comentario
+//Esto es un comentario modificado
 
     @Override
     public void init(@Nullable Bundle savedInstanceState) {

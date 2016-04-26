@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GCM Quickstart</string>
+    <string name="app_name">MeetMe</string>
     <string name="preference">preferencemeetme</string>
 
     <string name="str_telefono">telefono</string>
