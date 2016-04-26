@@ -35,7 +35,7 @@ public class Gestor {
     public static void sendMessage(Context c, final String mensaje, final String destino) {
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        final String nuestroToken = prefs.getString(c.getResources().getString(R.string.token), "");
+        final String nuestroToken = prefs.getString(c.getResources().getString(R.string.str_token), "");
 
         new AsyncTask() {
 
@@ -91,10 +91,10 @@ public class Gestor {
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(c.getResources().getString(R.string.token), token);
+        editor.putString(c.getResources().getString(R.string.str_token), token);
         editor.commit();
 
-        String tlf = prefs.getString(c.getResources().getString(R.string.telefono), "");
+        String tlf = prefs.getString(c.getResources().getString(R.string.str_telefono), "");
 
         URL url = null;
         BufferedReader in = null;
@@ -106,7 +106,7 @@ public class Gestor {
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             in.close();
 
-            editor.putBoolean(c.getResources().getString(R.string.registrar), true);
+            editor.putBoolean(c.getResources().getString(R.string.str_registrar), true);
             editor.commit();
 
         } catch (MalformedURLException e) {

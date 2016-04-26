@@ -21,22 +21,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.paolorotolo.appintro.AppIntro2;
+import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.github.paolorotolo.appintro.AppIntroViewPager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-public class Splash extends AppCompatActivity {
+import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPageSlider;
+
+public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentInteractionListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "Splah";
+    private static final String TAG = "Splash";
 
     private EditText telefono;
 
@@ -44,17 +51,37 @@ public class Splash extends AppCompatActivity {
     private TextView mInformationTextView;
     private boolean isReceiverRegistered;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    public void init(@Nullable Bundle savedInstanceState) {
         final SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        if(prefs.getBoolean(getResources().getString(R.string.registrar),false)){
+        if(prefs.getBoolean(getResources().getString(R.string.str_registrar),false)){
             Intent i=new Intent(this,MainActivity.class);
             startActivity(i);
         }
 
-        setContentView(R.layout.activity_splash);
+        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance("Titulo","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar vulputate maximus. " +
+                "Curabitur dictum ipsum sapien, sit amet ultricies eros faucibus ut.",R.drawable.common_google_signin_btn_icon_dark_disabled);
+
+        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance("Titulo2","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar vulputate maximus. " +
+                "Curabitur dictum ipsum sapien, sit amet ultricies eros faucibus ut.",R.drawable.common_google_signin_btn_icon_dark_disabled);
+
+        addSlide(first_fragment);
+        addSlide(second_fragment);
+
+        addSlide(AppIntroFragment.newInstance("Conecta con tus seres queridos", "Nunca fue mas facil estar cerca de " +
+                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.RED));
+        addSlide(AppIntroFragment.newInstance("Facilid en un Click", "Nunca fue mas facil estar cerca de " +
+                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.YELLOW));
+        addSlide(SampleSlider.newInstance(R.layout.activity_splash));
+
+
+        //showSkipButton(false);
+        setProgressButtonEnabled(true);
+        setVibrate(false);
+        setFlowAnimation();
+
+        //setContentView(R.layout.activity_splash);
 
         telefono= (EditText) findViewById(R.id.editText);
 
@@ -64,7 +91,7 @@ public class Splash extends AppCompatActivity {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken && prefs.getBoolean(getResources().getString(R.string.registrar),false)) {
+                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_registrar),false)) {
                     Intent i=new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
                 } else {
@@ -76,6 +103,22 @@ public class Splash extends AppCompatActivity {
 
         // Registering BroadcastReceiver
         registerReceiver();
+    }
+
+    @Override
+    public void onNextPressed() {
+        AppIntroViewPager pager = getPager();
+        boolean pagingState = pager.isNextPagingEnabled();
+        setSwipeLock(pagingState);
+    }
+
+    @Override
+    public void onDonePressed() {
+
+    }
+
+    @Override
+    public void onSlideChanged() {
 
     }
 
@@ -99,7 +142,7 @@ public class Splash extends AppCompatActivity {
 
             SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(getResources().getString(R.string.telefono), telefono.getText().toString());
+            editor.putString(getResources().getString(R.string.str_telefono), telefono.getText().toString());
             editor.commit();
 
             // Start IntentService to register this application with GCM.
@@ -140,5 +183,8 @@ public class Splash extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
+    }
 }

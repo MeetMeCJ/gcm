@@ -34,6 +34,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
+    compile 'com.github.paolorotolo:appintro:3.4.0'
+    compile 'com.android.support:support-v4:23.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
