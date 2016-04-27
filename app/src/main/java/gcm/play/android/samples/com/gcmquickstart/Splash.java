@@ -58,10 +58,10 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
             startActivity(i);
         }
 
-        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon2);
-        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon10);
-        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon12);
-        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon14);
+        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.medal);
+        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.message);
+        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.smartphone);
+        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.light_bulb);
 
         addSlide(first_fragment);
         addSlide(second_fragment);
