@@ -7,9 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import gcm.play.android.samples.com.gcmquickstart.R;
 
 
@@ -76,7 +76,7 @@ public class FragmentPageSlider extends Fragment {
 
         TextView tvTitle= (TextView) view.findViewById(R.id.fragTitle);
         TextView tvContent= (TextView) view.findViewById(R.id.fragContent);
-        ImageView imageView= (ImageView) view.findViewById(R.id.fragImage);
+        CircleImageView imageView= (CircleImageView) view.findViewById(R.id.fragImage);
 
         tvTitle.setText(titulo);
         tvContent.setText(contenido);

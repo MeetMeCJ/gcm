@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,7 +32,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.AppIntro2;
-import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.github.paolorotolo.appintro.AppIntroViewPager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -60,27 +58,19 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
             startActivity(i);
         }
 
-        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.common_google_signin_btn_icon_dark_disabled);
-
-
-        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.common_google_signin_btn_icon_dark_disabled);
+        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon2);
+        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon10);
+        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon12);
+        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.cartoon14);
 
         addSlide(first_fragment);
         addSlide(second_fragment);
+        addSlide(third_fragment);
+        addSlide(fourth_fragment);
 
-//        addSlide(AppIntroFragment.newInstance("Conecta con tus seres queridos", "Nunca fue mas facil estar cerca de " +
-//                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.RED));
-//        addSlide(AppIntroFragment.newInstance("Facilid en un Click", "Nunca fue mas facil estar cerca de " +
-//                "la gente que quieres", R.drawable.common_google_signin_btn_icon_dark, Color.YELLOW));
-//        addSlide(SampleSlider.newInstance(R.layout.activity_splash));
-
-
-        //showSkipButton(false);
         setProgressButtonEnabled(true);
         setVibrate(false);
         setFlowAnimation();
-
-        //setContentView(R.layout.activity_splash);
 
         telefono= (EditText) findViewById(R.id.editText);
 
