@@ -2,10 +2,9 @@ package gcm.play.android.samples.com.gcmquickstart;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.database.SQLException;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,10 +12,15 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 import java.util.Date;
+import java.util.List;
 
-import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
+import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -29,7 +33,6 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param data Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
      */
-    // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
@@ -44,56 +47,60 @@ public class MyGcmListenerService extends GcmListenerService {
             // normal downstream message.
         }
 
-        // [START_EXCLUDE]
         /**
          * Production applications would usually process the message here.
          * Eg: - Syncing with server.
          *     - Store message in local database.
          *     - Update UI.
          */
-        Cursor c = getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, Contrato.TablaUsuario.TOKEN + " = ?",
-                new String[]{tokenSender + ""}, null);
+        DBHelper helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
+        Dao dao;
+        List<Contact> contact=null;
+        String personORtlf="";
 
-        if (c.moveToFirst()) {
-            //Esta registrado
-            String nombre = "";
-            String telefono = "";
-            do {
-                nombre = c.getString(c.getColumnIndex(Contrato.TablaUsuario.NOMBRE));
-                telefono = c.getString(c.getColumnIndex(Contrato.TablaUsuario.TELEFONO));
-            } while (c.moveToNext());
-
-            sendNotification(nombre, message);
-        } else {
-            ContentValues cv2=new ContentValues();
-            cv2.put(Contrato.TablaUsuario.NICK,"nick");
-            cv2.put(Contrato.TablaUsuario.NOMBRE,"951753456");
-            cv2.put(Contrato.TablaUsuario.TELEFONO,"951753456");
-            cv2.put(Contrato.TablaUsuario.TOKEN,tokenSender);
-
-            getContentResolver().insert(Contrato.TablaUsuario.CONTENT_URI,cv2);
-
-            sendNotification("951753456", message);
+        /**
+         * Lanzamos notificacion, para ello vemos si esta guardado o no
+         */
+        try  {
+            dao = helper.getChatDao();
+            contact = dao.queryForEq(Contact.TOKEN, tokenSender);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
         }
+
+        if(!contact.isEmpty())
+            if(!contact.get(0).getNombre().isEmpty())
+                personORtlf=contact.get(0).getNombre();
+            else
+                personORtlf=contact.get(0).getTelefono().get(0);
+        else
+            personORtlf="Unknow";
+
+        sendNotification(personORtlf, message);
+
 
         /**
          * Guardamos en la base de datos el mensaje
          * */
+        Date hoy = new Date();
+        try {
+            dao = helper.getChatDao();
+            Chat user = new Chat(message, tokenSender, tokenSender, hoy.getDay() + "/" + hoy.getMonth() + "/" + (1900 + hoy.getYear()), hoy.getHours() + ":" + hoy.getMinutes());
+            dao.create(user);
+        } catch (SQLException e) {
+            Log.e("Helper", "Create user ERROR");
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
 
-        Date dfecha = new Date();
-        String sfecha = dfecha.getDay() + "/" + dfecha.getMonth() + "/" + (1900 + dfecha.getYear());
-        String hora = dfecha.getHours() + ":" + dfecha.getMinutes();
-
-
-        ContentValues cv = new ContentValues();
-        cv.put(Contrato.TablaConversacion.MENSAJE, message);
-        cv.put(Contrato.TablaConversacion.CONVERSACION, tokenSender);
-        cv.put(Contrato.TablaConversacion.TOKENEMISOR, tokenSender);
-        cv.put(Contrato.TablaConversacion.FECHA, sfecha);
-        cv.put(Contrato.TablaConversacion.HORA, hora);
-
-        getContentResolver().insert(Contrato.TablaConversacion.CONTENT_URI, cv);
-
+        /**
+         * Liberamos al ayudante
+         */
+        if (helper != null) {
+            OpenHelperManager.releaseHelper();
+            helper = null;
+        }
     }
 
     /**

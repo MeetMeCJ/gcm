@@ -52,16 +52,16 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
-        final SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        if(prefs.getBoolean(getResources().getString(R.string.str_register),false)){
-            Intent i=new Intent(this,MainActivity.class);
+        final SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+        if (prefs.getBoolean(getResources().getString(R.string.str_register), false)) {
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
 
-        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.medal);
-        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.message);
-        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.smartphone);
-        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title),getString(R.string.str_splash_content),R.drawable.light_bulb);
+        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.medal);
+        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.message);
+        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.smartphone);
+        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.light_bulb);
 
         addSlide(first_fragment);
         addSlide(second_fragment);
@@ -72,7 +72,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
         setVibrate(false);
         setFlowAnimation();
 
-        telefono= (EditText) findViewById(R.id.editText);
+        telefono = (EditText) findViewById(R.id.editText);
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -80,8 +80,8 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_register),false)) {
-                    Intent i=new Intent(getBaseContext(),MainActivity.class);
+                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_register), false)) {
+                    Intent i = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(i);
                 } else {
                     mInformationTextView.setText(getString(R.string.token_error_message));
@@ -126,10 +126,10 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
     /***********************************************************************************************/
 
-    public void registrar(View v){
+    public void registrar(View v) {
         if (checkPlayServices()) {
 
-            SharedPreferences prefs =getSharedPreferences(getResources().getString(R.string.preference),Context.MODE_PRIVATE);
+            SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(getResources().getString(R.string.str_telephone), telefono.getText().toString());
             editor.commit();
@@ -174,6 +174,5 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 }

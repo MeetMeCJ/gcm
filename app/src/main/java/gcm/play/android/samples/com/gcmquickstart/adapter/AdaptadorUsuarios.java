@@ -1,18 +1,9 @@
 package gcm.play.android.samples.com.gcmquickstart.adapter;
 
-import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import gcm.play.android.samples.com.gcmquickstart.R;
-import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
-
 /**
  * Created by Admin on 22/04/2016.
  */
+/*
 public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.UsuariosViewHolder> {
 
     private Cursor cursor;
@@ -57,3 +48,4 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Us
         }
     }
 }
+*/

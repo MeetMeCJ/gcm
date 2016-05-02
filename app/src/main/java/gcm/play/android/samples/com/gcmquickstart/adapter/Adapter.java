@@ -1,0 +1,77 @@
+package gcm.play.android.samples.com.gcmquickstart.adapter;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+import gcm.play.android.samples.com.gcmquickstart.R;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
+
+/**
+ * Created by Admin on 28/04/2016.
+ */
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+
+    private List<Contact> contacts;
+    private List<Chat> chats;
+
+    public Adapter(List<Contact> contact) {
+        this.contacts = contact;
+    }
+
+    public Adapter(List<Contact> contacts, List<Chat> chats) {
+        this.contacts = contacts;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+
+        ViewHolder tvh = new ViewHolder(itemView);
+
+        return tvh;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int pos) {
+        if (chats.isEmpty()) {
+            Contact contact = contacts.get(pos);
+            viewHolder.bindContact(contact.getNombre());
+        } else {
+            Chat chat = chats.get(0);
+            for (Contact current : contacts) {
+                if (chat.getTokenconversacion().equals(current.getToken()))
+                    viewHolder.bindChat(current.getNombre());
+            }
+        }
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return contacts.size();
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView txtPersona;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            txtPersona = (TextView) itemView.findViewById(R.id.nombre);
+        }
+
+        public void bindContact(String mParam1) {
+            txtPersona.setText(mParam1);
+        }
+
+        public void bindChat(String mParam1) {
+            txtPersona.setText(mParam1);
+        }
+    }
+}

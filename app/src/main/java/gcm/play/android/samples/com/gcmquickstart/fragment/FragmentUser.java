@@ -1,21 +1,6 @@
 package gcm.play.android.samples.com.gcmquickstart.fragment;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import gcm.play.android.samples.com.gcmquickstart.R;
-import gcm.play.android.samples.com.gcmquickstart.adapter.AdaptadorUsuarios;
-import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
-
-
+/*
 public class FragmentUser extends Fragment {
 
     private Context c;
@@ -56,3 +41,4 @@ public class FragmentUser extends Fragment {
     }
 
 }
+*/

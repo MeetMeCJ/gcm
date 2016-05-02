@@ -14,7 +14,7 @@ import gcm.play.android.samples.com.gcmquickstart.R;
 /**
  * Created by Admin on 12/04/2016.
  */
-
+/*
 public class Proveedor extends ContentProvider {
     private Ayudante abd;
     private static final UriMatcher convierteUri;
@@ -234,3 +234,4 @@ public class Proveedor extends ContentProvider {
     }
 
 }
+*/

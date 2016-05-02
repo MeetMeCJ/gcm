@@ -1,6 +1,5 @@
 package gcm.play.android.samples.com.gcmquickstart;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -8,6 +7,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.util.Log;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +25,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
-import gcm.play.android.samples.com.gcmquickstart.pojo.Usuario;
+import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 
 /**
  * Created by Admin on 20/04/2016.
@@ -120,14 +122,12 @@ public class Gestor {
         Gestor.syncContact(c);
     }
 
-    public static void syncContact(final Context c) {
+    public static void syncContact(final Context context) {
         Log.v("ASDF", "Sincornizando contactos");
-        List<Usuario> listaUser = getListaContactos(c);
+        List<Contact> listaUser = getListaContactos(context);
 
-        final Cursor cursor = c.getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, null, null, null);
-
-        for (final Usuario usuario : listaUser) {
-            for (final String telefono : usuario.getTelefono()) {
+        for (final Contact contact : listaUser) {
+            for (final String telefono : contact.getTelefono()) {
                 new AsyncTask() {
 
                     @Override
@@ -154,44 +154,68 @@ public class Gestor {
 
                             if (!res.contains("false")) {
                                 JSONObject obj = new JSONObject(res);
-                                Usuario u = Usuario.getUsuario(obj.getJSONObject("r"));
-                                u.setNombre(usuario.getNombre());
+                                Contact contactServer = Contact.getUsuario(obj.getJSONObject("r"));
+                                contactServer.setNombre(contact.getNombre());
 
-                                if (cursor.moveToFirst()) {
-                                    while (cursor.moveToNext()) {
-                                        String telf = cursor.getString(cursor.getColumnIndex(Contrato.TablaUsuario.TELEFONO)).replace(" ", "");
-                                        String id = cursor.getString(cursor.getColumnIndex(Contrato.TablaUsuario._ID));
+                                DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+                                Dao dao;
+                                List<Contact> contact = null;
 
-                                        if (telf.contains(u.getTelefono().get(0).toString())) {
-                                            Log.v("ASDF","sync a "+u.toString());
-                                            ContentValues cv = u.getContentValue();
-                                            c.getContentResolver().update(Uri.parse(Contrato.TablaUsuario.CONTENT_URI + "/" + id), cv, null, null);
-                                            Log.v("ASDF", "sync update");
-                                        } else {
-                                            Log.v("ASDF","insertamos a "+u.toString());
-                                            ContentValues cv = u.getContentValue();
-                                            c.getContentResolver().insert(Contrato.TablaUsuario.CONTENT_URI, cv);
-                                            Log.v("ASDF", "sync insert");
+                                try {
+                                    dao = helper.getChatDao();
+                                    contact = dao.queryForAll();
+
+                                    if (!contact.isEmpty()) {
+                                        for (Contact currentContact : contact) {
+                                            String telf = currentContact.getTelefono().get(0).replace(" ", "");
+                                            Long id = currentContact.getId();
+
+                                            if (telf.contains(contactServer.getTelefono().get(0).toString())) {
+                                                //dao.update(contactServer);
+                                                Log.v("ASDF", "sync update");
+                                            } else {
+                                                dao.create(contactServer);
+                                                Log.v("ASDF", "sync insert");
+                                            }
+
                                         }
+                                    } else {
+                                        dao.create(contactServer);
+                                        Log.v("ASDF", "sync insert");
                                     }
-                                } else {
-                                    Log.v("ASDF","insertamos a "+u.toString());
-                                    ContentValues cv = u.getContentValue();
-                                    c.getContentResolver().insert(Contrato.TablaUsuario.CONTENT_URI, cv);
-                                    Log.v("ASDF", "sync insert");
+                                } catch (java.sql.SQLException e) {
+                                    e.printStackTrace();
+                                    Log.e("Helper", "Search user error");
                                 }
+
                             }
 
                             Thread.sleep(300);
 
 
-                        } catch (MalformedURLException e) {
+                        } catch (
+                                MalformedURLException e
+                                )
+
+                        {
                             Log.e("ASDF", "error3 " + e.toString());
-                        } catch (IOException e) {
+                        } catch (
+                                IOException e
+                                )
+
+                        {
                             Log.e("ASDF", "error4 " + e.toString());
-                        } catch (JSONException e) {
+                        } catch (
+                                JSONException e
+                                )
+
+                        {
                             Log.e("ASDF", "error5 " + e.toString());
-                        } catch (InterruptedException e) {
+                        } catch (
+                                InterruptedException e
+                                )
+
+                        {
                             Log.e("ASDF", "error6 " + e.toString());
                         }
 
@@ -209,7 +233,7 @@ public class Gestor {
 
     }
 
-    public static List<Usuario> getListaContactos(Context contexto) {
+    public static List<Contact> getListaContactos(Context contexto) {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         String proyeccion[] = null;
         String seleccion = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ? and " +
@@ -219,10 +243,10 @@ public class Gestor {
         Cursor cursor = contexto.getContentResolver().query(uri, proyeccion, seleccion, argumentos, orden);
         int indiceId = cursor.getColumnIndex(ContactsContract.Contacts._ID);
         int indiceNombre = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        List<Usuario> lista = new ArrayList<>();
-        Usuario contacto;
+        List<Contact> lista = new ArrayList<>();
+        Contact contacto;
         while (cursor.moveToNext()) {
-            contacto = new Usuario();
+            contacto = new Contact();
             contacto.setId(cursor.getLong(indiceId));
             contacto.setNombre(cursor.getString(indiceNombre));
             contacto.setTelefono(getListaTelefono(contexto, contacto.getId()));

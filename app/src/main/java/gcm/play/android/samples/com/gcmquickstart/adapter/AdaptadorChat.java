@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import gcm.play.android.samples.com.gcmquickstart.R;
-import gcm.play.android.samples.com.gcmquickstart.db.Contrato;
-import gcm.play.android.samples.com.gcmquickstart.pojo.Conversacion;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 
 /**
  * Created by Admin on 18/04/2016.
  */
+/*
 public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.ConversacionesViewHolder> {
 
     private Cursor conversaciones;
@@ -36,12 +36,12 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.Conversaci
     @Override
     public void onBindViewHolder(ConversacionesViewHolder viewHolder, int pos) {
         conversaciones.moveToPosition(pos);
-        Conversacion conversacion = new Conversacion();
+        Chat chat = new Chat();
 
         if (usuarios != null)
             usuarios.moveToFirst();
             do {
-                if (conversacion.getTokenconversacion().equals(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NOMBRE)))) {
+                if (chat.getTokenconversacion().equals(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NOMBRE)))) {
                     viewHolder.bindConversacion(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NOMBRE)));
                 }
             } while (usuarios.moveToNext());
@@ -67,3 +67,4 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.Conversaci
         }
     }
 }
+*/
