@@ -9,49 +9,48 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Chat {
     public static final String ID = "id";
-    public static final String MENSAJE = "mensaje";
-    public static final String CONVERSACION = "tokenconversacion";//Siempre el del otro
-    public static final String TOKENEMISOR = "tokenemisor";//Puede ser el nuestro o el del otro
-    public static final String FECHA = "fecha";
-    public static final String HORA = "hora";
+    public static final String MESSAGE = "message";
+    public static final String CONVERSATION = "tokenconversation";//Siempre el del otro
+    public static final String TOKENSENDER = "tokensender";//Puede ser el nuestro o el del otro
+    public static final String DATE = "date";
+    public static final String TIME = "time";
 
     @DatabaseField(generatedId = true, columnName = ID)
     private int id;
 
-    @DatabaseField(columnName = MENSAJE)
-    private String mensaje;
+    @DatabaseField(columnName = MESSAGE)
+    private String message;
 
-    @DatabaseField(columnName = CONVERSACION)
-    private String tokenconversacion;
+    @DatabaseField(columnName = CONVERSATION)
+    private String tokenconversation;
 
-    @DatabaseField(columnName = TOKENEMISOR)
-    private String tokenemisor;
+    @DatabaseField(columnName = TOKENSENDER)
+    private String tokensender;
 
-    @DatabaseField(columnName = FECHA)
-    private String fecha;
+    @DatabaseField(columnName = DATE)
+    private String date;
 
-    @DatabaseField(columnName = HORA)
-    private String hora;
+    @DatabaseField(columnName = TIME)
+    private String time;
 
 
-    public Chat() {
+    public Chat(){}
+
+    public Chat(String message, String tokenconversation, String tokensender, String date, String time) {
+        this.message = message;
+        this.tokenconversation = tokenconversation;
+        this.tokensender = tokensender;
+        this.date = date;
+        this.time = time;
     }
 
-    public Chat(String mensaje, String tokenconversacion, String tokenemisor, String fecha, String hora) {
-        this.mensaje = mensaje;
-        this.tokenconversacion = tokenconversacion;
-        this.tokenemisor = tokenemisor;
-        this.fecha = fecha;
-        this.hora = hora;
-    }
-
-    public Chat(int id, String mensaje, String tokenconversacion, String tokenemisor, String fecha, String hora) {
+    public Chat(int id, String message, String tokenconversation, String tokensender, String date, String time) {
         this.id = id;
-        this.mensaje = mensaje;
-        this.tokenconversacion = tokenconversacion;
-        this.tokenemisor = tokenemisor;
-        this.fecha = fecha;
-        this.hora = hora;
+        this.message = message;
+        this.tokenconversation = tokenconversation;
+        this.tokensender = tokensender;
+        this.date = date;
+        this.time = time;
     }
 
     public int getId() {
@@ -62,55 +61,55 @@ public class Chat {
         this.id = id;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getTokenconversacion() {
-        return tokenconversacion;
+    public String getTokenconversation() {
+        return tokenconversation;
     }
 
-    public void setTokenconversacion(String tokenconversacion) {
-        this.tokenconversacion = tokenconversacion;
+    public void setTokenconversation(String tokenconversation) {
+        this.tokenconversation = tokenconversation;
     }
 
-    public String getTokenemisor() {
-        return tokenemisor;
+    public String getTokensender() {
+        return tokensender;
     }
 
-    public void setTokenemisor(String tokenemisor) {
-        this.tokenemisor = tokenemisor;
+    public void setTokensender(String tokensender) {
+        this.tokensender = tokensender;
     }
 
-    public String getFecha() {
-        return fecha;
+    public String getDate() {
+        return date;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getHora() {
-        return hora;
+    public String getTime() {
+        return time;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @Override
     public String toString() {
         return "Chat{" +
                 "id=" + id +
-                ", mensaje='" + mensaje + '\'' +
-                ", tokenconversacion='" + tokenconversacion + '\'' +
-                ", tokenemisor='" + tokenemisor + '\'' +
-                ", fecha='" + fecha + '\'' +
-                ", hora='" + hora + '\'' +
+                ", message='" + message + '\'' +
+                ", tokenconversation='" + tokenconversation + '\'' +
+                ", tokensender='" + tokensender + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

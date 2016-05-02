@@ -25,7 +25,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Us
     public void onBindViewHolder(UsuariosViewHolder viewHolder, int pos) {
         cursor.moveToPosition(pos);
 
-        viewHolder.bindConversacion(cursor.getString(cursor.getColumnIndex(Contrato.TablaUsuario.NOMBRE)));
+        viewHolder.bindConversacion(cursor.getString(cursor.getColumnIndex(Contrato.TablaUsuario.NAME)));
     }
 
     @Override

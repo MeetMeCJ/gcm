@@ -41,8 +41,8 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.Conversaci
         if (usuarios != null)
             usuarios.moveToFirst();
             do {
-                if (chat.getTokenconversacion().equals(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NOMBRE)))) {
-                    viewHolder.bindConversacion(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NOMBRE)));
+                if (chat.getTokenconversacion().equals(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NAME)))) {
+                    viewHolder.bindConversacion(usuarios.getString(usuarios.getColumnIndex(Contrato.TablaUsuario.NAME)));
                 }
             } while (usuarios.moveToNext());
     }
@@ -66,5 +66,4 @@ public class AdaptadorChat extends RecyclerView.Adapter<AdaptadorChat.Conversaci
             txtPersona.setText(t);
         }
     }
-}
-*/
+}*/

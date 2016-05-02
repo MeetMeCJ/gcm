@@ -75,7 +75,7 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        Gestor.registrationToServer(this,token);
+        Manager.registrationToServer(this,token);
     }
 
     /**

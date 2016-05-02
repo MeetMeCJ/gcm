@@ -31,13 +31,13 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 /**
  * Created by Admin on 20/04/2016.
  */
-public class Gestor {
+public class Manager {
     public static final String API_KEY = "AIzaSyBOWMgkVq6efI1uZQsL_wcGZeHK5bBea1k";
 
-    public static void sendMessage(Context c, final String mensaje, final String destino) {
+    public static void sendMessage(Context c, final String message, final String destination) {
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        final String nuestroToken = prefs.getString(c.getResources().getString(R.string.str_token), "");
+        final String ourToken = prefs.getString(c.getResources().getString(R.string.str_token), "");
 
         new AsyncTask() {
 
@@ -49,11 +49,11 @@ public class Gestor {
                     // Prepare JSON containing the GCM message content. What to send and where to send.
                     JSONObject jGcmData = new JSONObject();
                     JSONObject jData = new JSONObject();
-                    jData.put("message", mensaje);
-                    jData.put("origen", nuestroToken);
+                    jData.put("message", message);
+                    jData.put("origin", ourToken);
                     // Where to send GCM message.
 
-                    jGcmData.put("to", destino);
+                    jGcmData.put("to", destination);
 
                     // What to send in GCM message.
                     jGcmData.put("data", jData);
@@ -88,9 +88,9 @@ public class Gestor {
 
     public static void registrationToServer(Context c, String token) {
 
-        Log.v("ASDF", "Gestor registrando token");
+        Log.v("ASDF", "Manager registrando token");
 
-        String urlOrigen = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
+        String urlOrigin = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -103,9 +103,9 @@ public class Gestor {
         BufferedReader in = null;
 
         try {
-            String destino = urlOrigen + "?op=alta&accion=registrar&tlf=" + tlf + "&token=" + token;
-            Log.v("ASDF", "url " + destino);
-            url = new URL(destino);
+            String destination = urlOrigin + "?op=alta&accion=registrar&tlf=" + tlf + "&token=" + token;
+            Log.v("ASDF", "url " + destination);
+            url = new URL(destination);
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             in.close();
 
@@ -119,29 +119,29 @@ public class Gestor {
         }
         Log.v("ASDF", "Fin gestor ");
 
-        Gestor.syncContact(c);
+        Manager.syncContact(c);
     }
 
     public static void syncContact(final Context context) {
         Log.v("ASDF", "Sincornizando contactos");
-        List<Contact> listaUser = getListaContactos(context);
+        List<Contact> listUser = getListContacts(context);
 
-        for (final Contact contact : listaUser) {
-            for (final String telefono : contact.getTelefono()) {
+        for (final Contact contact : listUser) {
+            for (final String telephone : contact.getTelephone()) {
                 new AsyncTask() {
 
                     @Override
                     protected Object doInBackground(Object[] params) {
-                        String urlOrigen = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
+                        String urlOrigin = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
 
                         URL url = null;
                         BufferedReader in = null;
                         String res = "";
 
                         try {
-                            String destino = urlOrigen + "?op=consulta&accion=tlf&tlf=" + telefono.replace("+34", "").replace(" ", "");
-                            Log.v("ASDF", "url " + destino);
-                            url = new URL(destino);
+                            String destination = urlOrigin + "?op=consulta&accion=tlf&tlf=" + telephone.replace("+34", "").replace(" ", "");
+                            Log.v("ASDF", "url " + destination);
+                            url = new URL(destination);
                             in = new BufferedReader(new InputStreamReader(url.openStream()));
                             String linea;
 
@@ -155,7 +155,7 @@ public class Gestor {
                             if (!res.contains("false")) {
                                 JSONObject obj = new JSONObject(res);
                                 Contact contactServer = Contact.getUsuario(obj.getJSONObject("r"));
-                                contactServer.setNombre(contact.getNombre());
+                                contactServer.setName(contact.getName());
 
                                 DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
                                 Dao dao;
@@ -167,10 +167,10 @@ public class Gestor {
 
                                     if (!contact.isEmpty()) {
                                         for (Contact currentContact : contact) {
-                                            String telf = currentContact.getTelefono().get(0).replace(" ", "");
+                                            String telf = currentContact.getTelephone().get(0).replace(" ", "");
                                             Long id = currentContact.getId();
 
-                                            if (telf.contains(contactServer.getTelefono().get(0).toString())) {
+                                            if (telf.contains(contactServer.getTelephone().get(0).toString())) {
                                                 //dao.update(contactServer);
                                                 Log.v("ASDF", "sync update");
                                             } else {
@@ -233,42 +233,42 @@ public class Gestor {
 
     }
 
-    public static List<Contact> getListaContactos(Context contexto) {
+    public static List<Contact> getListContacts(Context contexto) {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         String proyeccion[] = null;
-        String seleccion = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ? and " +
+        String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ? and " +
                 ContactsContract.Contacts.HAS_PHONE_NUMBER + "= ?";
-        String argumentos[] = new String[]{"1", "1"};
-        String orden = ContactsContract.Contacts.DISPLAY_NAME + " collate localized asc";
-        Cursor cursor = contexto.getContentResolver().query(uri, proyeccion, seleccion, argumentos, orden);
-        int indiceId = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-        int indiceNombre = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+        String arguments[] = new String[]{"1", "1"};
+        String order = ContactsContract.Contacts.DISPLAY_NAME + " collate localized asc";
+        Cursor cursor = contexto.getContentResolver().query(uri, proyeccion, selection, arguments, order);
+        int indexId = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+        int indexName = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
         List<Contact> lista = new ArrayList<>();
-        Contact contacto;
+        Contact contact;
         while (cursor.moveToNext()) {
-            contacto = new Contact();
-            contacto.setId(cursor.getLong(indiceId));
-            contacto.setNombre(cursor.getString(indiceNombre));
-            contacto.setTelefono(getListaTelefono(contexto, contacto.getId()));
-            lista.add(contacto);
+            contact = new Contact();
+            contact.setId(cursor.getLong(indexId));
+            contact.setName(cursor.getString(indexName));
+            contact.setTelephone(getListTelephones(contexto, contact.getId()));
+            lista.add(contact);
         }
         return lista;
     }
 
-    public static List<String> getListaTelefono(Context contexto, long id) {
+    public static List<String> getListTelephones(Context context, long id) {
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String proyeccion[] = null;
-        String seleccion = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?";
-        String argumentos[] = new String[]{id + ""};
-        String orden = ContactsContract.CommonDataKinds.Phone.NUMBER;
-        Cursor cursor = contexto.getContentResolver().query(uri, proyeccion, seleccion, argumentos, orden);
-        int indiceNumero = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-        List<String> lista = new ArrayList<>();
-        String numero;
+        String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?";
+        String arguments[] = new String[]{id + ""};
+        String order = ContactsContract.CommonDataKinds.Phone.NUMBER;
+        Cursor cursor = context.getContentResolver().query(uri, proyeccion, selection, arguments, order);
+        int indexNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        List<String> list = new ArrayList<>();
+        String number;
         while (cursor.moveToNext()) {
-            numero = cursor.getString(indiceNumero);
-            lista.add(numero);
+            number = cursor.getString(indexNumber);
+            list.add(number);
         }
-        return lista;
+        return list;
     }
 }

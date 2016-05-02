@@ -41,12 +41,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int pos) {
         if (chats.isEmpty()) {
             Contact contact = contacts.get(pos);
-            viewHolder.bindContact(contact.getNombre());
+            viewHolder.bindContact(contact.getName());
         } else {
             Chat chat = chats.get(0);
             for (Contact current : contacts) {
-                if (chat.getTokenconversacion().equals(current.getToken()))
-                    viewHolder.bindChat(current.getNombre());
+                if (chat.getTokenconversation().equals(current.getToken()))
+                    viewHolder.bindChat(current.getName());
             }
         }
     }
@@ -59,19 +59,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtPersona;
+        private TextView txtPerson;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtPersona = (TextView) itemView.findViewById(R.id.nombre);
+            txtPerson = (TextView) itemView.findViewById(R.id.txtName);
         }
 
         public void bindContact(String mParam1) {
-            txtPersona.setText(mParam1);
+            txtPerson.setText(mParam1);
         }
 
         public void bindChat(String mParam1) {
-            txtPersona.setText(mParam1);
+            txtPerson.setText(mParam1);
         }
     }
 }

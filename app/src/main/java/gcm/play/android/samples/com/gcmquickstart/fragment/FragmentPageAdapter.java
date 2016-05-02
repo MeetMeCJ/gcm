@@ -19,7 +19,7 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 public class FragmentPageAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private Context c;
-    private String tabTitles[] = new String[]{"Chat", "Contactos",};
+    private String tabTitles[] = new String[]{"Chat", "Contacts",};
 
     public FragmentPageAdapter(FragmentManager fm, Context c) {
         super(fm);

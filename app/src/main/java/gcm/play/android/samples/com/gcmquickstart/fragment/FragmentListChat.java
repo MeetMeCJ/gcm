@@ -3,8 +3,8 @@ package gcm.play.android.samples.com.gcmquickstart.fragment;
 /**
  * Created by Admin on 20/04/2016.
  */
-/*
-public class FragmentListChat extends Fragment {
+
+/*public class FragmentListChat extends Fragment {
     private Context c;
 
     public static FragmentListChat newInstance(Context c) {
@@ -30,7 +30,7 @@ public class FragmentListChat extends Fragment {
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.RecyclerView);
 
-        String[] proyeccion = {"DISTINCT " + Contrato.TablaConversacion.CONVERSACION};
+        String[] proyeccion = {"DISTINCT " + Contrato.TablaConversacion.CONVERSATION};
 
         Cursor conversacion = c.getContentResolver().query(Contrato.TablaConversacion.CONTENT_URI, proyeccion, null, null, null);
         Cursor usuarios = c.getContentResolver().query(Contrato.TablaUsuario.CONTENT_URI, null, null, null, null);
@@ -44,6 +44,6 @@ public class FragmentListChat extends Fragment {
 
         return v;
     }
-}
-*/
+}*/
+
 

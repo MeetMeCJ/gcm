@@ -36,7 +36,7 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
-        String tokenSender = data.getString("origen");
+        String tokenSender = data.getString("origin");
         Log.d(TAG, getBaseContext().getString(R.string.str_tag_from) + tokenSender);
         Log.d(TAG, getBaseContext().getString(R.string.str_tag_message) + message);
 
@@ -70,10 +70,10 @@ public class MyGcmListenerService extends GcmListenerService {
         }
 
         if(!contact.isEmpty())
-            if(!contact.get(0).getNombre().isEmpty())
-                personORtlf=contact.get(0).getNombre();
+            if(!contact.get(0).getName().isEmpty())
+                personORtlf=contact.get(0).getName();
             else
-                personORtlf=contact.get(0).getTelefono().get(0);
+                personORtlf=contact.get(0).getTelephone().get(0);
         else
             personORtlf="Unknow";
 

@@ -29,9 +29,9 @@ public class FragmentPageSlider extends Fragment {
     private static final String ARG_PARAM3 = "param3";
 
     // TODO: Rename and change types of parameters
-    private String titulo;
-    private String contenido;
-    private int foto;
+    private String title;
+    private String content;
+    private int photo;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,9 +62,9 @@ public class FragmentPageSlider extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            titulo = getArguments().getString(ARG_PARAM1);
-            contenido = getArguments().getString(ARG_PARAM2);
-            foto = getArguments().getInt(ARG_PARAM3);
+            title = getArguments().getString(ARG_PARAM1);
+            content = getArguments().getString(ARG_PARAM2);
+            photo = getArguments().getInt(ARG_PARAM3);
         }
     }
 
@@ -78,9 +78,9 @@ public class FragmentPageSlider extends Fragment {
         TextView tvContent= (TextView) view.findViewById(R.id.fragContent);
         ImageView imageView= (ImageView) view.findViewById(R.id.fragImage);
 
-        tvTitle.setText(titulo);
-        tvContent.setText(contenido);
-        imageView.setImageResource(foto);
+        tvTitle.setText(title);
+        tvContent.setText(content);
+        imageView.setImageResource(photo);
 
         return view;
     }

@@ -19,78 +19,78 @@ import java.util.List;
 @DatabaseTable
 public class Contact implements Parcelable {
     public static final String ID = "id";
-    public static final String NOMBRE = "nombre";
+    public static final String NAME = "name";
     public static final String NICK = "nick";
-    public static final String TELEFONO = "telefono";
+    public static final String TELEPHONE = "telephone";
     public static final String TOKEN = "token";
-    public static final String DESCRIPCION = "descripcion";
-    public static final String ULTIMACONEXION = "ultimaconexion";
-    public static final String VERCONEXION = "verconexion";
-    public static final String PRIVACIDAD = "privacidad";
+    public static final String DESCRIPTION = "description";
+    public static final String LASTCONNECTION = "lastconnection";
+    public static final String SEECONNECTION = "seeconnection";
+    public static final String PRIVACY = "privacy";
 
     @DatabaseField(generatedId = true, columnName = ID)
     private Long id;
 
-    @DatabaseField(columnName = NOMBRE)
-    private String nombre;
+    @DatabaseField(columnName = NAME)
+    private String name;
 
     @DatabaseField(columnName = NICK)
     private String nick;
 
-    @DatabaseField(columnName = TELEFONO)
-    private List<String> telefono;
+    @DatabaseField(columnName = TELEPHONE)
+    private List<String> telephone;
 
     @DatabaseField(columnName = TOKEN)
     private String token;
 
-    @DatabaseField(columnName = DESCRIPCION)
-    private String descripcion;
+    @DatabaseField(columnName = DESCRIPTION)
+    private String description;
 
-    @DatabaseField(columnName = ULTIMACONEXION)
-    private String ultimaconexion;
+    @DatabaseField(columnName = LASTCONNECTION)
+    private String lastconnection;
 
-    @DatabaseField(columnName = VERCONEXION)
-    private String verconexion;
+    @DatabaseField(columnName = SEECONNECTION)
+    private String seeconnection;
 
-    @DatabaseField(columnName = PRIVACIDAD)
-    private String privacidad;
+    @DatabaseField(columnName = PRIVACY)
+    private String privacy;
 
     public Contact() {
 
     }
 
-    public Contact(Long id, String nombre, String nick, List<String> telefono, String token, String descripcion, String ultimaconexion, String verconexion, String privacidad) {
+    public Contact(Long id, String name, String nick, List<String> telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
         this.id = id;
-        this.nombre = nombre;
+        this.name = name;
         this.nick = nick;
-        this.telefono = telefono;
+        this.telephone = telephone;
         this.token = token;
-        this.descripcion = descripcion;
-        this.ultimaconexion = ultimaconexion;
-        this.verconexion = verconexion;
-        this.privacidad = privacidad;
+        this.description = description;
+        this.lastconnection = lastconnection;
+        this.seeconnection = seeconnection;
+        this.privacy = privacy;
     }
 
-    public Contact(String nombre, String nick, List<String> telefono, String token, String descripcion, String ultimaconexion, String verconexion, String privacidad) {
-        this.nombre = nombre;
+    public Contact(String name, String nick, List<String> telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
+        this.name = name;
         this.nick = nick;
-        this.telefono = telefono;
+        this.telephone = telephone;
         this.token = token;
-        this.descripcion = descripcion;
-        this.ultimaconexion = ultimaconexion;
-        this.verconexion = verconexion;
-        this.privacidad = privacidad;
+        this.description = description;
+        this.lastconnection = lastconnection;
+        this.seeconnection = seeconnection;
+        this.privacy = privacy;
     }
 
     protected Contact(Parcel in) {
-        nombre = in.readString();
+        name = in.readString();
         nick = in.readString();
-        telefono = in.createStringArrayList();
+        telephone = in.createStringArrayList();
         token = in.readString();
-        descripcion = in.readString();
-        ultimaconexion = in.readString();
-        verconexion = in.readString();
-        privacidad = in.readString();
+        description = in.readString();
+        lastconnection = in.readString();
+        seeconnection = in.readString();
+        privacy = in.readString();
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {
@@ -113,12 +113,12 @@ public class Contact implements Parcelable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNick() {
@@ -129,12 +129,12 @@ public class Contact implements Parcelable {
         this.nick = nick;
     }
 
-    public List<String> getTelefono() {
-        return telefono;
+    public List<String> getTelephone() {
+        return telephone;
     }
 
-    public void setTelefono(List<String> telefono) {
-        this.telefono = telefono;
+    public void setTelephone(List<String> telephone) {
+        this.telephone = telephone;
     }
 
     public String getToken() {
@@ -145,51 +145,51 @@ public class Contact implements Parcelable {
         this.token = token;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getVerconexion() {
-        return verconexion;
+    public String getSeeconnection() {
+        return seeconnection;
     }
 
-    public void setVerconexion(String verconexion) {
-        this.verconexion = verconexion;
+    public void setSeeconnection(String seeconnection) {
+        this.seeconnection = seeconnection;
     }
 
-    public String getUltimaconexion() {
-        return ultimaconexion;
+    public String getLastconnection() {
+        return lastconnection;
     }
 
-    public void setUltimaconexion(String ultimaconexion) {
-        this.ultimaconexion = ultimaconexion;
+    public void setLastconnection(String lastconnection) {
+        this.lastconnection = lastconnection;
     }
 
-    public String getPrivacidad() {
-        return privacidad;
+    public String getPrivacy() {
+        return privacy;
     }
 
-    public void setPrivacidad(String privacidad) {
-        this.privacidad = privacidad;
+    public void setPrivacy(String privacy) {
+        this.privacy = privacy;
     }
 
     public static Contact getUsuario(JSONObject json) {
         Contact u = new Contact();
         try {
-            ArrayList<String> telefonos = new ArrayList<>();
-            telefonos.add(json.getInt("telefono") + "");
+            ArrayList<String> telephones = new ArrayList<>();
+            telephones.add(json.getInt("telephone") + "");
 
-            u.setDescripcion(json.getString("descripcion"));
+            u.setDescription(json.getString("description"));
             u.setNick(json.getString("nick"));
-            u.setPrivacidad(json.getString("privacidad"));
-            u.setTelefono(telefonos);
+            u.setPrivacy(json.getString("privacy"));
+            u.setTelephone(telephones);
             u.setToken(json.getString("token"));
-            u.setUltimaconexion(json.getString("ultima"));
-            u.setVerconexion(json.getString("ver"));
+            u.setLastconnection(json.getString("last"));
+            u.setSeeconnection(json.getString("see"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -200,12 +200,12 @@ public class Contact implements Parcelable {
         JSONObject result = new JSONObject();
         try {
             result.put("token", token);
-            result.put("telefono", telefono);
+            result.put("telephone", telephone);
             result.put("nick", nick);
-            result.put("descripcion", descripcion);
-            result.put("ultima", ultimaconexion);
-            result.put("ver", verconexion);
-            result.put("privacidad", privacidad);
+            result.put("description", description);
+            result.put("last", lastconnection);
+            result.put("see", seeconnection);
+            result.put("privacy", privacy);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -215,14 +215,14 @@ public class Contact implements Parcelable {
     public ContentValues getContentValue() {
         ContentValues cv = new ContentValues();
 
-        cv.put(NOMBRE, nombre);
+        cv.put(NAME, name);
         cv.put(TOKEN, token);
-        cv.put(TELEFONO, telefono.get(0));
-        cv.put(DESCRIPCION, descripcion);
+        cv.put(TELEPHONE, telephone.get(0));
+        cv.put(DESCRIPTION, description);
         cv.put(NICK, nick);
-        cv.put(PRIVACIDAD, privacidad);
-        cv.put(ULTIMACONEXION, ultimaconexion);
-        cv.put(VERCONEXION, verconexion);
+        cv.put(PRIVACY, privacy);
+        cv.put(LASTCONNECTION, lastconnection);
+        cv.put(SEECONNECTION, seeconnection);
 
         return cv;
     }
@@ -231,14 +231,14 @@ public class Contact implements Parcelable {
     @Override
     public String toString() {
         return "Contact{" +
-                "nombre='" + nombre + '\'' +
+                "name='" + name + '\'' +
                 ", nick='" + nick + '\'' +
-                ", telefono='" + telefono + '\'' +
+                ", telephone='" + telephone + '\'' +
                 ", token='" + token + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", ultimaconexion='" + ultimaconexion + '\'' +
-                ", verconexion='" + verconexion + '\'' +
-                ", privacidad='" + privacidad + '\'' +
+                ", description='" + description + '\'' +
+                ", lastconnection='" + lastconnection + '\'' +
+                ", seeconnection='" + seeconnection + '\'' +
+                ", privacy='" + privacy + '\'' +
                 '}';
     }
 
@@ -249,13 +249,13 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(nombre);
+        dest.writeString(name);
         dest.writeString(nick);
-        dest.writeStringList(telefono);
+        dest.writeStringList(telephone);
         dest.writeString(token);
-        dest.writeString(descripcion);
-        dest.writeString(ultimaconexion);
-        dest.writeString(verconexion);
-        dest.writeString(privacidad);
+        dest.writeString(description);
+        dest.writeString(lastconnection);
+        dest.writeString(seeconnection);
+        dest.writeString(privacy);
     }
 }

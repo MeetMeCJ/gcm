@@ -43,7 +43,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "Splash";
 
-    private EditText telefono;
+    private EditText telephone;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private TextView mInformationTextView;
@@ -72,7 +72,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
         setVibrate(false);
         setFlowAnimation();
 
-        telefono = (EditText) findViewById(R.id.editText);
+        telephone = (EditText) findViewById(R.id.editText);
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -131,7 +131,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
             SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(getResources().getString(R.string.str_telephone), telefono.getText().toString());
+            editor.putString(getResources().getString(R.string.str_telephone), telephone.getText().toString());
             editor.commit();
 
             // Start IntentService to register this application with GCM.
