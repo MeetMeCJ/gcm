@@ -16,38 +16,24 @@
 
 package gcm.play.android.samples.com.gcmquickstart;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroViewPager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPageSlider;
 
 public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentInteractionListener {
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     private static final String TAG = "Splash";
 
-    private EditText telephone;
 
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private TextView mInformationTextView;
-    private boolean isReceiverRegistered;
 //Esto es un comentario modificado
 
     @Override
@@ -72,26 +58,7 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
         setVibrate(false);
         setFlowAnimation();
 
-        telephone = (EditText) findViewById(R.id.editText);
 
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-                boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_register), false)) {
-                    Intent i = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(i);
-                } else {
-                    mInformationTextView.setText(getString(R.string.token_error_message));
-                }
-            }
-        };
-        mInformationTextView = (TextView) findViewById(R.id.informationTextView);
-
-        // Registering BroadcastReceiver
-        registerReceiver();
     }
 
     @Override
@@ -103,7 +70,8 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
     @Override
     public void onDonePressed() {
-
+        Intent i = new Intent(getBaseContext(), PutTelephone.class);
+        startActivity(i);
     }
 
     @Override
@@ -112,67 +80,12 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver();
+    public void onFragmentInteraction(Uri uri) {
     }
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        isReceiverRegistered = false;
         super.onPause();
-    }
-
-    /***********************************************************************************************/
-
-    public void registrar(View v) {
-        if (checkPlayServices()) {
-
-            SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(getResources().getString(R.string.str_telephone), telephone.getText().toString());
-            editor.commit();
-
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
-
-    /***********************************************************************************************/
-
-
-    private void registerReceiver() {
-        if (!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-            isReceiverRegistered = true;
-        }
-    }
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, getString(R.string.str_checkplay_tag));
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
+        finish();
     }
 }

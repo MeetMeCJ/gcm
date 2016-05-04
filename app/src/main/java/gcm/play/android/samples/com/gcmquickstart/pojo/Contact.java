@@ -182,7 +182,7 @@ public class Contact implements Parcelable {
         try {
             ArrayList<String> telephones = new ArrayList<>();
             telephones.add(json.getInt("telephone") + "");
-
+            
             u.setDescription(json.getString("description"));
             u.setNick(json.getString("nick"));
             u.setPrivacy(json.getString("privacy"));

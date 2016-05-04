@@ -119,7 +119,8 @@ public class Manager {
         }
         Log.v("ASDF", "Fin gestor ");
 
-        Manager.syncContact(c);
+        if (prefs.getBoolean(c.getResources().getString(R.string.str_register), false))
+            Manager.syncContact(c);
     }
 
     public static void syncContact(final Context context) {

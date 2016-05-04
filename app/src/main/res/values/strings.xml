@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MeetMe</string>
     <string name="preference">preferencemeetme</string>
-<!--Splash -->
+    <!--Splash -->
 
     <string name="str_splash_title">Titulo</string>
     <string name="str_splash_content">Contenido</string>
@@ -34,15 +34,13 @@
     <!--- -->
 
 
-
     <string name="gcm_send_message">Token retrieved and sent to server! You can now use gcmsender to send downstream messages to this app.</string>
     <string name="registering_message">Generating InstanceID token...</string>
-    <string name="token_error_message">An error occurred while either fetching the InstanceID token,
-        sending the fetched token to the server or subscribing to the PubSub topic. Please try
-        running the sample again.</string>
+    <string name="token_error_message">Ha ocurrido un error de conexión, revise su conexión e intentelo de nuevo.</string>
     <string name="title_activity_lista_conversaciones">ListaConversaciones</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="str_put_phone">Introduzca su número de telefono.</string>
 </resources>
