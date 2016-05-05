@@ -1,4 +1,4 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.service;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,6 +18,8 @@ import com.j256.ormlite.dao.Dao;
 import java.util.Date;
 import java.util.List;
 
+import gcm.play.android.samples.com.gcmquickstart.ConversationActivity;
+import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -55,13 +57,13 @@ public class MyGcmListenerService extends GcmListenerService {
          */
         DBHelper helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
         Dao dao;
-        List<Contact> contact=null;
-        String personORtlf="";
+        List<Contact> contact = null;
+        String personORtlf = "";
 
         /**
          * Lanzamos notificacion, para ello vemos si esta guardado o no
          */
-        try  {
+        try {
             dao = helper.getChatDao();
             contact = dao.queryForEq(Contact.TOKEN, tokenSender);
         } catch (java.sql.SQLException e) {
@@ -69,13 +71,13 @@ public class MyGcmListenerService extends GcmListenerService {
             Log.e("Helper", "Search user error");
         }
 
-        if(!contact.isEmpty())
-            if(!contact.get(0).getName().isEmpty())
-                personORtlf=contact.get(0).getName();
+        if (!contact.isEmpty())
+            if (!contact.get(0).getName().isEmpty())
+                personORtlf = contact.get(0).getName();
             else
-                personORtlf=contact.get(0).getTelephone().get(0);
+                personORtlf = contact.get(0).getTelephone().get(0);
         else
-            personORtlf="Unknow";
+            personORtlf = "Unknow";
 
         sendNotification(personORtlf, message);
 
@@ -109,7 +111,9 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String from, String message) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ConversationActivity.class);
+        intent.putExtra(getString(R.string.str_token), from);
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

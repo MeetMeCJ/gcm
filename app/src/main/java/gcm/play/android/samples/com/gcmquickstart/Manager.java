@@ -172,7 +172,7 @@ public class Manager {
                                             Long id = currentContact.getId();
 
                                             if (telf.contains(contactServer.getTelephone().get(0).toString())) {
-                                                //dao.update(contactServer);
+                                                dao.createOrUpdate(contactServer);
                                                 Log.v("ASDF", "sync update");
                                             } else {
                                                 dao.create(contactServer);

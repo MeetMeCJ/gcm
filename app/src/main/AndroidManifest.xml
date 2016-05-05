@@ -53,7 +53,7 @@
 
         <!-- [START gcm_listener] -->
         <service
-            android:name=".MyGcmListenerService"
+            android:name=".service.MyGcmListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -64,7 +64,7 @@
 
         <!-- [START instanceId_listener] -->
         <service
-            android:name=".MyInstanceIDListenerService"
+            android:name=".service.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -73,10 +73,14 @@
         <!-- [END instanceId_listener] -->
 
         <service
-            android:name=".RegistrationIntentService"
+            android:name=".service.RegistrationIntentService"
             android:exported="false" />
 
-        <activity android:name=".PutTelephone"></activity>
+        <activity android:name=".PutTelephone" />
+        <activity
+            android:name=".ConversationActivity"
+            android:label="@string/title_activity_conversation"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

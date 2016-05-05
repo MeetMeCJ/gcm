@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.service;
 
 import android.content.Intent;
 

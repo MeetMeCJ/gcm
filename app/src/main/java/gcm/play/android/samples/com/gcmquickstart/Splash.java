@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.github.paolorotolo.appintro.AppIntro2;
-import com.github.paolorotolo.appintro.AppIntroViewPager;
 
 import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPageSlider;
 
@@ -44,15 +43,17 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
             startActivity(i);
         }
 
-        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.medal);
-        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.message);
-        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.smartphone);
-        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title), getString(R.string.str_splash_content), R.drawable.light_bulb);
+        FragmentPageSlider first_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_1), getString(R.string.str_splash_content_frag_1), R.drawable.medal);
+        FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_2), getString(R.string.str_splash_content_frag_2), R.drawable.message);
+        FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_3), getString(R.string.str_splash_content_frag_3), R.drawable.smartphone);
+        FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_4), getString(R.string.str_splash_content_frag_4), R.drawable.light_bulb);
 
         addSlide(first_fragment);
         addSlide(second_fragment);
         addSlide(third_fragment);
         addSlide(fourth_fragment);
+
+        setScrollDurationFactor(4);
 
         setProgressButtonEnabled(true);
         setVibrate(false);
@@ -63,9 +64,6 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
 
     @Override
     public void onNextPressed() {
-        AppIntroViewPager pager = getPager();
-        boolean pagingState = pager.isNextPagingEnabled();
-        setSwipeLock(pagingState);
     }
 
     @Override

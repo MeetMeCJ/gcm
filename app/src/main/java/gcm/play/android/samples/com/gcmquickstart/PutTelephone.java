@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import gcm.play.android.samples.com.gcmquickstart.service.RegistrationIntentService;
+
 public class PutTelephone extends AppCompatActivity {
     private static final String TAG = "PutTelephone";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -75,7 +77,7 @@ public class PutTelephone extends AppCompatActivity {
     }
 
     /***********************************************************************************************/
-    
+
     public void registrar(View v) {
         if (checkPlayServices()) {
 

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.FragmentPageSlider"
     android:orientation="vertical"
-    android:background="@drawable/splash_background">
+    android:background="@drawable/shape_splash_background">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -21,28 +21,32 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
+        android:gravity="center_horizontal"
         android:id="@+id/fragTitle"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0"
         android:layout_marginBottom="15dp"
         android:textSize="25dp"
         android:textAlignment="center"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
+        android:gravity="center_horizontal"
         android:id="@+id/fragContent"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
         android:layout_marginBottom="30dp"
         android:textSize="16dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:textColor="#ffffff"
         android:textAlignment="center"
-        android:textColor="#ffffff" />
+        android:layout_weight="1" />
 
 
 </LinearLayout>
