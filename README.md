@@ -1,67 +1,102 @@
-Google Cloud Messaging Quickstart
-=================================
+Google Cloud Messaging MeetMe
+================================
 
-Google Cloud Messaging Android Quickstart app demonstrates registering
-an Android app for GCM and handling the receipt of a GCM message.
-InstanceID allows easy registration while GcmReceiver and
-GcmListenerService provide simple means of receiving and handling
-messages.
+> Aplicación de mensajeria instanea desarrollada para el Proyecto de desarrollo de aplicaciones multiplataforma en el centro I.E.S. Zaidin-Vergeles promocion 2014-2016.
 
-Introduction
+
+Introducción
 ------------
 
-- [Read more about Google Cloud Messaging](https://developers.google.com/cloud-messaging/)
+- [Más sobre Google Cloud Messaging](https://developers.google.com/cloud-messaging/)
 
-Getting Started
+Indice
 ---------------
 
-- Follow the [quickstart guide](https://developers.google.com/cloud-messaging/)
-  to set up your project in Android Studio.
-- Run the sample on your Android device.
-- Update API_KEY in GcmSender.java, with API key from your project.
-- Run the terminal command to send GCM message to your device.
-- A notification containing the GCM message should be displayed on the
-  device.
+ 1. [Como surgio la idea](https://github.com/MeetMeCJ/gcm#como-surgio-la-idea)
+ 2. [Screenshots](https://github.com/MeetMeCJ/gcm#screenshots)
+ 3. [Conceptos basicos](https://github.com/MeetMeCJ/gcm#conceptos-basicos)
+  1 [Codigo](https://github.com/MeetMeCJ/gcm#codigo)
+ 4. [Soporte](https://github.com/MeetMeCJ/gcm#soporte)
+ 5. [Licencia](https://github.com/MeetMeCJ/gcm#licencia)
 
-NOTE
-----
+Como surgio la idea
+--------------------
 
-The GcmSender module in this project is emulating a server for the purposes of
-this sample, but it's not meant to serve as an example for a production app
-server. For information on GCM server implementaion
-see [About GCM Connection Server](https://developers.google.com/cloud-messaging/server)
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer iaculis erat orci, volutpat malesuada arcu cursus sed. Donec iaculis arcu in velit elementum, eu elementum metus euismod. Donec at urna in velit consequat ornare at vel erat. Ut lacinia quam et condimentum faucibus. Nullam lacinia fringilla accumsan. Curabitur vel nulla eu enim fringilla dignissim. Nullam eget enim quis quam consectetur hendrerit vel nec erat.
+
+> Praesent scelerisque, mauris vitae finibus euismod, urna dui condimentum tortor, sed ultricies mauris odio quis tellus. Donec rhoncus purus nec metus sagittis egestas. Sed mattis ex at enim commodo, vel pretium arcu dictum. Sed tempus sit amet leo non suscipit. Cras sed diam tristique, aliquet magna tempus, blandit dolor. Vivamus id viverra neque. Sed ut purus sagittis, porta mauris non, condimentum enim. Fusce quis urna et augue ultrices ullamcorper. Etiam ex metus, dapibus vel elementum nec, imperdiet eu risus. Ut in pellentesque mauris. Cras iaculis ut mi at malesuada. Sed elementum interdum odio et porta. Ut aliquet fermentum dapibus.
 
 Screenshots
 -----------
 ![Screenshot](app/src/main/gcm-sample.png)
 
-Support
+Conceptos basicos
+--------------------
+> Aqui una pequeña guia para navegar en el codigo.
+
+Codigo
+-------
+> Nuestra implementacion de codigo busca la elegancia en la sencillez pero con mucha potencia...
+
+```java
+@DatabaseTable
+public class Contact implements Parcelable {
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String NICK = "nick";
+    public static final String TELEPHONE = "telephone";
+    public static final String TOKEN = "token";
+    public static final String DESCRIPTION = "description";
+    public static final String LASTCONNECTION = "lastconnection";
+    public static final String SEECONNECTION = "seeconnection";
+    public static final String PRIVACY = "privacy";
+
+    @DatabaseField(generatedId = true, columnName = ID)
+    private Long id;
+
+    @DatabaseField(columnName = NAME)
+    private String name;
+
+    @DatabaseField(columnName = NICK)
+    private String nick;
+
+    @DatabaseField(columnName = TELEPHONE)
+    private List<String> telephone;
+
+    @DatabaseField(columnName = TOKEN)
+    private String token;
+
+    @DatabaseField(columnName = DESCRIPTION)
+    private String description;
+
+    @DatabaseField(columnName = LASTCONNECTION)
+    private String lastconnection;
+
+    @DatabaseField(columnName = SEECONNECTION)
+    private String seeconnection;
+
+    @DatabaseField(columnName = PRIVACY)
+    private String privacy;
+
+    ...
+```
+
+Soporte
 -------
 
-- Stack Overflow: http://stackoverflow.com/questions/tagged/google-cloud-messaging
+- Web: No disponible de momento
 
-If you've found an error in this sample, please file an issue:
-https://github.com/googlesamples/google-services/issues
+> Si encuentra algun error, por favor comuníquenoslo en:
+https://github.com/MeetMeCJ/gcm/issues
 
-Patches are encouraged, and may be submitted by forking this project and
-submitting a pull request through GitHub.
 
-License
--------
+Licencia
+--------
 
 Copyright 2015 Google, Inc.
 
-Licensed to the Apache Software Foundation (ASF) under one or more contributor
-license agreements.  See the NOTICE file distributed with this work for
-additional information regarding copyright ownership.  The ASF licenses this
-file to you under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License.  You may obtain a copy of
-the License at
+> Licenciado a la Apache Software Foundation (ASF) en virtud de uno o más acuerdos de licencia para colaboradores. Vea el archivo de AVISO distribuido con este trabajo para obtener información adicional con respecto a la propiedad de los derechos de autor. Las licencias ASF este archivo para que bajo la licencia Apache, versión 2.0 (la "Licencia"); no se puede utilizar este archivo salvo en cumplimiento de la Licencia. Usted puede obtener una copia de la Licencia en
 
   http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-License for the specific language governing permissions and limitations under
-the License.
+> A menos que lo requiera la ley aplicable o se acuerde por escrito, el software distribuido bajo la Licencia se distribuye "TAL CUAL", SIN GARANTÍAS O CONDICIONES DE CUALQUIER TIPO, ya sea de forma expresa o implícita. Consulte la licencia para los permisos de idioma específico que rige y limitaciones en la licencia.
