@@ -37,7 +37,7 @@
     <string name="str_tag_message">Mensaje: </string>
     <!-- -->
     <!-- RegistrationIntentService-->
-    <string name="str_tag_registrationtoken">GCM Token de Registro </string>
+    <string name="str_tag_registrationtoken">GCM Token de Registro: </string>
     <string name="str_tag_failedregistration">No se pudo completar la actualización de tokens </string>
     <!--- -->
 

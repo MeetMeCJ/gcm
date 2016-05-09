@@ -1,6 +1,7 @@
 package gcm.play.android.samples.com.gcmquickstart.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +21,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<Contact> contacts;
     private List<Chat> chats;
 
-    public Adapter(List<Contact> contact) {
-        this.contacts = contact;
-    }
-
     public Adapter(List<Contact> contacts, List<Chat> chats) {
+        Log.v("ASDF", "onCreateAdapter");
         this.contacts = contacts;
+        this.chats = chats;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+        Log.v("ASDF", "onCreateViewHolder");
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_main, viewGroup, false);
 
         ViewHolder tvh = new ViewHolder(itemView);
 
@@ -39,8 +39,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int pos) {
-        if (chats.isEmpty()) {
+        Log.v("ASDF", "onBindHolder");
+        if (chats.isEmpty() || chats == null) {
             Contact contact = contacts.get(pos);
+            Log.v("ASDF", contact.getName());
             viewHolder.bindContact(contact.getName());
         } else {
             Chat chat = chats.get(0);
@@ -54,11 +56,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        Log.v("ASDF", "tamaño");
+        int aux;
         if (chats != null)
-            return contacts.size();
-        else if(contacts!=null)
-            return chats.size();
-        return 0;
+            aux = chats.size();
+        else// if (contacts != null)
+            aux = contacts.size();
+        return aux;
     }
 
 
@@ -67,7 +71,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtPerson = (TextView) itemView.findViewById(R.id.txtName);
+            Log.v("ASDF", "ViewHolder");
+            txtPerson = (TextView) itemView.findViewById(R.id.itemName);
         }
 
         public void bindContact(String mParam1) {

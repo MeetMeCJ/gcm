@@ -16,12 +16,6 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme">
 
-        <!--
-        <provider
-            android:name=".db.Proveedor"
-            android:authorities="gcm.play.android.samples.com.gcmquickstart.Proveedor"
-            android:exported="true" />
-        -->
 
         <activity
             android:name=".Splash"
@@ -33,11 +27,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".PutTelephone" />
+        <activity
+            android:name=".ConversationActivity"
+            android:label="@string/title_activity_conversation"
+            android:theme="@style/AppTheme"></activity>
 
-        <!-- [START gcm_receiver] -->
+        <!-- *********************************************** -->
+
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -76,11 +78,7 @@
             android:name=".service.RegistrationIntentService"
             android:exported="false" />
 
-        <activity android:name=".PutTelephone" />
-        <activity
-            android:name=".ConversationActivity"
-            android:label="@string/title_activity_conversation"
-            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

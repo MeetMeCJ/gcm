@@ -30,7 +30,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, Chat.class);
-            //TableUtils.createTable(connectionSource, Contact.class);
+            TableUtils.createTable(connectionSource, Contact.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (java.sql.SQLException e) {

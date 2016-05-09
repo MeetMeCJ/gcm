@@ -26,15 +26,15 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
  * Created by Admin on 28/04/2016.
  */
 public class FragmentMain extends Fragment {
-    public static final int CHAT =1;
-    public static final int CONTACT =2;
-    private static final String TYPE="type";
+    public static final int CHAT = 1;
+    public static final int CONTACT = 2;
+    private static final String TYPE = "type";
 
     private Context c;
     private List<Contact> contacts;
     private List<Chat> chats;
 
-    public static FragmentMain newInstance(int fragmentType){//List<Contact> contacts, List<Chat> chats) {
+    public static FragmentMain newInstance(int fragmentType) {//List<Contact> contacts, List<Chat> chats) {
         FragmentMain fragment = new FragmentMain();
         Bundle args = new Bundle();
         args.putInt(TYPE, fragmentType);
@@ -58,8 +58,11 @@ public class FragmentMain extends Fragment {
         try {
             dao = helper.getChatDao();
             chats = dao.queryForAll();
-            dao=helper.getContactDao();
-            contacts=dao.queryForAll();
+            dao = helper.getContactDao();
+            contacts = dao.queryForAll();
+            Log.v("ASDF", "contactos " + contacts.size() + "");
+            Log.v("ASDF", "contactos " + contacts.toString() + "");
+            Log.v("ASDF", "chats " + chats.size() + "");
         } catch (SQLException e) {
             e.printStackTrace();
             Log.e("Helper", "Search user error");
@@ -74,17 +77,21 @@ public class FragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_user, container, false);
 
-        RecyclerView rv = (RecyclerView) v.findViewById(R.id.RecyclerView);
-        Adapter adaptador=null;
-        if (getArguments().getInt(TYPE)==1)
-            adaptador = new Adapter(contacts,chats);
+        Log.v("ASDf", "onCreateView");
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+
+        RecyclerView rv = (RecyclerView) v.findViewById(R.id.fragmentRecyclerView);
+        Adapter adaptador;
+        Log.v("ASDF", "type " + getArguments().getInt(TYPE));
+        if (getArguments().getInt(TYPE) == CHAT)
+            adaptador = new Adapter(contacts, chats);
         else
-            adaptador = new Adapter(contacts);
+            adaptador = new Adapter(contacts, null);
+
         rv.setAdapter(adaptador);
 
-        rv.setLayoutManager(new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false));
+        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         return v;
     }
