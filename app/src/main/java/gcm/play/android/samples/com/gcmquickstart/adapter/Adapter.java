@@ -54,7 +54,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        if (chats != null)
+            return contacts.size();
+        else if(contacts!=null)
+            return chats.size();
+        return 0;
     }
 
 
@@ -75,3 +79,4 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
     }
 }
+

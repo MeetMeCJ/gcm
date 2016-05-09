@@ -75,7 +75,8 @@ public class MyGcmListenerService extends GcmListenerService {
             if (!contact.get(0).getName().isEmpty())
                 personORtlf = contact.get(0).getName();
             else
-                personORtlf = contact.get(0).getTelephone().get(0);
+                personORtlf = contact.get(0).getTelephone();
+                //personORtlf = contact.get(0).getTelephone().get(0);
         else
             personORtlf = "Unknow";
 
@@ -112,7 +113,8 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private void sendNotification(String from, String message) {
         Intent intent = new Intent(this, ConversationActivity.class);
-        intent.putExtra(getString(R.string.str_token), from);
+        //intent.putExtra(getString(R.string.str_token), from);
+        intent.putExtra(getString(R.string.str_token), "dk_IVo20J6E:APA91bGIh_7wUK-THiiLMivVgyqYsL1X0-y1i5UJiwvDeRR6S1w1lpUQ_LXaI8ozV9B2T7oScOW4wFbTn2dAtZ_OmcwNGU-l7jPqIhhE7P2Lkjw-VGUehz92llFYSIR9QpxuzOFnCPsW");
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

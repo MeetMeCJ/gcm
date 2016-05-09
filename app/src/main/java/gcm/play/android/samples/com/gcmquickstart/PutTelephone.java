@@ -49,7 +49,7 @@ public class PutTelephone extends AppCompatActivity {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken && prefs.getBoolean(getResources().getString(R.string.str_register), false)) {
+                if (sentToken){// && prefs.getBoolean(getResources().getString(R.string.str_register), false)) {
                     Intent i = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(i);
                 } else {

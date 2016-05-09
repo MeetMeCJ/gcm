@@ -57,7 +57,11 @@ public class GcmSender {
             JSONObject jGcmData = new JSONObject();
             JSONObject jData = new JSONObject();
             jData.put("message", args[0].trim());
-            // Where to send GCM message.
+
+            jData.put("origin", "d9CiFslvld4:APA91bFZEBFkIvGXJ3t9YsZy80nNoHXTQcZw68xi_vX2GxR9H7XpNQDFqVO1M7wxYIVt1Fdt_TcFKmg5VTX1qUOEMaSITGKW6K6PTtU4zEK3WJk90Hx4gb8eWEMn5aGn1gIFVmq6t8I8");
+
+            jGcmData.put("to", "dk_IVo20J6E:APA91bGIh_7wUK-THiiLMivVgyqYsL1X0-y1i5UJiwvDeRR6S1w1lpUQ_LXaI8ozV9B2T7oScOW4wFbTn2dAtZ_OmcwNGU-l7jPqIhhE7P2Lkjw-VGUehz92llFYSIR9QpxuzOFnCPsW");
+
             if (args.length > 1 && args[1] != null) {
                 jGcmData.put("to", args[1].trim());
             } else {

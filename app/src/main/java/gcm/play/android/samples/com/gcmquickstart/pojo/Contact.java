@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Admin on 20/04/2016.
@@ -38,7 +37,7 @@ public class Contact implements Parcelable {
     private String nick;
 
     @DatabaseField(columnName = TELEPHONE)
-    private List<String> telephone;
+    private String telephone;
 
     @DatabaseField(columnName = TOKEN)
     private String token;
@@ -59,7 +58,7 @@ public class Contact implements Parcelable {
 
     }
 
-    public Contact(Long id, String name, String nick, List<String> telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
+    public Contact(Long id, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
         this.id = id;
         this.name = name;
         this.nick = nick;
@@ -71,7 +70,7 @@ public class Contact implements Parcelable {
         this.privacy = privacy;
     }
 
-    public Contact(String name, String nick, List<String> telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
+    public Contact(String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
         this.name = name;
         this.nick = nick;
         this.telephone = telephone;
@@ -85,7 +84,7 @@ public class Contact implements Parcelable {
     protected Contact(Parcel in) {
         name = in.readString();
         nick = in.readString();
-        telephone = in.createStringArrayList();
+        telephone = in.readString();
         token = in.readString();
         description = in.readString();
         lastconnection = in.readString();
@@ -129,11 +128,11 @@ public class Contact implements Parcelable {
         this.nick = nick;
     }
 
-    public List<String> getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(List<String> telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
@@ -186,7 +185,7 @@ public class Contact implements Parcelable {
             u.setDescription(json.getString("description"));
             u.setNick(json.getString("nick"));
             u.setPrivacy(json.getString("privacy"));
-            u.setTelephone(telephones);
+            u.setTelephone(telephones.get(0));
             u.setToken(json.getString("token"));
             u.setLastconnection(json.getString("last"));
             u.setSeeconnection(json.getString("see"));
@@ -217,7 +216,7 @@ public class Contact implements Parcelable {
 
         cv.put(NAME, name);
         cv.put(TOKEN, token);
-        cv.put(TELEPHONE, telephone.get(0));
+        cv.put(TELEPHONE, telephone);
         cv.put(DESCRIPTION, description);
         cv.put(NICK, nick);
         cv.put(PRIVACY, privacy);
@@ -251,7 +250,7 @@ public class Contact implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(nick);
-        dest.writeStringList(telephone);
+        dest.writeString(telephone);
         dest.writeString(token);
         dest.writeString(description);
         dest.writeString(lastconnection);
