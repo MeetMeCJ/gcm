@@ -1,5 +1,6 @@
 package gcm.play.android.samples.com.gcmquickstart.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,33 +17,38 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 /**
  * Created by Admin on 28/04/2016.
  */
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptador> {
 
     private List<Contact> contacts;
     private List<Chat> chats;
 
-    public Adapter(List<Contact> contacts, List<Chat> chats) {
-        Log.v("ASDF", "onCreateAdapter");
+    public Adaptador(List<Contact> contacts, List<Chat> chats) {
+        Log.v("ASDF", "Adapter: onCreateAdapter");
         this.contacts = contacts;
         this.chats = chats;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolderAdaptador onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.v("ASDF", "onCreateViewHolder");
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_main, viewGroup, false);
+//        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main, parent, false);
+//
+//        ViewHolderAdaptador tvh = new ViewHolderAdaptador(itemView);
+        LayoutInflater i = (LayoutInflater) parent.getContext().getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+        View view = i.inflate(R.layout.item_main, null);
 
-        ViewHolder tvh = new ViewHolder(itemView);
+        ViewHolderAdaptador tvh = new ViewHolderAdaptador(view);
 
         return tvh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int pos) {
-        Log.v("ASDF", "onBindHolder");
-        if (chats.isEmpty() || chats == null) {
+    public void onBindViewHolder(ViewHolderAdaptador viewHolder, int pos) {
+        Log.v("ASDF", "Adapter: onBindHolder");
+        if (chats == null) {
             Contact contact = contacts.get(pos);
-            Log.v("ASDF", contact.getName());
+            Log.v("ASDF","Adapter: "+ contact.getName());
             viewHolder.bindContact(contact.getName());
         } else {
             Chat chat = chats.get(0);
@@ -56,22 +62,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        Log.v("ASDF", "tamaño");
+        Log.v("ASDF", "Adapter: tamaño");
         int aux;
         if (chats != null)
             aux = chats.size();
-        else// if (contacts != null)
+        else
             aux = contacts.size();
         return aux;
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolderAdaptador extends RecyclerView.ViewHolder {
         private TextView txtPerson;
 
-        public ViewHolder(View itemView) {
+        public ViewHolderAdaptador(View itemView) {
             super(itemView);
-            Log.v("ASDF", "ViewHolder");
+            Log.v("ASDF", "Adapter.ViewHolder: ViewHolder");
             txtPerson = (TextView) itemView.findViewById(R.id.itemName);
         }
 

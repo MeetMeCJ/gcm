@@ -1,6 +1,5 @@
 package gcm.play.android.samples.com.gcmquickstart.fragment;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,12 +7,11 @@ import android.util.Log;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private Context c;
-    private String tabTitles[] = new String[]{"Chat", "Contacts",};
 
-    public FragmentPageAdapter(FragmentManager fm, Context c) {
+    private String tabTitles[] = new String[]{"Chat", "Contacts"};
+
+    public FragmentPageAdapter(FragmentManager fm) {
         super(fm);
-        this.c = c;
     }
 
     @Override
@@ -28,16 +26,16 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                Log.v("ASDF", "Chat");
+                Log.v("ASDF", "FragmentPageAdapter: Chat");
                 f = FragmentMain.newInstance(FragmentMain.CHAT);
                 break;
             case 1:
-                Log.v("ASDF", "Contact");
+                Log.v("ASDF", "FragmentPageAdapter: Contact");
                 f = FragmentMain.newInstance(FragmentMain.CONTACT);
                 break;
         }
         if (f != null)
-            Log.v("ASDF", "fragmento no nulo");
+            Log.v("ASDF", "FragmentPageAdapter: fragmento no nulo");
         return f;
     }
 

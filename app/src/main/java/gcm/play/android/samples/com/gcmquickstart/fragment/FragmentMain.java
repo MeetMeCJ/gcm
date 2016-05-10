@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.R;
-import gcm.play.android.samples.com.gcmquickstart.adapter.Adapter;
+import gcm.play.android.samples.com.gcmquickstart.adapter.Adaptador;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -34,7 +34,7 @@ public class FragmentMain extends Fragment {
     private List<Contact> contacts;
     private List<Chat> chats;
 
-    public static FragmentMain newInstance(int fragmentType) {//List<Contact> contacts, List<Chat> chats) {
+    public static FragmentMain newInstance(int fragmentType) {
         FragmentMain fragment = new FragmentMain();
         Bundle args = new Bundle();
         args.putInt(TYPE, fragmentType);
@@ -43,7 +43,6 @@ public class FragmentMain extends Fragment {
     }
 
     public FragmentMain() {
-        // Required empty public constructor
     }
 
 
@@ -60,9 +59,9 @@ public class FragmentMain extends Fragment {
             chats = dao.queryForAll();
             dao = helper.getContactDao();
             contacts = dao.queryForAll();
-            Log.v("ASDF", "contactos " + contacts.size() + "");
-            Log.v("ASDF", "contactos " + contacts.toString() + "");
-            Log.v("ASDF", "chats " + chats.size() + "");
+            Log.v("ASDF", "FragmentMain: contactos " + contacts.size() + "");
+            Log.v("ASDF", "FragmentMain: contactos " + contacts.toString() + "");
+            Log.v("ASDF", "FragmentMain: chats " + chats.size() + "");
         } catch (SQLException e) {
             e.printStackTrace();
             Log.e("Helper", "Search user error");
@@ -78,20 +77,23 @@ public class FragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.v("ASDf", "onCreateView");
+        Log.v("ASDf", "FragmentMain: onCreateView");
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.fragmentRecyclerView);
-        Adapter adaptador;
-        Log.v("ASDF", "type " + getArguments().getInt(TYPE));
+        Adaptador adaptador;
+
+        Log.v("ASDF", "FragmentMain: type " + getArguments().getInt(TYPE));
         if (getArguments().getInt(TYPE) == CHAT)
-            adaptador = new Adapter(contacts, chats);
+            adaptador = new Adaptador(contacts, chats);
+
         else
-            adaptador = new Adapter(contacts, null);
+            adaptador = new Adaptador(contacts, null);
 
         rv.setAdapter(adaptador);
 
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        rv.setLayoutManager(new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false));
 
         return v;
     }
