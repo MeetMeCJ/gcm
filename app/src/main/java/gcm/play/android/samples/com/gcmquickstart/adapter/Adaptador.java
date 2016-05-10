@@ -1,6 +1,7 @@
 package gcm.play.android.samples.com.gcmquickstart.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import gcm.play.android.samples.com.gcmquickstart.ConversationActivity;
 import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -48,13 +50,13 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
         Log.v("ASDF", "Adapter: onBindHolder");
         if (chats == null) {
             Contact contact = contacts.get(pos);
-            Log.v("ASDF","Adapter: "+ contact.getName());
-            viewHolder.bindContact(contact.getName());
+            Log.v("ASDF", "Adapter: " + contact.getName());
+            viewHolder.bindContact(contact);
         } else {
             Chat chat = chats.get(0);
             for (Contact current : contacts) {
                 if (chat.getTokenconversation().equals(current.getToken()))
-                    viewHolder.bindChat(current.getName());
+                    viewHolder.bindChat(current);
             }
         }
     }
@@ -72,21 +74,33 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
     }
 
 
-    public static class ViewHolderAdaptador extends RecyclerView.ViewHolder {
+    public static class ViewHolderAdaptador extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView txtPerson;
+        private Contact contact;
 
         public ViewHolderAdaptador(View itemView) {
             super(itemView);
             Log.v("ASDF", "Adapter.ViewHolder: ViewHolder");
+
             txtPerson = (TextView) itemView.findViewById(R.id.itemName);
+            itemView.setOnClickListener(this);
         }
 
-        public void bindContact(String mParam1) {
-            txtPerson.setText(mParam1);
+        public void bindContact(Contact contact) {
+            txtPerson.setText(contact.getName());
+            this.contact = contact;
         }
 
-        public void bindChat(String mParam1) {
-            txtPerson.setText(mParam1);
+        public void bindChat(Contact contact) {
+            txtPerson.setText(contact.getName());
+            this.contact = contact;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(v.getContext(), ConversationActivity.class);
+            i.putExtra(v.getContext().getString(R.string.str_token), contact.getToken());
+            v.getContext().startActivity(i);
         }
     }
 }
