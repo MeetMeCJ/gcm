@@ -13,6 +13,8 @@ import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPageAdapter;
 /**
  * Created by Admin on 20/04/2016.
  */
+
+//Carmen Garcia Trinidad
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
