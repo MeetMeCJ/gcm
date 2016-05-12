@@ -59,9 +59,6 @@ public class FragmentMain extends Fragment {
             chats = dao.queryForAll();
             dao = helper.getContactDao();
             contacts = dao.queryForAll();
-            Log.v("ASDF", "FragmentMain: contactos " + contacts.size() + "");
-            Log.v("ASDF", "FragmentMain: contactos " + contacts.toString() + "");
-            Log.v("ASDF", "FragmentMain: chats " + chats.size() + "");
         } catch (SQLException e) {
             e.printStackTrace();
             Log.e("Helper", "Search user error");
@@ -77,13 +74,11 @@ public class FragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.v("ASDf", "FragmentMain: onCreateView");
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.fragmentRecyclerView);
         Adaptador adaptador;
 
-        Log.v("ASDF", "FragmentMain: type " + getArguments().getInt(TYPE));
         if (getArguments().getInt(TYPE) == CHAT)
             adaptador = new Adaptador(contacts, chats);
 

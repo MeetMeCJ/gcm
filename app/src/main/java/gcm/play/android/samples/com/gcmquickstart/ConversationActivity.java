@@ -2,6 +2,7 @@ package gcm.play.android.samples.com.gcmquickstart;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +14,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -70,6 +73,10 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     public void conversationSend(View v) {
+
+
+
+
         if (!myText.getText().toString().isEmpty()) {
             Manager.sendMessage(this, myText.getText().toString(), token);
             writeMyMessage(myText.getText().toString());
@@ -102,8 +109,8 @@ public class ConversationActivity extends AppCompatActivity {
         TextView newText = new TextView(this);
         newText.setText(myMessage);
         newText.setBackgroundResource(R.drawable.shape_conversation_message_myself);
-        newText.setPadding(8, 5, 8, 5);
-        newText.setGravity(Gravity.RIGHT);
+        newText.setPadding(18, 15, 18, 15);
+        newText.setGravity(Gravity.END);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         conversationLayout.addView(newText, params);
     }
@@ -112,7 +119,7 @@ public class ConversationActivity extends AppCompatActivity {
         TextView newText = new TextView(this);
         newText.setText(myMessage);
         newText.setBackgroundResource(R.drawable.shape_conversation_message_other);
-        newText.setPadding(8, 5, 8, 5);
+        newText.setPadding(18, 15, 18, 15);
         newText.setGravity(Gravity.LEFT);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         conversationLayout.addView(newText, params);

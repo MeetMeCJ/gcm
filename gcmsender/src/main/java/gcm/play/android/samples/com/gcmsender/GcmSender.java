@@ -34,6 +34,7 @@ import java.net.URL;
 public class GcmSender {
 
     public static final String API_KEY = "AIzaSyBOWMgkVq6efI1uZQsL_wcGZeHK5bBea1k";
+    public static final String API_KEY3 = "AIzaSyDGfemBxn5VyoWjxVGBXhUPgQBhPVGfRd8";
 
     public static void main(String[] args) {
         if (args.length < 1 || args.length > 2 || args[0] == null) {
@@ -73,7 +74,7 @@ public class GcmSender {
             // Create connection to send GCM Message request.
             URL url = new URL("https://android.googleapis.com/gcm/send");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("Authorization", "key=" + API_KEY);
+            conn.setRequestProperty("Authorization", "key=" + API_KEY3);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);

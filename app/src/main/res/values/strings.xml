@@ -23,7 +23,6 @@
     <string name="str_error_unknownelement">Elemento actividad desconocido</string>
     <string name="str_error_unknownuri">Uri desconocida</string>
     <string name="str_error_unknownactivity">Tipo de actividad desconocida</string>
-
     <!-- -->
 
     <!-- Manager -->
@@ -36,6 +35,7 @@
     <string name="str_tag_from">Desde: </string>
     <string name="str_tag_message">Mensaje: </string>
     <!-- -->
+
     <!-- RegistrationIntentService-->
     <string name="str_tag_registrationtoken">GCM Token de Registro: </string>
     <string name="str_tag_failedregistration">No se pudo completar la actualización de tokens </string>

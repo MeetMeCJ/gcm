@@ -3,7 +3,6 @@ package gcm.play.android.samples.com.gcmquickstart.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +24,12 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
     private List<Chat> chats;
 
     public Adaptador(List<Contact> contacts, List<Chat> chats) {
-        Log.v("ASDF", "Adapter: onCreateAdapter");
         this.contacts = contacts;
         this.chats = chats;
     }
 
     @Override
     public ViewHolderAdaptador onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.v("ASDF", "onCreateViewHolder");
-//        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main, parent, false);
-//
-//        ViewHolderAdaptador tvh = new ViewHolderAdaptador(itemView);
         LayoutInflater i = (LayoutInflater) parent.getContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
         View view = i.inflate(R.layout.item_main, null);
@@ -47,10 +41,8 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
 
     @Override
     public void onBindViewHolder(ViewHolderAdaptador viewHolder, int pos) {
-        Log.v("ASDF", "Adapter: onBindHolder");
         if (chats == null) {
             Contact contact = contacts.get(pos);
-            Log.v("ASDF", "Adapter: " + contact.getName());
             viewHolder.bindContact(contact);
         } else {
             Chat chat = chats.get(0);
@@ -64,7 +56,6 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
 
     @Override
     public int getItemCount() {
-        Log.v("ASDF", "Adapter: tamaño");
         int aux;
         if (chats != null)
             aux = chats.size();
@@ -80,7 +71,6 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
 
         public ViewHolderAdaptador(View itemView) {
             super(itemView);
-            Log.v("ASDF", "Adapter.ViewHolder: ViewHolder");
 
             txtPerson = (TextView) itemView.findViewById(R.id.itemName);
             itemView.setOnClickListener(this);

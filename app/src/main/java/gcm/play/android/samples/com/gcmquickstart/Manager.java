@@ -11,6 +11,7 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,8 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
  */
 public class Manager {
     public static final String API_KEY = "AIzaSyBOWMgkVq6efI1uZQsL_wcGZeHK5bBea1k";
+    public static final String API_KEY2 = "AIzaSyCJ6bdwAGSiGVpJfvqQVFlnIxGAdDXO7gM";
+    public static final String API_KEY3 = "AIzaSyDGfemBxn5VyoWjxVGBXhUPgQBhPVGfRd8";
 
     public static void sendMessage(Context c, final String message, final String destination) {
 
@@ -46,6 +49,7 @@ public class Manager {
             @Override
             protected Object doInBackground(Object[] params) {
                 try {
+                    Log.v("ASDF", "empieza la hebra a mandar un msg");
                     // Prepare JSON containing the GCM message content. What to send and where to send.
                     JSONObject jGcmData = new JSONObject();
                     JSONObject jData = new JSONObject();
@@ -60,8 +64,9 @@ public class Manager {
 
                     // Create connection to send GCM Message request.
                     URL url = new URL("https://android.googleapis.com/gcm/send");
+                    //URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestProperty("Authorization", "key=" + API_KEY);
+                    conn.setRequestProperty("Authorization", "key=" + API_KEY2);
                     conn.setRequestProperty("Content-Type", "application/json");
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -70,9 +75,14 @@ public class Manager {
                     OutputStream outputStream = conn.getOutputStream();
                     outputStream.write(jGcmData.toString().getBytes());
 
-
                     // Read GCM response.
                     InputStream inputStream = conn.getInputStream();
+                    String resp = IOUtils.toString(inputStream);
+                    System.out.println(resp);
+
+                    Log.v("ASDF", "respuesta " + resp);
+                    Log.v("ASDF", "lo manda");
+
 
                 } catch (IOException e) {
                     Log.v("ASDF", "error " + e.toString());
