@@ -79,8 +79,11 @@ public class MyGcmListenerService extends GcmListenerService {
                 //personORtlf = contact.get(0).getTelephone().get(0);
         else
             personORtlf = "Unknow";
+        if(tokenSender.contains("topics")){
+            sendNotification(from, message,tokenSender);
+        }
 
-        sendNotification(personORtlf, message);
+        sendNotification(personORtlf, message,tokenSender);
 
 
         /**
@@ -111,10 +114,9 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String from, String message) {
+    private void sendNotification(String from, String message,String token) {
         Intent intent = new Intent(this, ConversationActivity.class);
-        //intent.putExtra(getString(R.string.str_token), from);
-        intent.putExtra(getString(R.string.str_token), "dk_IVo20J6E:APA91bGIh_7wUK-THiiLMivVgyqYsL1X0-y1i5UJiwvDeRR6S1w1lpUQ_LXaI8ozV9B2T7oScOW4wFbTn2dAtZ_OmcwNGU-l7jPqIhhE7P2Lkjw-VGUehz92llFYSIR9QpxuzOFnCPsW");
+        intent.putExtra(getString(R.string.str_token), token);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
