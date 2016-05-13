@@ -39,6 +39,8 @@ public class Manager {
 
     public static void sendMessage(Context c, final String message, final String destination) {
 
+        Log.v("ASDF","EN EL MANAGER");
+
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         final String ourToken = prefs.getString(c.getResources().getString(R.string.str_token), "");
 
@@ -63,8 +65,8 @@ public class Manager {
                     jGcmData.put("data", jData);
 
                     // Create connection to send GCM Message request.
-                    URL url = new URL("https://android.googleapis.com/gcm/send");
-                    //URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
+                    //URL url = new URL("https://android.googleapis.com/gcm/send");
+                    URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestProperty("Authorization", "key=" + API_KEY2);
                     conn.setRequestProperty("Content-Type", "application/json");

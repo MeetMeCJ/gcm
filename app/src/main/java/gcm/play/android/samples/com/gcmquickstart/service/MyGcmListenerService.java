@@ -64,7 +64,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * Lanzamos notificacion, para ello vemos si esta guardado o no
          */
         try {
-            dao = helper.getChatDao();
+            dao = helper.getContactDao();
             contact = dao.queryForEq(Contact.TOKEN, tokenSender);
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
