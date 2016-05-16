@@ -14,6 +14,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.R;
@@ -79,10 +80,23 @@ public class FragmentMain extends Fragment {
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.fragmentRecyclerView);
         Adaptador adaptador;
 
-        if (getArguments().getInt(TYPE) == CHAT)
-            adaptador = new Adaptador(contacts, chats);
+        List<Chat> lista = new ArrayList<>();
 
-        else
+        if (getArguments().getInt(TYPE) == CHAT) {
+            Chat preChat = null;
+            for (Chat chat : chats) {
+                if (preChat != null) {
+                    if (!preChat.getTokensender().equals(chat.getTokensender())) {
+                        lista.add(chat);
+                        preChat = chat;
+                    }
+                } else {
+                    lista.add(chat);
+                    preChat = chat;
+                }
+            }
+            adaptador = new Adaptador(contacts, lista);
+        } else
             adaptador = new Adaptador(contacts, null);
 
         rv.setAdapter(adaptador);

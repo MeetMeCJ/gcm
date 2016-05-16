@@ -102,7 +102,7 @@ public class Manager {
 
         Log.v("ASDF", "Manager registrando token");
 
-        String urlOrigin = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
+        String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -145,7 +145,7 @@ public class Manager {
 //
 //                @Override
 //                protected Object doInBackground(Object[] params) {
-            String urlOrigin = "http://192.168.1.35:28914/PruebaMeetMe/servlet";
+            String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
 
             URL url = null;
             BufferedReader in = null;

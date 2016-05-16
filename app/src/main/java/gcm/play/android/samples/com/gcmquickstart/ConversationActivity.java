@@ -31,6 +31,7 @@ import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 
 public class ConversationActivity extends AppCompatActivity {
     public static final String API_KEY = "AIzaSyCF2MH1r1DOBlF3Lz7ma1hNFEQVJldt71U";
@@ -45,14 +46,18 @@ public class ConversationActivity extends AppCompatActivity {
 
     private List<Chat> messages;
 
+    private Toolbar toolbar;
+
     private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         ini();
     }
@@ -71,6 +76,16 @@ public class ConversationActivity extends AppCompatActivity {
         try {
             dao = helper.getChatDao();
             messages = dao.queryForEq(Chat.CONVERSATION, token);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
+        }
+        Contact contact;
+        try {
+            dao = helper.getContactDao();
+//            contact = (Contact) dao.queryForEq(Contact.TOKEN, token);
+//            toolbar.setTitle(contact.getName());
+            toolbar.setTitle("Carmen");
         } catch (SQLException e) {
             e.printStackTrace();
             Log.e("Helper", "Search user error");
