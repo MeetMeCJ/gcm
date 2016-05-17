@@ -5,14 +5,12 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -27,8 +25,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
+import gcm.play.android.samples.com.gcmquickstart.adapter.AdapterConversation;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -38,13 +38,14 @@ public class ConversationActivity extends AppCompatActivity {
 
     private DBHelper helper;
 
-    private LinearLayout conversationLayout;
-
     private EditText myText;
 
     private String token;
 
     private List<Chat> messages;
+
+    private RecyclerView recyclerView;
+    private AdapterConversation adapterConversation;
 
     private Toolbar toolbar;
 
@@ -68,8 +69,6 @@ public class ConversationActivity extends AppCompatActivity {
         token = (String) getIntent().getExtras().get(getString(R.string.str_token));
         myText = (EditText) findViewById(R.id.conversation_editText);
 
-        conversationLayout = (LinearLayout) findViewById(R.id.conversation_linear_layout);
-
         helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
 
         Dao dao;
@@ -91,15 +90,22 @@ public class ConversationActivity extends AppCompatActivity {
             Log.e("Helper", "Search user error");
         }
 
-        if (messages != null || !messages.isEmpty())
-            write();
+//        if (messages != null || !messages.isEmpty())
+//            write();
+
+        adapterConversation = new AdapterConversation(messages);
+
+        recyclerView = (RecyclerView) findViewById(R.id.conversationRecycler);
+        recyclerView.setAdapter(adapterConversation);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.scrollToPosition(messages.size() - 1);
     }
 
     public void conversationSend(View v) {
         if (!myText.getText().toString().isEmpty() && !myText.getText().toString().trim().equals("")) {
             //Manager.sendMessage(this, myText.getText().toString(), token);
             sendMessage(myText.getText().toString(), token);
-            writeMyMessage(myText.getText().toString());
             Dao dao;
             try {
                 dao = helper.getChatDao();
@@ -107,7 +113,18 @@ public class ConversationActivity extends AppCompatActivity {
                 message.setMessage(myText.getText().toString());
                 message.setTokenconversation(token);
                 message.setTokensender(preferences.getString(getString(R.string.str_token), ""));
+
+                Date fecha = new Date();
+                String date = fecha.getDay() + "/" + fecha.getMonth() + "/" + (1900 + fecha.getYear());
+                message.setTime(fecha.getHours() + ":" + fecha.getMinutes());
+                message.setDate(date);
                 dao.create(message);
+
+                messages.add(message);
+
+                adapterConversation = new AdapterConversation(messages);
+                recyclerView.setAdapter(adapterConversation);
+                recyclerView.scrollToPosition(messages.size() - 1);
             } catch (SQLException e) {
                 e.printStackTrace();
                 Log.e("Helper", "Search user error");
@@ -116,33 +133,8 @@ public class ConversationActivity extends AppCompatActivity {
         myText.setText("");
     }
 
-    public void write() {
-        for (Chat message : messages) {
-            if (message.getTokensender().equals(token))
-                writeOtherMessage(message.getMessage());
-            else
-                writeMyMessage(message.getMessage());
-        }
-    }
-
-    public void writeMyMessage(String myMessage) {
-        TextView newText = new TextView(this);
-        newText.setText(myMessage);
-        newText.setBackgroundResource(R.drawable.shape_conversation_message_myself);
-        newText.setPadding(18, 15, 18, 15);
-        newText.setGravity(Gravity.END);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        conversationLayout.addView(newText, params);
-    }
-
-    public void writeOtherMessage(String myMessage) {
-        TextView newText = new TextView(this);
-        newText.setText(myMessage);
-        newText.setBackgroundResource(R.drawable.shape_conversation_message_other);
-        newText.setPadding(18, 15, 18, 15);
-        newText.setGravity(Gravity.LEFT);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        conversationLayout.addView(newText, params);
+    public void goToLastMessage(View v) {
+        recyclerView.scrollToPosition(messages.size() - 1);
     }
 
     @Override
@@ -155,7 +147,7 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     public void sendMessage(final String message, final String destination) {
-        Log.v("ASDF","EN EL CONVERSATION");
+        Log.v("ASDF", "EN EL CONVERSATION");
 
         SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         final String ourToken = prefs.getString(getResources().getString(R.string.str_token), "");

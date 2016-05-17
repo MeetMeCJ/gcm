@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.R;
-import gcm.play.android.samples.com.gcmquickstart.adapter.Adaptador;
+import gcm.play.android.samples.com.gcmquickstart.adapter.AdapterMain;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -78,7 +78,7 @@ public class FragmentMain extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.fragmentRecyclerView);
-        Adaptador adaptador;
+        AdapterMain adapterMain;
 
         List<Chat> lista = new ArrayList<>();
 
@@ -95,11 +95,11 @@ public class FragmentMain extends Fragment {
                     preChat = chat;
                 }
             }
-            adaptador = new Adaptador(contacts, lista);
+            adapterMain = new AdapterMain(contacts, lista);
         } else
-            adaptador = new Adaptador(contacts, null);
+            adapterMain = new AdapterMain(contacts, null);
 
-        rv.setAdapter(adaptador);
+        rv.setAdapter(adapterMain);
 
 
         rv.setLayoutManager(new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false));

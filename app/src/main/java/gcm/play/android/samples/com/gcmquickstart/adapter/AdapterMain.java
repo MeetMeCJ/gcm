@@ -18,12 +18,12 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 /**
  * Created by Admin on 28/04/2016.
  */
-public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptador> {
+public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdaptador> {
 
     private List<Contact> contacts;
     private List<Chat> chats;
 
-    public Adaptador(List<Contact> contacts, List<Chat> chats) {
+    public AdapterMain(List<Contact> contacts, List<Chat> chats) {
         this.contacts = contacts;
         this.chats = chats;
     }
@@ -48,7 +48,7 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
             Chat chat = chats.get(0);
             for (Contact current : contacts) {
                 if (chat.getTokenconversation().equals(current.getToken()))
-                    viewHolder.bindChat(current);
+                    viewHolder.bindChat(current,chat.getMessage());
             }
         }
     }
@@ -67,23 +67,32 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolderAdaptado
 
     public static class ViewHolderAdaptador extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView txtPerson;
+        private TextView txtMessage;
+        private TextView txtConnection;
+
         private Contact contact;
 
         public ViewHolderAdaptador(View itemView) {
             super(itemView);
 
             txtPerson = (TextView) itemView.findViewById(R.id.itemName);
+            txtConnection = (TextView) itemView.findViewById(R.id.itemConnection);
+            txtMessage = (TextView) itemView.findViewById(R.id.itemMessage);
             itemView.setOnClickListener(this);
         }
 
         public void bindContact(Contact contact) {
-            txtPerson.setText(contact.getName());
             this.contact = contact;
+            txtPerson.setText(contact.getName());
+            txtMessage.setText(contact.getDescription());
+            txtConnection.setText(contact.getLastconnection());
         }
 
-        public void bindChat(Contact contact) {
-            txtPerson.setText(contact.getName());
+        public void bindChat(Contact contact,String lastMessage) {
             this.contact = contact;
+            txtPerson.setText(contact.getName());
+            txtMessage.setText(lastMessage);
+            txtConnection.setText(contact.getLastconnection());
         }
 
         @Override

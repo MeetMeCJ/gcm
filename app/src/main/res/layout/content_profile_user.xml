@@ -56,6 +56,7 @@
                             android:layout_height="wrap_content">
 
                             <EditText
+                                android:id="@+id/profileTelephone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Teléfono" />
@@ -80,6 +81,7 @@
                             android:layout_height="wrap_content">
 
                             <EditText
+                                android:id="@+id/profileEmail"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="E-mail" />
@@ -128,7 +130,7 @@
                             android:layout_height="wrap_content">
 
                             <EditText
-                                android:id="@+id/etNationality"
+                                android:id="@+id/profileNationality"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Nacionalidad" />
@@ -159,7 +161,7 @@
                             android:layout_alignParentStart="true">
 
                             <EditText
-                                android:id="@+id/etDate"
+                                android:id="@+id/profileDate"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
@@ -217,7 +219,7 @@
                             android:layout_toRightOf="@+id/imgNick">
 
                             <EditText
-                                android:id="@+id/etNick"
+                                android:id="@+id/profileNick"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Nick" />
@@ -253,7 +255,7 @@
                                 android:layout_toRightOf="@+id/imgNick">
 
                                 <EditText
-                                    android:id="@+id/etDescription"
+                                    android:id="@+id/profileDescription"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Description" />
@@ -321,7 +323,7 @@
                             android:layout_height="wrap_content">
 
                             <EditText
-                                android:id="@+id/etTwitter"
+                                android:id="@+id/profileFacebook"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBottom="@+id/imageView6"
@@ -355,12 +357,12 @@
                             android:layout_height="wrap_content">
 
                             <EditText
-                                android:id="@+id/etFacebook"
+                                android:id="@+id/profileTwitter"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/imageView6"
-                                android:layout_alignLeft="@+id/etTwitter"
-                                android:layout_alignStart="@+id/etTwitter"
+                                android:layout_alignLeft="@+id/profileTwitter"
+                                android:layout_alignStart="@+id/profileTwitter"
                                 android:ems="10"
                                 android:inputType="textEmailAddress"
                                 android:hint="Twitter"/>

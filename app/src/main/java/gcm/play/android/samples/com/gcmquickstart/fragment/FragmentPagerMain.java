@@ -4,12 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class FragmentPageAdapter extends FragmentPagerAdapter {
+public class FragmentPagerMain extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
 
     private String tabTitles[] = new String[]{"Chat", "Contacts"};
 
-    public FragmentPageAdapter(FragmentManager fm) {
+    public FragmentPagerMain(FragmentManager fm) {
         super(fm);
     }
 

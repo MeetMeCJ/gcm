@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
-                android:id="@+id/txtMessage"
+                android:id="@+id/itemMessage"
                 android:layout_centerVertical="true"
                 android:layout_alignLeft="@+id/itemName"
                 android:layout_alignStart="@+id/itemName" />
@@ -50,10 +50,11 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/txtConnection"
+                android:id="@+id/itemConnection"
                 android:layout_alignBottom="@+id/imgUser"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
