@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="5dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--Card view telefono - email-->
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingLeft="10dp"
+                app:contentPaddingRight="10dp"
+                app:contentPaddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="170dp"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgTelephone"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/telephone"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_telephone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Teléfono" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgEmail"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/envelope"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="E-mail" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <!--fin cardview telefono - email -->
+
+            <!-- cardview nacionalidad y  nacimiento -->
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingLeft="10dp"
+                app:contentPaddingRight="10dp"
+                app:contentPaddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgNationality"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/earth_grid"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_nationality"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/etNationality"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Nacionalidad" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/people"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true">
+
+                            <EditText
+                                android:id="@+id/etDate"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="Fecha Nacimiento"
+                                android:inputType="date" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <!--fin nacionalidad y nacimiento-->
+
+
+            <!-- cardview nick y descripcion-->
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingLeft="10dp"
+                app:contentPaddingRight="10dp"
+                app:contentPaddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgNick"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignBottom="@+id/input_nick"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:src="@drawable/price_tag"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_nick"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/imgNick"
+                            android:layout_toRightOf="@+id/imgNick">
+
+                            <EditText
+                                android:id="@+id/etNick"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Nick" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignTop="@+id/view"
+                            android:layout_toLeftOf="@+id/view"
+                            android:layout_toStartOf="@+id/view"
+                            android:src="@drawable/newspaper"
+                            android:layout_margin="5dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/view"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/imgNick"
+                                android:layout_toRightOf="@+id/imgNick">
+
+                                <EditText
+                                    android:id="@+id/etDescription"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Description" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/txtCounter2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@+id/view"
+                                android:paddingTop="10dp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_gravity="right" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <!--fin nick descripcion-->
+
+
+            <!-- redes sociales-->
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingLeft="10dp"
+                app:contentPaddingRight="10dp"
+                app:contentPaddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="170dp"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignLeft="@+id/imageView6"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignStart="@+id/imageView6"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/facebook"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/etTwitter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/imageView6"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:ems="10"
+                                android:inputType="textEmailAddress"
+                                android:hint="Facebook"/>
+
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/imageView5"
+                            android:src="@drawable/twitter"
+                            android:layout_margin="5dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/etFacebook"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/imageView6"
+                            android:layout_alignLeft="@+id/etTwitter"
+                            android:layout_alignStart="@+id/etTwitter"
+                            android:ems="10"
+                            android:inputType="textEmailAddress"
+                            android:hint="Twitter"/>
+
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <!-- fin cardview redes-->
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
