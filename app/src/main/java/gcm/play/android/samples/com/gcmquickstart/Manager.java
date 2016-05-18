@@ -1,6 +1,7 @@
 package gcm.play.android.samples.com.gcmquickstart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
+import gcm.play.android.samples.com.gcmquickstart.service.SyncContact;
 
 /**
  * Created by Admin on 20/04/2016.
@@ -35,12 +37,12 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 public class Manager {
     public static final String API_KEY = "AIzaSyCF2MH1r1DOBlF3Lz7ma1hNFEQVJldt71U";
 
-    public static void sendMessage(Context contexto,final String message, final String destination) {
+    public static void sendMessage(Context contexto, final String message, final String destination) {
         Log.v("ASDF", "EN EL CONVERSATION");
 
         SharedPreferences prefs = contexto.getSharedPreferences(contexto.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         final String ourToken = prefs.getString(contexto.getResources().getString(R.string.str_token), "");
-        final String ourTelephone =prefs.getString(contexto.getString(R.string.str_telephone),"");
+        final String ourTelephone = prefs.getString(contexto.getString(R.string.str_telephone), "");
 
         new AsyncTask() {
 
@@ -55,7 +57,7 @@ public class Manager {
                     JSONObject jData = new JSONObject();
                     jData.put("message", message);
                     jData.put("origin", ourToken);
-                    jData.put("telephone",ourTelephone);
+                    jData.put("telephone", ourTelephone);
                     // Where to send GCM message.
 
                     jGcmData.put("to", destination);
@@ -133,108 +135,101 @@ public class Manager {
         Log.v("ASDF", "Fin gestor ");
 
         if (prefs.getBoolean(c.getResources().getString(R.string.str_register), false))
-            Manager.syncContact(c);
+            c.startService(new Intent(c, SyncContact.class));
+        //Manager.syncContact(c);
     }
 
     public static void syncContact(final Context context) {
         Log.v("ASDF", "Sincornizando contactos");
-        List<Contact> listUser = getListContacts(context);
+        new AsyncTask() {
 
-        for (final Contact contact : listUser) {
-//            for (final String telephone : contact.getTelephone()) {
-//            new AsyncTask() {
-//
-//                @Override
-//                protected Object doInBackground(Object[] params) {
-            String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+            @Override
+            protected Object doInBackground(Object[] params) {
+                List<Contact> listUser = getListContacts(context);
 
-            URL url = null;
-            BufferedReader in = null;
-            String res = "";
+                for (final Contact telephoneContact : listUser) {
+                    String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
 
-            try {
-                //String destination = urlOrigin + "?op=consulta&accion=tlf&tlf=" + telephone.replace("+34", "").replace(" ", "");
-                String destination = urlOrigin + "?op=consulta&accion=tlf&tlf=" + contact.getTelephone().replace("+34", "").replace(" ", "");
-                Log.v("ASDF", "url " + destination);
-                url = new URL(destination);
-                in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String linea;
-
-                while ((linea = in.readLine()) != null) {
-                    res += linea;
-                }
-
-                in.close();
-                Log.v("ASDF", "json " + res);
-
-                if (!res.contains("false")) {
-                    Log.v("ASDF", "no es false");
-                    JSONObject obj = new JSONObject(res);
-                    Contact contactServer = Contact.getUsuario(obj.getJSONObject("r"));
-                    contactServer.setName(contact.getName());
-
-                    DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
-                    Dao dao;
-                    List<Contact> contacts = null;
+                    URL url = null;
+                    BufferedReader in = null;
+                    String res = "";
 
                     try {
-                        Log.v("ASDF", "antes del dao");
-                        dao = helper.getContactDao();
-                        contacts = dao.queryForAll();
+                        String destination = urlOrigin + "?op=consulta&accion=tlf&tlf=" + telephoneContact.getTelephone().replace("+34", "").replace(" ", "");
+                        Log.v("ASDF", "url " + destination);
+                        url = new URL(destination);
+                        in = new BufferedReader(new InputStreamReader(url.openStream()));
+                        String linea;
 
-                        if (!contacts.isEmpty()) {
-                            Log.v("ASDF", "Antes del for " + contacts.size());
-                            for (Contact currentContact : contacts) {
-                                //String telf = currentContact.getTelephone().get(0).replace(" ", "");
-                                String telf = currentContact.getTelephone().replace(" ", "");
-                                Long id = currentContact.getId();
+                        while ((linea = in.readLine()) != null) {
+                            res += linea;
+                        }
 
-                                //if (telf.contains(contactServer.getTelephone().get(0).toString())) {
-                                if (telf.contains(contactServer.getTelephone().toString())) {
-                                    dao.createOrUpdate(contactServer);
-                                    Log.v("ASDF", "sync update");
+                        in.close();
+                        Log.v("ASDF", "json " + res);
+
+                        if (!res.contains("false")) {
+                            Log.v("ASDF", "no es false");
+                            JSONObject obj = new JSONObject(res);
+                            Contact contactServer = Contact.getUsuario(obj.getJSONObject("r"));
+                            contactServer.setName(telephoneContact.getName());
+
+                            DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+                            Dao dao;
+                            List<Contact> contacts = null;
+
+                            try {
+                                Log.v("ASDF", "antes del dao");
+                                dao = helper.getContactDao();
+                                contacts = dao.queryForAll();
+
+                                if (!contacts.isEmpty()) {
+                                    Log.v("ASDF", "Antes del for " + contacts.size());
+                                    for (Contact currentContact : contacts) {
+                                        String telf = currentContact.getTelephone().replace(" ", "");
+                                        Long id = currentContact.getId();
+
+                                        if (telf.contains(contactServer.getTelephone().toString())) {
+                                            dao.update(contactServer);
+                                            Log.v("ASDF", "sync update");
+                                        } else {
+                                            dao.createOrUpdate(contactServer);
+                                            Log.v("ASDF", "sync insert");
+                                        }
+
+                                    }
                                 } else {
-                                    dao.create(contactServer);
+                                    dao.createOrUpdate(contactServer);
                                     Log.v("ASDF", "sync insert");
                                 }
-
+                                Log.v("ASDF", "fuera del if selfe");
+                            } catch (java.sql.SQLException e) {
+                                e.printStackTrace();
+                                Log.e("Helper", "Search user error");
                             }
-                        } else {
-                            dao.create(contactServer);
-                            Log.v("ASDF", "sync insert");
                         }
-                        Log.v("ASDF", "fuera del if selfe");
-                    } catch (java.sql.SQLException e) {
-                        e.printStackTrace();
-                        Log.e("Helper", "Search user error");
-                    }
-                }
-                Log.v("ASDF", "se duerme");
-                Thread.sleep(300);
+                        Log.v("ASDF", "se duerme");
+                        Thread.sleep(300);
 
-            } catch (MalformedURLException e) {
-                Log.e("ASDF", "error3 " + e.toString());
-            } catch (IOException e) {
-                Log.e("ASDF", "error4 " + e.toString());
-            } catch (JSONException e) {
-                Log.e("ASDF", "error5 " + e.toString());
-            } catch (InterruptedException e) {
-                Log.e("ASDF", "error6 " + e.toString());
+                    } catch (MalformedURLException e) {
+                        Log.e("ASDF", "error3 " + e.toString());
+                    } catch (IOException e) {
+                        Log.e("ASDF", "error4 " + e.toString());
+                    } catch (JSONException e) {
+                        Log.e("ASDF", "error5 " + e.toString());
+                    } catch (InterruptedException e) {
+                        Log.e("ASDF", "error6 " + e.toString());
+                    }
+
+
+                }
+                return null;
             }
 
-//                    return null;
-//                }
-//
-//                @Override
-//                protected void onPostExecute(Object o) {
-//                    super.onPostExecute(o);
-//                    Log.v("ASDF", "Fin sincornizando contactos");
-//                }
-//            }.execute(null, null, null);
-//            }
-        }
 
+        }.execute(null, null, null);
     }
+
 
     public static List<Contact> getListContacts(Context contexto) {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;

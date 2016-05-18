@@ -35,6 +35,10 @@
             android:name=".ConversationActivity"
             android:label="@string/title_activity_conversation"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ProfileUserActivity"
+            android:label="@string/title_activity_profile_user"
+            android:theme="@style/AppTheme"></activity>
 
         <!-- *********************************************** -->
 
@@ -71,15 +75,15 @@
             </intent-filter>
         </service>
         <!-- [END instanceId_listener] -->
+        <service
+            android:name=".service.SyncContact"
+            android:exported="false" />
 
         <service
             android:name=".service.RegistrationIntentService"
             android:exported="false" />
 
-        <activity
-            android:name=".ProfileUserActivity"
-            android:label="@string/title_activity_profile_user"
-            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

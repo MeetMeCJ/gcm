@@ -2,6 +2,7 @@ package gcm.play.android.samples.com.gcmquickstart;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPagerMain;
+import gcm.play.android.samples.com.gcmquickstart.service.SyncContact;
 
 /**
  * Created by Admin on 20/04/2016.
@@ -43,17 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.menu_main_sync:
+                startService(new Intent(this, SyncContact.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
