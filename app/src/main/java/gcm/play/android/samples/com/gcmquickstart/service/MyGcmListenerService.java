@@ -37,68 +37,42 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        DBHelper helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
+
         String message = data.getString("message");
         String tokenSender = data.getString("origin");
+        String telephoneSender = data.getString("telephone");
+
         Log.d(TAG, getBaseContext().getString(R.string.str_tag_from) + tokenSender);
         Log.d(TAG, getBaseContext().getString(R.string.str_tag_message) + message);
 
 
         if (from.startsWith("/topics/")) {
-            // message received from some topic.
         } else {
-            // normal downstream message.
         }
 
-        /**
-         * Production applications would usually process the message here.
-         * Eg: - Syncing with server.
-         *     - Store message in local database.
-         *     - Update UI.
-         */
-        DBHelper helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
-        Dao dao;
-        List<Contact> contact = null;
+        Contact contact = null;
         String personORtlf = "";
 
-        /**
-         * Lanzamos notificacion, para ello vemos si esta guardado o no
-         */
-        try {
-            dao = helper.getContactDao();
-            contact = dao.queryForEq(Contact.TOKEN, tokenSender);
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-            Log.e("Helper", "Search user error");
-        }
+        contact = searchByToken(helper, tokenSender);
 
-        if (!contact.isEmpty())
-            if (!contact.get(0).getName().isEmpty())
-                personORtlf = contact.get(0).getName();
+
+        if (contact != null)
+            if (!contact.getName().isEmpty())
+                personORtlf = contact.getName();
             else
-                personORtlf = contact.get(0).getTelephone();
-                //personORtlf = contact.get(0).getTelephone().get(0);
-        else
-            personORtlf = "Unknow";
-        if(tokenSender.contains("topics")){
-            sendNotification(from, message,tokenSender);
+                personORtlf = contact.getTelephone();
+        else {
+            contact = searchByTelephone(helper, telephoneSender);
+            if (contact == null)
+                registerContact(helper, tokenSender, telephoneSender);
+            personORtlf = contact.getTelephone();
         }
 
-        sendNotification(personORtlf, message,tokenSender);
+        sendNotification(personORtlf, message, tokenSender);
 
 
-        /**
-         * Guardamos en la base de datos el mensaje
-         * */
-        Date hoy = new Date();
-        try {
-            dao = helper.getChatDao();
-            Chat user = new Chat(message, tokenSender, tokenSender, hoy.getDay() + "/" + hoy.getMonth() + "/" + (1900 + hoy.getYear()), hoy.getHours() + ":" + hoy.getMinutes());
-            dao.create(user);
-        } catch (SQLException e) {
-            Log.e("Helper", "Create user ERROR");
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
+        registerMessage(helper, message, tokenSender);
 
         /**
          * Liberamos al ayudante
@@ -114,7 +88,7 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String from, String message,String token) {
+    private void sendNotification(String from, String message, String token) {
         Intent intent = new Intent(this, ConversationActivity.class);
         intent.putExtra(getString(R.string.str_token), token);
 
@@ -135,5 +109,76 @@ public class MyGcmListenerService extends GcmListenerService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    /**
+     * Registra un contacto nuevo o actualiza una ya existente.
+     * @param helper
+     * @param tokenSender
+     * @param telephoneSender
+     */
+    public void registerContact(DBHelper helper, String tokenSender, String telephoneSender) {
+        try {
+            Dao dao = helper.getContactDao();
+
+            Contact newContact = new Contact();
+            newContact.setTelephone(telephoneSender);
+            newContact.setToken(tokenSender);
+
+            dao.createOrUpdate(newContact);
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Guardamos en la base de datos el mensaje
+     */
+    public void registerMessage(DBHelper helper, String message, String tokenSender) {
+        Date hoy = new Date();
+        try {
+            Dao dao = helper.getChatDao();
+            Chat user = new Chat(message, tokenSender, tokenSender, hoy.getDay() + "/" + hoy.getMonth() + "/" + (1900 + hoy.getYear()), hoy.getHours() + ":" + hoy.getMinutes());
+            dao.create(user);
+        } catch (SQLException e) {
+            Log.e("Helper", "Create user ERROR");
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Contact searchByToken(DBHelper helper, String tokenSender) {
+        List<Contact> contacts = null;
+        Contact contact = null;
+        try {
+            Dao dao = helper.getContactDao();
+            contacts = dao.queryForEq(Contact.TOKEN, tokenSender);
+
+            if (!contacts.isEmpty())
+                contact = contacts.get(1);
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
+        }
+        return contact;
+    }
+
+    public Contact searchByTelephone(DBHelper helper, String telephoneSender) {
+        List<Contact> contacts = null;
+        Contact contact = null;
+        try {
+            Dao dao = helper.getContactDao();
+            contacts = dao.queryForEq(Contact.TELEPHONE, telephoneSender);
+
+            if (!contacts.isEmpty())
+                contact = contacts.get(1);
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
+        }
+        return contact;
     }
 }

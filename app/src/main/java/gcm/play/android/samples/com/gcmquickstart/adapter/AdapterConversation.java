@@ -78,10 +78,9 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
             if (chat.getTokensender().equals(chat.getTokenconversation())) {
                 linearLayout.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.shape_conversation_message_other));
                 itemConversationParent.setGravity(Gravity.START);
-                linearLayout.setGravity(Gravity.START);
             } else {
                 linearLayout.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.shape_conversation_message_myself));
-                linearLayout.setGravity(Gravity.END);
+                itemConversationParent.setGravity(Gravity.END);
             }
             txtMessage.setText(chat.getMessage());
             txtConnection.setText(chat.getTime());

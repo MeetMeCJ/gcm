@@ -33,16 +33,14 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
  * Created by Admin on 20/04/2016.
  */
 public class Manager {
-    public static final String API_KEY = "AIzaSyBOWMgkVq6efI1uZQsL_wcGZeHK5bBea1k";
-    public static final String API_KEY2 = "AIzaSyCJ6bdwAGSiGVpJfvqQVFlnIxGAdDXO7gM";
-    public static final String API_KEY3 = "AIzaSyDGfemBxn5VyoWjxVGBXhUPgQBhPVGfRd8";
+    public static final String API_KEY = "AIzaSyCF2MH1r1DOBlF3Lz7ma1hNFEQVJldt71U";
 
-    public static void sendMessage(Context c, final String message, final String destination) {
+    public static void sendMessage(Context contexto,final String message, final String destination) {
+        Log.v("ASDF", "EN EL CONVERSATION");
 
-        Log.v("ASDF","EN EL MANAGER");
-
-        SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        final String ourToken = prefs.getString(c.getResources().getString(R.string.str_token), "");
+        SharedPreferences prefs = contexto.getSharedPreferences(contexto.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+        final String ourToken = prefs.getString(contexto.getResources().getString(R.string.str_token), "");
+        final String ourTelephone =prefs.getString(contexto.getString(R.string.str_telephone),"");
 
         new AsyncTask() {
 
@@ -57,9 +55,11 @@ public class Manager {
                     JSONObject jData = new JSONObject();
                     jData.put("message", message);
                     jData.put("origin", ourToken);
+                    jData.put("telephone",ourTelephone);
                     // Where to send GCM message.
 
                     jGcmData.put("to", destination);
+                    //jGcmData.put("to", "/topics/global");
 
                     // What to send in GCM message.
                     jGcmData.put("data", jData);
@@ -67,8 +67,9 @@ public class Manager {
                     // Create connection to send GCM Message request.
                     //URL url = new URL("https://android.googleapis.com/gcm/send");
                     URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
+                    Log.v("ASDF", url.toString());
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestProperty("Authorization", "key=" + API_KEY2);
+                    conn.setRequestProperty("Authorization", "key=" + API_KEY);
                     conn.setRequestProperty("Content-Type", "application/json");
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);

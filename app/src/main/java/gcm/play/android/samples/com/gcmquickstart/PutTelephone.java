@@ -86,7 +86,6 @@ public class PutTelephone extends AppCompatActivity {
             editor.putString(getResources().getString(R.string.str_telephone), telephone.getText().toString());
             editor.commit();
 
-            // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
