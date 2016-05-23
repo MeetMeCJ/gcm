@@ -86,7 +86,7 @@ public class FragmentMain extends Fragment {
             Chat preChat = null;
             for (Chat chat : chats) {
                 if (preChat != null) {
-                    if (!preChat.getTokensender().equals(chat.getTokensender())) {
+                    if (!preChat.getTokenconversation().equals(chat.getTokenconversation())) {
                         lista.add(chat);
                         preChat = chat;
                     }

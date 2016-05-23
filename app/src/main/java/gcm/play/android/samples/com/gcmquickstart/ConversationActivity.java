@@ -111,7 +111,7 @@ public class ConversationActivity extends AppCompatActivity {
         mConversationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.v("ASDF", "reciver");
+                helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
                 adapterConversation = null;
                 try {
                     Dao dao = helper.getChatDao();
