@@ -1,8 +1,13 @@
 package gcm.play.android.samples.com.gcmquickstart;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +19,15 @@ import android.widget.EditText;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +51,11 @@ public class ConversationActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterConversation adapterConversation;
 
+    private BroadcastReceiver mConversationBroadcastReceiver;
+
     private Toolbar toolbar;
+
+    private boolean registerReciver = false;
 
     private SharedPreferences preferences;
 
@@ -45,7 +63,7 @@ public class ConversationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbarConversation);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -57,6 +75,7 @@ public class ConversationActivity extends AppCompatActivity {
         preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
 
         token = (String) getIntent().getExtras().get(getString(R.string.str_token));
+
         myText = (EditText) findViewById(R.id.conversation_editText);
 
         helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
@@ -80,9 +99,6 @@ public class ConversationActivity extends AppCompatActivity {
             Log.e("Helper", "Search user error");
         }
 
-//        if (messages != null || !messages.isEmpty())
-//            write();
-
         adapterConversation = new AdapterConversation(messages);
 
         recyclerView = (RecyclerView) findViewById(R.id.conversationRecycler);
@@ -90,11 +106,51 @@ public class ConversationActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.scrollToPosition(messages.size() - 1);
+
+
+        mConversationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.v("ASDF", "reciver");
+                adapterConversation = null;
+                try {
+                    Dao dao = helper.getChatDao();
+                    messages = dao.queryForEq(Chat.CONVERSATION, token);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                adapterConversation = new AdapterConversation(messages);
+
+                recyclerView.setAdapter(adapterConversation);
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.scrollToPosition(messages.size() - 1);
+            }
+        };
+
+        // Registering BroadcastReceiver
+        registerReceiver();
+    }
+
+    private void registerReceiver() {
+        if (!registerReciver) {
+
+            Log.v("ASDF", "lo registra");
+            LocalBroadcastManager.getInstance(this).registerReceiver(mConversationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.CONVERSATION));
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(getResources().getString(R.string.str_register_broadcast), true);
+            editor.commit();
+
+            registerReciver = true;
+        }
     }
 
     public void conversationSend(View v) {
         if (!myText.getText().toString().isEmpty() && !myText.getText().toString().trim().equals("")) {
-            Manager.sendMessage(this, myText.getText().toString(), token);
+            //Manager.sendMessage(this, myText.getText().toString(), token);
+            sendMessage(myText.getText().toString(), token);
             Dao dao;
             try {
                 dao = helper.getChatDao();
@@ -126,13 +182,84 @@ public class ConversationActivity extends AppCompatActivity {
         recyclerView.scrollToPosition(messages.size() - 1);
     }
 
+    public void sendMessage(final String message, final String destination) {
+
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+        final String ourToken = prefs.getString(getResources().getString(R.string.str_token), "");
+        final String ourTelephone = prefs.getString(getString(R.string.str_telephone), "");
+
+        new AsyncTask() {
+
+            private String aux;
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    Log.v("ASDF", "empieza la hebra a mandar un msg");
+                    // Prepare JSON containing the GCM message content. What to send and where to send.
+                    JSONObject jGcmData = new JSONObject();
+                    JSONObject jData = new JSONObject();
+                    jData.put("message", message);
+                    jData.put("origin", ourToken);
+                    jData.put("telephone", ourTelephone);
+                    // Where to send GCM message.
+
+                    jGcmData.put("to", destination);
+                    //jGcmData.put("to", "/topics/global");
+
+                    // What to send in GCM message.
+                    jGcmData.put("data", jData);
+
+                    // Create connection to send GCM Message request.
+                    //URL url = new URL("https://android.googleapis.com/gcm/send");
+                    URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
+                    Log.v("ASDF", url.toString());
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestProperty("Authorization", "key=" + API_KEY);
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+
+                    // Send GCM message content.
+                    OutputStream outputStream = conn.getOutputStream();
+                    outputStream.write(jGcmData.toString().getBytes());
+
+                    // Read GCM response.
+                    InputStream inputStream = conn.getInputStream();
+                    String resp = IOUtils.toString(inputStream);
+                    System.out.println(resp);
+
+                    Log.v("ASDF", "respuesta " + resp);
+                    Log.v("ASDF", "lo manda");
+
+
+                } catch (IOException e) {
+                    Log.v("ASDF", "error " + e.toString());
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    Log.v("ASDF", "error2 " + e.toString());
+                    e.printStackTrace();
+                }
+                return "";
+            }
+        }.execute(null, null, null);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
+        Log.v("ASDF", "lo desregistra");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mConversationBroadcastReceiver);
         if (helper != null) {
             OpenHelperManager.releaseHelper();
             helper = null;
         }
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(getResources().getString(R.string.str_register_broadcast), false);
+        editor.commit();
+
+        registerReciver = false;
     }
 
 }

@@ -28,6 +28,7 @@
     <!-- Manager -->
     <string name="str_telephone">telefono</string>
     <string name="str_token">token</string>
+    <string name="str_register_broadcast">registerBroadcast</string>
     <string name="str_register">registrar</string>
     <!-- -->
 

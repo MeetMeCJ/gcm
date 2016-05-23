@@ -4,11 +4,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
@@ -19,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.ConversationActivity;
+import gcm.play.android.samples.com.gcmquickstart.QuickstartPreferences;
 import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
@@ -69,7 +72,15 @@ public class MyGcmListenerService extends GcmListenerService {
             personORtlf = contact.getTelephone();
         }
 
-        sendNotification(personORtlf, message, tokenSender);
+        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+
+        if (preferences.getBoolean(getResources().getString(R.string.str_register_broadcast), false)) {
+            Intent registrationComplete = new Intent(QuickstartPreferences.CONVERSATION);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+        } else {
+            sendNotification(personORtlf, message, tokenSender);
+
+        }
 
 
         registerMessage(helper, message, tokenSender);
@@ -113,6 +124,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
     /**
      * Registra un contacto nuevo o actualiza una ya existente.
+     *
      * @param helper
      * @param tokenSender
      * @param telephoneSender
@@ -155,8 +167,8 @@ public class MyGcmListenerService extends GcmListenerService {
             Dao dao = helper.getContactDao();
             contacts = dao.queryForEq(Contact.TOKEN, tokenSender);
 
-            if (!contacts.isEmpty())
-                contact = contacts.get(1);
+            if (!contacts.isEmpty() || contact != null)
+                contact = contacts.get(0);
 
         } catch (java.sql.SQLException e) {
             e.printStackTrace();

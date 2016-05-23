@@ -24,10 +24,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 import gcm.play.android.samples.com.gcmquickstart.service.SyncContact;
 
@@ -38,7 +40,6 @@ public class Manager {
     public static final String API_KEY = "AIzaSyCF2MH1r1DOBlF3Lz7ma1hNFEQVJldt71U";
 
     public static void sendMessage(Context contexto, final String message, final String destination) {
-        Log.v("ASDF", "EN EL CONVERSATION");
 
         SharedPreferences prefs = contexto.getSharedPreferences(contexto.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         final String ourToken = prefs.getString(contexto.getResources().getString(R.string.str_token), "");
@@ -179,36 +180,42 @@ public class Manager {
                             List<Contact> contacts = null;
 
                             try {
-                                Log.v("ASDF", "antes del dao");
                                 dao = helper.getContactDao();
                                 contacts = dao.queryForAll();
 
                                 if (!contacts.isEmpty()) {
-                                    Log.v("ASDF", "Antes del for " + contacts.size());
                                     for (Contact currentContact : contacts) {
                                         String telf = currentContact.getTelephone().replace(" ", "");
                                         Long id = currentContact.getId();
 
                                         if (telf.contains(contactServer.getTelephone().toString())) {
-                                            dao.update(contactServer);
-                                            Log.v("ASDF", "sync update");
+                                            Log.v("ASDF","antes "+currentContact.toString());
+                                            updateChat(currentContact, contactServer, helper);
+
+                                            currentContact.setToken(contactServer.getToken());
+                                            currentContact.setDescription(contactServer.getDescription());
+                                            currentContact.setLastconnection(contactServer.getLastconnection());
+                                            currentContact.setNick(contactServer.getNick());
+                                            currentContact.setPrivacy(contactServer.getPrivacy());
+                                            currentContact.setSeeconnection(contactServer.getSeeconnection());
+
+                                            Log.v("ASDF","despues "+currentContact.toString());
+
+
+                                            dao.update(currentContact);
                                         } else {
-                                            dao.createOrUpdate(contactServer);
-                                            Log.v("ASDF", "sync insert");
+                                            dao.create(contactServer);
                                         }
 
                                     }
                                 } else {
                                     dao.createOrUpdate(contactServer);
-                                    Log.v("ASDF", "sync insert");
                                 }
-                                Log.v("ASDF", "fuera del if selfe");
                             } catch (java.sql.SQLException e) {
                                 e.printStackTrace();
                                 Log.e("Helper", "Search user error");
                             }
                         }
-                        Log.v("ASDF", "se duerme");
                         Thread.sleep(300);
 
                     } catch (MalformedURLException e) {
@@ -228,6 +235,17 @@ public class Manager {
 
 
         }.execute(null, null, null);
+    }
+
+    public static void updateChat(Contact currentContact, Contact contactServer, DBHelper helper) throws SQLException {
+        Dao dao = helper.getChatDao();
+        List<Chat> listChat = dao.queryForEq(Chat.CONVERSATION, currentContact.getToken());
+        for (Chat currentChat : listChat) {
+            currentChat.setTokensender(contactServer.getToken());
+            currentChat.setTokenconversation(contactServer.getToken());
+            dao.update(currentChat);
+        }
+
     }
 
 
