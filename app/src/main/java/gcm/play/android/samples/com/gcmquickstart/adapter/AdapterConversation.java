@@ -19,7 +19,7 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 /**
  * Created by Admin on 17/05/2016.
  */
-public class AdapterConversation extends RecyclerView.Adapter<AdapterConversation.ViewHolderAdaptador> {
+public class AdapterConversation extends RecyclerView.Adapter<AdapterConversation.ViewHolderAdaptador>{
 
     private List<Chat> chats;
 

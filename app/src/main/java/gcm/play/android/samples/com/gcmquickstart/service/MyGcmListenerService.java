@@ -69,6 +69,8 @@ public class MyGcmListenerService extends GcmListenerService {
             contact = searchByTelephone(helper, telephoneSender);
             if (contact == null)
                 registerContact(helper, tokenSender, telephoneSender);
+            else
+                updateContact(helper, tokenSender, contact);
             personORtlf = contact.getTelephone();
         }
 
@@ -160,6 +162,44 @@ public class MyGcmListenerService extends GcmListenerService {
         }
     }
 
+
+    /**
+     * Actualizamos el token del usuario y de los mensajes en caso de encontrar algun usuario por el telefono
+     * pero no por el token.
+     * @param helper
+     * @param tokenSender
+     * @param contact
+     */
+    public void updateContact(DBHelper helper, String tokenSender, Contact contact) {
+        String oldToeken = "";
+        try {
+            Dao dao = helper.getContactDao();
+            oldToeken = contact.getToken();
+            contact.setToken(tokenSender);
+
+            dao.update(contact);
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Dao dao = helper.getChatDao();
+            List<Chat> listChat = dao.queryForEq(Chat.CONVERSATION, oldToeken);
+            for (Chat currentChat : listChat) {
+                currentChat.setTokenconversation(tokenSender);
+
+                if (currentChat.getTokensender().equals(oldToeken))
+                    currentChat.setTokensender(tokenSender);
+
+                dao.update(currentChat);
+            }
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public Contact searchByToken(DBHelper helper, String tokenSender) {
         List<Contact> contacts = null;
         Contact contact = null;
@@ -185,7 +225,7 @@ public class MyGcmListenerService extends GcmListenerService {
             contacts = dao.queryForEq(Contact.TELEPHONE, telephoneSender);
 
             if (!contacts.isEmpty())
-                contact = contacts.get(1);
+                contact = contacts.get(0);
 
         } catch (java.sql.SQLException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package gcm.play.android.samples.com.gcmquickstart.pojo;
 
-import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -25,6 +24,11 @@ public class Contact implements Parcelable {
     public static final String DESCRIPTION = "description";
     public static final String LASTCONNECTION = "lastconnection";
     public static final String SEECONNECTION = "seeconnection";
+    public static final String FACEBOOK = "facebook";
+    public static final String TWITTER = "twitter";
+    public static final String EMAIL = "email";
+    public static final String BIRTH = "birth";
+    public static final String NATIONALITY = "nationality";
     public static final String PRIVACY = "privacy";
 
     @DatabaseField(generatedId = true, columnName = ID)
@@ -51,14 +55,29 @@ public class Contact implements Parcelable {
     @DatabaseField(columnName = SEECONNECTION)
     private String seeconnection;
 
+    @DatabaseField(columnName = FACEBOOK)
+    private String facebook;
+
+    @DatabaseField(columnName = TWITTER)
+    private String twitter;
+
+    @DatabaseField(columnName = EMAIL)
+    private String email;
+
+    @DatabaseField(columnName = BIRTH)
+    private String nacimiento;
+
+    @DatabaseField(columnName = NATIONALITY)
+    private String nacionalidad;
+
     @DatabaseField(columnName = PRIVACY)
     private String privacy;
 
-    public Contact() {
 
+    public Contact() {
     }
 
-    public Contact(Long id, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
+    public Contact(Long id, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String facebook, String twitter, String email, String nacimiento, String nacionalidad, String privacy) {
         this.id = id;
         this.name = name;
         this.nick = nick;
@@ -67,10 +86,16 @@ public class Contact implements Parcelable {
         this.description = description;
         this.lastconnection = lastconnection;
         this.seeconnection = seeconnection;
+        this.facebook = facebook;
+        this.twitter = twitter;
+        this.email = email;
+        this.nacimiento = nacimiento;
+        this.nacionalidad = nacionalidad;
         this.privacy = privacy;
     }
 
-    public Contact(String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String privacy) {
+    public Contact(String privacy, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String facebook, String twitter, String email, String nacimiento, String nacionalidad) {
+        this.privacy = privacy;
         this.name = name;
         this.nick = nick;
         this.telephone = telephone;
@@ -78,7 +103,11 @@ public class Contact implements Parcelable {
         this.description = description;
         this.lastconnection = lastconnection;
         this.seeconnection = seeconnection;
-        this.privacy = privacy;
+        this.facebook = facebook;
+        this.twitter = twitter;
+        this.email = email;
+        this.nacimiento = nacimiento;
+        this.nacionalidad = nacionalidad;
     }
 
     protected Contact(Parcel in) {
@@ -89,6 +118,11 @@ public class Contact implements Parcelable {
         description = in.readString();
         lastconnection = in.readString();
         seeconnection = in.readString();
+        facebook = in.readString();
+        twitter = in.readString();
+        email = in.readString();
+        nacimiento = in.readString();
+        nacionalidad = in.readString();
         privacy = in.readString();
     }
 
@@ -103,6 +137,46 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNacimiento() {
+        return nacimiento;
+    }
+
+    public void setNacimiento(String nacimiento) {
+        this.nacimiento = nacimiento;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
 
     public Long getId() {
         return id;
@@ -176,67 +250,68 @@ public class Contact implements Parcelable {
         this.privacy = privacy;
     }
 
-    public static Contact getUsuario(JSONObject json) {
-        Contact u = new Contact();
+    public void getUsuario(JSONObject json) {
         try {
             ArrayList<String> telephones = new ArrayList<>();
             telephones.add(json.getInt("telephone") + "");
-            
-            u.setDescription(json.getString("description"));
-            u.setNick(json.getString("nick"));
-            u.setPrivacy(json.getString("privacy"));
-            u.setTelephone(telephones.get(0));
-            u.setToken(json.getString("token"));
-            u.setLastconnection(json.getString("last"));
-            u.setSeeconnection(json.getString("see"));
+
+            setDescription(json.getString("description"));
+            setNick(json.getString("nick"));
+            setPrivacy(json.getString("privacy"));
+            setTelephone(telephones.get(0));
+            setToken(json.getString("token"));
+            setLastconnection(json.getString("last"));
+            setSeeconnection(json.getString("see"));
+            setTwitter(json.getString("twitter"));
+            setFacebook(json.getString("facebook"));
+            setEmail(json.getString("email"));
+            setNacionalidad(json.getString("nationality"));
+            setNacimiento(json.getString("birth"));
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return u;
     }
 
     public JSONObject getJSON() {
         JSONObject result = new JSONObject();
         try {
+            result.put("name", name);
             result.put("token", token);
             result.put("telephone", telephone);
             result.put("nick", nick);
             result.put("description", description);
             result.put("last", lastconnection);
-            result.put("see", seeconnection);
             result.put("privacy", privacy);
+            result.put("see", seeconnection);
+            result.put("facebook", facebook);
+            result.put("twitter", twitter);
+            result.put("email", email);
+            result.put("nationality", nacionalidad);
+            result.put("birth", nacimiento);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    public ContentValues getContentValue() {
-        ContentValues cv = new ContentValues();
-
-        cv.put(NAME, name);
-        cv.put(TOKEN, token);
-        cv.put(TELEPHONE, telephone);
-        cv.put(DESCRIPTION, description);
-        cv.put(NICK, nick);
-        cv.put(PRIVACY, privacy);
-        cv.put(LASTCONNECTION, lastconnection);
-        cv.put(SEECONNECTION, seeconnection);
-
-        return cv;
-    }
-
-
     @Override
     public String toString() {
         return "Contact{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", nick='" + nick + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", token='" + token + '\'' +
                 ", description='" + description + '\'' +
                 ", lastconnection='" + lastconnection + '\'' +
                 ", seeconnection='" + seeconnection + '\'' +
+                ", facebook='" + facebook + '\'' +
+                ", twitter='" + twitter + '\'' +
+                ", email='" + email + '\'' +
+                ", nacimiento='" + nacimiento + '\'' +
+                ", nacionalidad='" + nacionalidad + '\'' +
                 ", privacy='" + privacy + '\'' +
                 '}';
     }
@@ -255,6 +330,11 @@ public class Contact implements Parcelable {
         dest.writeString(description);
         dest.writeString(lastconnection);
         dest.writeString(seeconnection);
+        dest.writeString(facebook);
+        dest.writeString(twitter);
+        dest.writeString(email);
+        dest.writeString(nacimiento);
+        dest.writeString(nacionalidad);
         dest.writeString(privacy);
     }
 }

@@ -119,7 +119,7 @@ public class Manager {
         BufferedReader in = null;
 
         try {
-            String destination = urlOrigin + "?op=alta&accion=registrar&tlf=" + tlf + "&token=" + token;
+            String destination = urlOrigin + "?op=alta&action=registrar&tlf=" + tlf + "&token=" + token;
             Log.v("ASDF", "url " + destination);
             url = new URL(destination);
             in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -156,7 +156,7 @@ public class Manager {
                     String res = "";
 
                     try {
-                        String destination = urlOrigin + "?op=consulta&accion=tlf&tlf=" + telephoneContact.getTelephone().replace("+34", "").replace(" ", "");
+                        String destination = urlOrigin + "?op=consulta&action=tlf&tlf=" + telephoneContact.getTelephone().replace("+34", "").replace(" ", "");
                         Log.v("ASDF", "url " + destination);
                         url = new URL(destination);
                         in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -172,7 +172,8 @@ public class Manager {
                         if (!res.contains("false")) {
                             Log.v("ASDF", "no es false");
                             JSONObject obj = new JSONObject(res);
-                            Contact contactServer = Contact.getUsuario(obj.getJSONObject("r"));
+                            Contact contactServer = new Contact();
+                            contactServer.getUsuario(obj.getJSONObject("r"));
                             contactServer.setName(telephoneContact.getName());
 
                             DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
@@ -188,19 +189,21 @@ public class Manager {
                                         String telf = currentContact.getTelephone().replace(" ", "");
                                         Long id = currentContact.getId();
 
+                                        Log.v("ASDF", "" + contactServer.toString());
                                         if (telf.contains(contactServer.getTelephone().toString())) {
-                                            Log.v("ASDF","antes "+currentContact.toString());
                                             updateChat(currentContact, contactServer, helper);
 
+                                            currentContact.setNick(contactServer.getNick());
                                             currentContact.setToken(contactServer.getToken());
                                             currentContact.setDescription(contactServer.getDescription());
                                             currentContact.setLastconnection(contactServer.getLastconnection());
-                                            currentContact.setNick(contactServer.getNick());
-                                            currentContact.setPrivacy(contactServer.getPrivacy());
                                             currentContact.setSeeconnection(contactServer.getSeeconnection());
-
-                                            Log.v("ASDF","despues "+currentContact.toString());
-
+                                            currentContact.setPrivacy(contactServer.getPrivacy());
+                                            currentContact.setFacebook(contactServer.getFacebook());
+                                            currentContact.setTwitter(contactServer.getTwitter());
+                                            currentContact.setEmail(contactServer.getEmail());
+                                            currentContact.setNacimiento(contactServer.getNacimiento());
+                                            currentContact.setNacionalidad(contactServer.getNacionalidad());
 
                                             dao.update(currentContact);
                                         } else {
@@ -245,7 +248,75 @@ public class Manager {
             currentChat.setTokenconversation(contactServer.getToken());
             dao.update(currentChat);
         }
+    }
 
+    public static void updateContact(final Context context, final Contact contact) {
+        new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+                Dao dao = null;
+                try {
+                    dao = helper.getContactDao();
+
+                    List<Contact> listContact = dao.queryForEq(Contact.TELEPHONE, contact.getTelephone());
+                    Contact currentContact = listContact.get(0);
+                    String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+
+                    URL url = null;
+                    BufferedReader in = null;
+                    String res = "";
+
+                    try {
+                        String destination = urlOrigin + "?op=consulta&action=tlf&tlf=" + contact.getTelephone().replace("+34", "").replace(" ", "");
+                        Log.v("ASDF", "url " + destination);
+                        url = new URL(destination);
+                        in = new BufferedReader(new InputStreamReader(url.openStream()));
+                        String linea;
+
+                        while ((linea = in.readLine()) != null) {
+                            res += linea;
+                        }
+
+                        in.close();
+                        Log.v("ASDF", "json " + res);
+
+                        if (!res.contains("false")) {
+                            JSONObject obj = new JSONObject(res);
+                            Contact contactServer = new Contact();
+                            contactServer.getUsuario(obj.getJSONObject("r"));
+
+                            currentContact.setNick(contactServer.getNick());
+                            currentContact.setToken(contactServer.getToken());
+                            currentContact.setDescription(contactServer.getDescription());
+                            currentContact.setLastconnection(contactServer.getLastconnection());
+                            currentContact.setSeeconnection(contactServer.getSeeconnection());
+                            currentContact.setPrivacy(contactServer.getPrivacy());
+                            currentContact.setFacebook(contactServer.getFacebook());
+                            currentContact.setTwitter(contactServer.getTwitter());
+                            currentContact.setEmail(contactServer.getEmail());
+                            currentContact.setNacimiento(contactServer.getNacimiento());
+                            currentContact.setNacionalidad(contactServer.getNacionalidad());
+
+                            dao.update(currentContact);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }
+
+                .
+
+                        execute();
     }
 
 

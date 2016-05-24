@@ -44,6 +44,8 @@ public class ConversationActivity extends AppCompatActivity {
 
     private EditText myText;
 
+    private Contact contact;
+
     private String token;
 
     private List<Chat> messages;
@@ -74,70 +76,31 @@ public class ConversationActivity extends AppCompatActivity {
     public void ini() {
         preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
 
-        token = (String) getIntent().getExtras().get(getString(R.string.str_token));
+        contact = (Contact) getIntent().getExtras().get(getString(R.string.str_token));
+
+        token=contact.getToken();
 
         myText = (EditText) findViewById(R.id.conversation_editText);
 
-        helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
 
-        Dao dao;
-        try {
-            dao = helper.getChatDao();
-            messages = dao.queryForEq(Chat.CONVERSATION, token);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Log.e("Helper", "Search user error");
-        }
-        Contact contact;
-        try {
-            dao = helper.getContactDao();
-//            contact = (Contact) dao.queryForEq(Contact.TOKEN, token);
-//            toolbar.setTitle(contact.getName());
-            toolbar.setTitle("Carmen");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Log.e("Helper", "Search user error");
-        }
-
-        adapterConversation = new AdapterConversation(messages);
-
-        recyclerView = (RecyclerView) findViewById(R.id.conversationRecycler);
-        recyclerView.setAdapter(adapterConversation);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.scrollToPosition(messages.size() - 1);
+        updateList();
 
 
         mConversationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
-                adapterConversation = null;
-                try {
-                    Dao dao = helper.getChatDao();
-                    messages = dao.queryForEq(Chat.CONVERSATION, token);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                adapterConversation = new AdapterConversation(messages);
-
-                recyclerView.setAdapter(adapterConversation);
-
-                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
-                recyclerView.scrollToPosition(messages.size() - 1);
+                updateList();
             }
         };
 
-        // Registering BroadcastReceiver
         registerReceiver();
     }
 
     private void registerReceiver() {
         if (!registerReciver) {
 
-            Log.v("ASDF", "lo registra");
             LocalBroadcastManager.getInstance(this).registerReceiver(mConversationBroadcastReceiver,
-                    new IntentFilter(QuickstartPreferences.CONVERSATION));
+            new IntentFilter(QuickstartPreferences.CONVERSATION));
 
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(getResources().getString(R.string.str_register_broadcast), true);
@@ -245,10 +208,16 @@ public class ConversationActivity extends AppCompatActivity {
         }.execute(null, null, null);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateList();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        Log.v("ASDF", "lo desregistra");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mConversationBroadcastReceiver);
         if (helper != null) {
             OpenHelperManager.releaseHelper();
@@ -260,6 +229,37 @@ public class ConversationActivity extends AppCompatActivity {
         editor.commit();
 
         registerReciver = false;
+    }
+
+    public void updateList() {
+        helper = OpenHelperManager.getHelper(getBaseContext(), DBHelper.class);
+
+        Dao dao;
+        try {
+            dao = helper.getChatDao();
+            messages = dao.queryForEq(Chat.CONVERSATION, token);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
+        }
+
+        Contact contact;
+        try {
+            dao = helper.getContactDao();
+            contact = (Contact) dao.queryForEq(Contact.TOKEN, token).get(0);
+            toolbar.setTitle(contact.getName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
+        }
+
+        adapterConversation = new AdapterConversation(messages);
+
+        recyclerView = (RecyclerView) findViewById(R.id.conversationRecycler);
+        recyclerView.setAdapter(adapterConversation);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.scrollToPosition(messages.size() - 1);
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.ConversationActivity;
+import gcm.play.android.samples.com.gcmquickstart.Manager;
 import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -97,8 +98,9 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
 
         @Override
         public void onClick(View v) {
+            Manager.updateContact(v.getContext(),contact);
             Intent i = new Intent(v.getContext(), ConversationActivity.class);
-            i.putExtra(v.getContext().getString(R.string.str_token), contact.getToken());
+            i.putExtra(v.getContext().getString(R.string.str_token), contact);
             v.getContext().startActivity(i);
         }
     }
