@@ -5,35 +5,60 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 
 public class ProfileUserActivity extends AppCompatActivity {
     private EditText etDescription;
     private TextView txtCounter;
+
+    private Contact contact;
+
+    private Toolbar toolbar;
+
+    private EditText telephone;
+    private EditText email;
+    private EditText nationality;
+    private EditText birth;
+    private EditText nick;
+    private EditText description;
+    private EditText facebook;
+    private EditText twitter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.profileAppbar);
+        toolbar = (Toolbar) findViewById(R.id.profileAppbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         getSupportActionBar().openOptionsMenu();
-        etDescription = (EditText)findViewById(R.id.profileDescription);
-        txtCounter = (TextView)findViewById(R.id.txtCounter2);
+        etDescription = (EditText) findViewById(R.id.profileDescription);
+        txtCounter = (TextView) findViewById(R.id.txtCounter2);
 
         TextWatcher watch = new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 txtCounter.setText(String.valueOf(s.length() + "/" + "150"));
-                if(etDescription.getText().length()>150){
+                if (etDescription.getText().length() > 150) {
                     etDescription.setError("Error");
                 }
-
 
 
             }
@@ -56,7 +81,47 @@ public class ProfileUserActivity extends AppCompatActivity {
         etDescription.addTextChangedListener(watch);
 
 
+        ini();
 
+    }
+
+    public void ini() {
+        contact = getIntent().getExtras().getParcelable(getString(R.string.str_token));
+
+        getSupportActionBar().setTitle(contact.getName());
+
+        telephone = (EditText) findViewById(R.id.profileTelephone);
+        email = (EditText) findViewById(R.id.profileEmail);
+        nationality = (EditText) findViewById(R.id.profileNationality);
+        birth = (EditText) findViewById(R.id.profileDate);
+        nick = (EditText) findViewById(R.id.profileNick);
+        description = (EditText) findViewById(R.id.profileDescription);
+        facebook = (EditText) findViewById(R.id.profileFacebook);
+        twitter = (EditText) findViewById(R.id.profileTwitter);
+
+        telephone.setEnabled(false);
+        email.setEnabled(false);
+        nationality.setEnabled(false);
+        birth.setEnabled(false);
+        nick.setEnabled(false);
+        description.setEnabled(false);
+        facebook.setEnabled(false);
+        twitter.setEnabled(false);
+
+
+        switch (contact.getPrivacy()) {
+            case "amigos":
+            case "todos":
+                email.setText(contact.getEmail());
+                nationality.setText(contact.getNacimiento());
+                birth.setText(contact.getNacimiento());
+                description.setText(contact.getDescription());
+                facebook.setText(contact.getFacebook());
+                twitter.setText(contact.getTwitter());
+            case "nadie":
+                telephone.setText(contact.getTelephone());
+                nick.setText(contact.getNick());
+        }
 
     }
 }

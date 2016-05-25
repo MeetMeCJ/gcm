@@ -68,6 +68,24 @@ public class ConversationActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarConversation);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getBaseContext(),ProfileUserActivity.class);
+                i.putExtra(getString(R.string.str_token),contact);
+                startActivity(i);
+            }
+        });
+
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         ini();
@@ -76,7 +94,7 @@ public class ConversationActivity extends AppCompatActivity {
     public void ini() {
         preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
 
-        contact = (Contact) getIntent().getExtras().get(getString(R.string.str_token));
+        contact = getIntent().getExtras().getParcelable(getString(R.string.str_token));
 
         token=contact.getToken();
 

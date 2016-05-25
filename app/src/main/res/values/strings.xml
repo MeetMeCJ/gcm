@@ -58,9 +58,9 @@
     <string name="str_setting_acount">Cuenta</string>
     <string name="str_setting_who_see">QUIÉN PUEDE VER MI INFORMACIÓN PERSONAL</string>
     <string name="str_setting_last_hour">Hora de últ. vez</string>
-    <string name="setting_option_last_hour_all">Todos</string>
-    <string name="setting_option_last_hour_friend">Mis contactos</string>
-    <string name="setting_option_last_hour_anyone">Nadie</string>
+    <string name="setting_option_see_all">Todos</string>
+    <string name="setting_option_see_friend">Mis contactos</string>
+    <string name="setting_option_see_anyone">Nadie</string>
     <string name="str_setting_see_photo">Foto de perfil</string>
     <string name="str_setting_see_description">Descripcion</string>
     <string name="str_setting_chats">Chats</string>
@@ -74,7 +74,7 @@
     <string name="str_setting_vibration_option_short">Corto</string>
     <string name="str_setting_vibration_option_long">Largo</string>
     <string name="str_setting_emergent_notification">Notificación emergente</string>
+    <string name="str_setting_notification_group">NOTIFICACIONES DE GRUPO</string>
     <string name="str_setting_emergent_notification_never">Nunca</string>
     <string name="str_setting_emergent_notification_always">Siempre</string>
-    <string name="str_setting_notification_group">NOTIFICACIONES DE GRUPO</string>
 </resources>

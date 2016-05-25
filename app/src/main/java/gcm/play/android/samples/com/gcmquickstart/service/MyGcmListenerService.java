@@ -80,7 +80,7 @@ public class MyGcmListenerService extends GcmListenerService {
             Intent registrationComplete = new Intent(QuickstartPreferences.CONVERSATION);
             LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
         } else {
-            sendNotification(personORtlf, message, tokenSender);
+            sendNotification(personORtlf, message, contact);
 
         }
 
@@ -101,9 +101,9 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String from, String message, String token) {
+    private void sendNotification(String from, String message, Contact contact) {
         Intent intent = new Intent(this, ConversationActivity.class);
-        intent.putExtra(getString(R.string.str_token), token);
+        intent.putExtra(getString(R.string.str_token), contact);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

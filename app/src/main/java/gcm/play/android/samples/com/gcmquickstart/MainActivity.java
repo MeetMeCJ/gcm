@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_main_sync:
                 startService(new Intent(this, SyncContact.class));
                 return true;
+            case R.id.menu_main_setting:
+                Intent i = new Intent(this, SettingActivity.class);
+                startActivity(i);
             default:
                 return super.onOptionsItemSelected(item);
         }

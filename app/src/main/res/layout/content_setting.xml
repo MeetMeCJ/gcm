@@ -88,22 +88,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingSeeLastTime">
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_last_hour"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/setting_option_last_hour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_option_last_hour_anyone"
+                    android:text="@string/setting_option_see_anyone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -123,15 +125,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_see_photo"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_option_last_hour_anyone"
+                    android:text="@string/setting_option_see_anyone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -151,15 +154,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_see_description"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_option_last_hour_anyone"
+                    android:text="@string/setting_option_see_anyone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -211,7 +215,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_font_size"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView13"
@@ -219,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_font_size_info"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -271,7 +276,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_emergent_notification"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView18"
@@ -279,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_emergent_notification_always"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -299,7 +305,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_vibration"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView16"
@@ -307,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_vibration_option_long"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
 
             </LinearLayout>
 
@@ -341,7 +348,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_emergent_notification"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView21"
@@ -349,7 +357,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_emergent_notification_always"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -369,7 +377,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_vibration"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/textView19"
@@ -377,7 +386,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_vibration_option_long"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
 
             </LinearLayout>
         </LinearLayout>

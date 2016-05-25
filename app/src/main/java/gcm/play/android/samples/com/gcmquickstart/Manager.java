@@ -244,7 +244,8 @@ public class Manager {
         Dao dao = helper.getChatDao();
         List<Chat> listChat = dao.queryForEq(Chat.CONVERSATION, currentContact.getToken());
         for (Chat currentChat : listChat) {
-            currentChat.setTokensender(contactServer.getToken());
+            if (currentChat.getTokensender().equals(contactServer.getToken()))
+                currentChat.setTokensender(contactServer.getToken());
             currentChat.setTokenconversation(contactServer.getToken());
             dao.update(currentChat);
         }
@@ -287,7 +288,7 @@ public class Manager {
                             Contact contactServer = new Contact();
                             contactServer.getUsuario(obj.getJSONObject("r"));
 
-                            updateChat(currentContact,contactServer,helper);
+                            updateChat(currentContact, contactServer, helper);
 
                             currentContact.setNick(contactServer.getNick());
                             currentContact.setToken(contactServer.getToken());
@@ -315,11 +316,7 @@ public class Manager {
                 }
                 return null;
             }
-        }
-
-                .
-
-                        execute();
+        }.execute();
     }
 
     public static List<Contact> getListContacts(Context contexto) {
@@ -342,6 +339,7 @@ public class Manager {
             contact.setTelephone(getListTelephones(contexto, contact.getId()).get(0));
             lista.add(contact);
         }
+        cursor.close();
         return lista;
     }
 
@@ -359,6 +357,7 @@ public class Manager {
             number = cursor.getString(indexNumber);
             list.add(number);
         }
+        cursor.close();
         return list;
     }
 }
