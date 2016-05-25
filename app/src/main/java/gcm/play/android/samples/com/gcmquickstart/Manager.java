@@ -287,6 +287,8 @@ public class Manager {
                             Contact contactServer = new Contact();
                             contactServer.getUsuario(obj.getJSONObject("r"));
 
+                            updateChat(currentContact,contactServer,helper);
+
                             currentContact.setNick(contactServer.getNick());
                             currentContact.setToken(contactServer.getToken());
                             currentContact.setDescription(contactServer.getDescription());
@@ -300,6 +302,7 @@ public class Manager {
                             currentContact.setNacionalidad(contactServer.getNacionalidad());
 
                             dao.update(currentContact);
+
                         }
 
                     } catch (IOException e) {
@@ -318,7 +321,6 @@ public class Manager {
 
                         execute();
     }
-
 
     public static List<Contact> getListContacts(Context contexto) {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
