@@ -49,7 +49,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
             Chat chat = chats.get(0);
             for (Contact current : contacts) {
                 if (chat.getTokenconversation().equals(current.getToken()))
-                    viewHolder.bindChat(current,chat.getMessage());
+                    viewHolder.bindChat(current, chat.getMessage());
             }
         }
     }
@@ -89,7 +89,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
             txtConnection.setText(contact.getLastconnection());
         }
 
-        public void bindChat(Contact contact,String lastMessage) {
+        public void bindChat(Contact contact, String lastMessage) {
             this.contact = contact;
             txtPerson.setText(contact.getName());
             txtMessage.setText(lastMessage);
@@ -98,7 +98,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
 
         @Override
         public void onClick(View v) {
-            Manager.updateContact(v.getContext(),contact);
+            Manager.updateContact(v.getContext(), contact);
             Manager.syncOurSelves(v.getContext());
             Intent i = new Intent(v.getContext(), ConversationActivity.class);
             i.putExtra(v.getContext().getString(R.string.key_token), contact);

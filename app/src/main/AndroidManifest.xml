@@ -85,6 +85,10 @@
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MyProfile"
+            android:label="@string/title_activity_my_profile"
             android:theme="@style/AppTheme"></activity>
     </application>
 

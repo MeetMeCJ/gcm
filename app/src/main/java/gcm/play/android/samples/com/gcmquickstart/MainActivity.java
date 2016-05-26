@@ -51,12 +51,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i=null;
         switch (item.getItemId()) {
             case R.id.menu_main_sync:
                 startService(new Intent(this, SyncContact.class));
                 return true;
             case R.id.menu_main_setting:
-                Intent i = new Intent(this, SettingActivity.class);
+                 i = new Intent(this, SettingActivity.class);
+                startActivity(i);
+                return true;
+            case R.id.menu_main_profile:
+                i = new Intent(this, MyProfile.class);
                 startActivity(i);
             default:
                 return super.onOptionsItemSelected(item);

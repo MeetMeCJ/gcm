@@ -5,13 +5,20 @@
         android:id="@+id/menu_main_sync"
         android:icon="@drawable/ic_sync_white_24dp"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom"
-        android:title="" />
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_main_profile"
+        android:icon="@drawable/ic_account_circle_white_24dp"
+        android:orderInCategory="100"
+        android:title="Mi Perfil"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_main_setting"
         android:icon="@drawable/ic_settings_white_24dp"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom"
-        android:title="" />
+        android:title="Ajustes"
+        app:showAsAction="ifRoom" />
+
 
 </menu>

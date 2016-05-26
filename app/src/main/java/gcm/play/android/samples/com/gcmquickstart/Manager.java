@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -350,15 +351,15 @@ public class Manager {
 
                 String ourTelephone = prefs.getString(context.getString(R.string.key_telephone), "").replace("+34", "").replace(" ", "");
                 String ourToken = prefs.getString(context.getString(R.string.key_token), "");
-                String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "");
-                String ourDescripcion = prefs.getString(context.getString(R.string.key_description), "I%20am%20using%20MeetMe");
-                String ourEmail = prefs.getString(context.getString(R.string.key_email), "");
-                String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "");
-                String ourBirth = prefs.getString(context.getString(R.string.key_birth), "");
-                String ourNick = prefs.getString(context.getString(R.string.key_nick), "");
-                String ourPrivacity = prefs.getString(context.getString(R.string.key_privacy), "Amigos");
-                String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "");
-                String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos");
+                String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "").replace(" ", "%20");
+                String ourDescripcion = prefs.getString(context.getString(R.string.key_description), "I am using MeetMe").replace(" ", "%20");
+                String ourEmail = prefs.getString(context.getString(R.string.key_email), "").replace(" ", "%20");
+                String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "").replace(" ", "%20");
+                String ourBirth = prefs.getString(context.getString(R.string.key_birth), "").replace(" ", "%20");
+                String ourNick = prefs.getString(context.getString(R.string.key_nick), "Nick").replace(" ", "%20");
+                String ourPrivacity = prefs.getString(context.getString(R.string.key_privacy), "Amigos").replace(" ", "%20");
+                String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "").replace(" ", "%20");
+                String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos").replace(" ", "%20");
 
                 Date lastConnection = new Date();
                 String minute = "";
@@ -367,8 +368,8 @@ public class Manager {
                     minute = "0";
                 minute += lastConnection.getMinutes();
 
-                String ourLastHours = lastConnection.getDay() + "/" + lastConnection.getMonth() + "/" + lastConnection.getYear() +
-                        "%20" + lastConnection.getHours() + ":" + minute;
+                String ourLastHours = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + (Calendar.getInstance().get(Calendar.YEAR)) +
+                        "%20" + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE);
 
 
                 Dao dao = null;
@@ -388,6 +389,7 @@ public class Manager {
                                 "&nationality=" + ourNationality + "&birth=" + ourBirth;
 
                         url = new URL(destination);
+                        Log.v("ASDF", destination);
                         in = new BufferedReader(new InputStreamReader(url.openStream()));
 
                         in.close();

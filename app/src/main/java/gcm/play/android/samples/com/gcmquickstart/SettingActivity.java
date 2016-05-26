@@ -15,6 +15,7 @@ public class SettingActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
 
+    private TextView settingNick;
     private TextView optionSeeLastTime;
     private TextView optionSeePhoto;
     private TextView optionSeeDescription;
@@ -56,14 +57,19 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void ini() {
+        String nick = preferences.getString(getString(R.string.key_nick), "Nick");
+        settingNick = (TextView) findViewById(R.id.setting_nick);
+        settingNick.setText(nick);
+
+
         optionSeeLastTime = (TextView) findViewById(R.id.setting_option_last_hour);
-        optionSeeLastTime.setText(preferences.getString(getString(R.string.str_setting_last_hour), getString(R.string.setting_option_see_all)));
+        optionSeeLastTime.setText(preferences.getString(getString(R.string.key_last_connection), getString(R.string.setting_option_see_all)));
 
         optionSeePhoto = (TextView) findViewById(R.id.setting_option_profile_photo);
         optionSeePhoto.setText(preferences.getString(getString(R.string.str_setting_see_photo), getString(R.string.setting_option_see_all)));
 
         optionSeeDescription = (TextView) findViewById(R.id.setting_option_description);
-        optionSeeDescription.setText(preferences.getString(getString(R.string.str_setting_see_description), getString(R.string.setting_option_see_all)));
+        optionSeeDescription.setText(preferences.getString(getString(R.string.key_privacy), getString(R.string.setting_option_see_all)));
 
         optionSeeNotificationMessage = (TextView) findViewById(R.id.setting_option_notification_message);
         optionSeeNotificationMessage.setText(preferences.getString(getString(R.string.str_setting_notification), getString(R.string.str_setting_emergent_notification_always)));
@@ -123,7 +129,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setItems(privacy, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //Guardamos en un preferencia compartida que se ha guardado en esta
-                        editor.putString(getString(R.string.key_privacy), privacy[which]);
+                        editor.putString(getString(R.string.str_setting_see_photo), privacy[which]);
                         optionSeePhoto.setText(privacy[which]);
 
                         //Nos bajamos del servidor el objeto contact con nuetro numero de telefono

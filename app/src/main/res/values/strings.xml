@@ -90,4 +90,5 @@
     <string name="str_setting_notification_group">NOTIFICACIONES DE GRUPO</string>
     <string name="str_setting_emergent_notification_never">Nunca</string>
     <string name="str_setting_emergent_notification_always">Siempre</string>
+    <string name="title_activity_my_profile">MyProfile</string>
 </resources>

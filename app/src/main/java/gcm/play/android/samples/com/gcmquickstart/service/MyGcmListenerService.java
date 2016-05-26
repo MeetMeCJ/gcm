@@ -17,6 +17,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -159,7 +160,8 @@ public class MyGcmListenerService extends GcmListenerService {
                 minute = "0";
             minute += hoy.getMinutes();
 
-            Chat user = new Chat(message, tokenSender, tokenSender, hoy.getDay() + "/" + hoy.getMonth() + "/" + (1900 + hoy.getYear()), hoy.getHours() + ":" + minute);
+            Chat user = new Chat(message, tokenSender, tokenSender, Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" +
+                    (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + Calendar.getInstance().get(Calendar.YEAR), hoy.getHours() + ":" + minute);
             dao.create(user);
         } catch (SQLException e) {
             Log.e("Helper", "Create user ERROR");
