@@ -351,14 +351,14 @@ public class Manager {
                 String ourTelephone = prefs.getString(context.getString(R.string.key_telephone), "").replace("+34", "").replace(" ", "");
                 String ourToken = prefs.getString(context.getString(R.string.key_token), "");
                 String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "");
-                String ourDescripcion = prefs.getString(context.getString(R.string.key_description), "");
+                String ourDescripcion = prefs.getString(context.getString(R.string.key_description), "I%20am%20using%20MeetMe");
                 String ourEmail = prefs.getString(context.getString(R.string.key_email), "");
                 String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "");
                 String ourBirth = prefs.getString(context.getString(R.string.key_birth), "");
                 String ourNick = prefs.getString(context.getString(R.string.key_nick), "");
-                String ourPrivacity = prefs.getString(context.getString(R.string.key_privacy), "");
+                String ourPrivacity = prefs.getString(context.getString(R.string.key_privacy), "Amigos");
                 String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "");
-                String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "");
+                String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos");
 
                 Date lastConnection = new Date();
                 String minute = "";
@@ -368,7 +368,7 @@ public class Manager {
                 minute += lastConnection.getMinutes();
 
                 String ourLastHours = lastConnection.getDay() + "/" + lastConnection.getMonth() + "/" + lastConnection.getYear() +
-                        " " + lastConnection.getHours() + ":" + minute;
+                        "%20" + lastConnection.getHours() + ":" + minute;
 
 
                 Dao dao = null;
@@ -383,7 +383,7 @@ public class Manager {
 
                     try {
                         String destination = urlOrigin + "?op=alta&action=actualizar&tlf=" + ourTelephone + "&token=" + ourToken +
-                                "&nick=" + ourNick + "&description=" + ourDescripcion + "&last=" + ourLastHours + "&see=" + ourLastHours +
+                                "&nick=" + ourNick + "&description=" + ourDescripcion + "&last=" + ourLastHours + "&see=" + ourLastConnection +
                                 "&privacy=" + ourPrivacity + "&facebook=" + ourFacebook + "&twitter=" + ourTwitter + "&email=" + ourEmail +
                                 "&nationality=" + ourNationality + "&birth=" + ourBirth;
 
