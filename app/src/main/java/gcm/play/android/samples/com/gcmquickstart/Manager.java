@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
@@ -42,8 +43,8 @@ public class Manager {
     public static void sendMessage(Context contexto, final String message, final String destination) {
 
         SharedPreferences prefs = contexto.getSharedPreferences(contexto.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        final String ourToken = prefs.getString(contexto.getResources().getString(R.string.str_token), "");
-        final String ourTelephone = prefs.getString(contexto.getString(R.string.str_telephone), "");
+        final String ourToken = prefs.getString(contexto.getResources().getString(R.string.key_token), "");
+        final String ourTelephone = prefs.getString(contexto.getString(R.string.key_telephone), "");
 
         new AsyncTask() {
 
@@ -110,10 +111,10 @@ public class Manager {
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(c.getResources().getString(R.string.str_token), token);
+        editor.putString(c.getResources().getString(R.string.key_token), token);
         editor.commit();
 
-        String tlf = prefs.getString(c.getResources().getString(R.string.str_telephone), "");
+        String tlf = prefs.getString(c.getResources().getString(R.string.key_telephone), "");
 
         URL url = null;
         BufferedReader in = null;
@@ -140,6 +141,11 @@ public class Manager {
         //Manager.syncContact(c);
     }
 
+    /**
+     * Sincroniza todos los contactos con los del servidor
+     *
+     * @param context
+     */
     public static void syncContact(final Context context) {
         Log.v("ASDF", "Sincornizando contactos");
         new AsyncTask() {
@@ -240,6 +246,14 @@ public class Manager {
         }.execute(null, null, null);
     }
 
+    /**
+     * Actuliza todos los chat de un contacto (token)
+     *
+     * @param currentContact
+     * @param contactServer
+     * @param helper
+     * @throws SQLException
+     */
     public static void updateChat(Contact currentContact, Contact contactServer, DBHelper helper) throws SQLException {
         Dao dao = helper.getChatDao();
         List<Chat> listChat = dao.queryForEq(Chat.CONVERSATION, currentContact.getToken());
@@ -251,6 +265,12 @@ public class Manager {
         }
     }
 
+    /**
+     * Sincroniza con la base ede datos un unico contacto
+     *
+     * @param context
+     * @param contact
+     */
     public static void updateContact(final Context context, final Contact contact) {
         new AsyncTask() {
 
@@ -309,6 +329,70 @@ public class Manager {
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public static void syncOurSelves(final Context context) {
+        new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+
+                SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+
+                String ourTelephone = prefs.getString(context.getString(R.string.key_telephone), "").replace("+34", "").replace(" ", "");
+                String ourToken = prefs.getString(context.getString(R.string.key_token), "");
+                String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "");
+                String ourDescripcion = prefs.getString(context.getString(R.string.key_description), "");
+                String ourEmail = prefs.getString(context.getString(R.string.key_email), "");
+                String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "");
+                String ourBirth = prefs.getString(context.getString(R.string.key_birth), "");
+                String ourNick = prefs.getString(context.getString(R.string.key_nick), "");
+                String ourPrivacity = prefs.getString(context.getString(R.string.key_privacy), "");
+                String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "");
+                String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "");
+
+                Date lastConnection = new Date();
+                String minute = "";
+
+                if (lastConnection.getMinutes() < 10)
+                    minute = "0";
+                minute += lastConnection.getMinutes();
+
+                String ourLastHours = lastConnection.getDay() + "/" + lastConnection.getMonth() + "/" + lastConnection.getYear() +
+                        " " + lastConnection.getHours() + ":" + minute;
+
+
+                Dao dao = null;
+                try {
+                    dao = helper.getContactDao();
+
+                    String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+
+                    URL url = null;
+                    BufferedReader in = null;
+                    String res = "";
+
+                    try {
+                        String destination = urlOrigin + "?op=alta&action=actualizar&tlf=" + ourTelephone + "&token=" + ourToken +
+                                "&nick=" + ourNick + "&description=" + ourDescripcion + "&last=" + ourLastHours + "&see=" + ourLastHours +
+                                "&privacy=" + ourPrivacity + "&facebook=" + ourFacebook + "&twitter=" + ourTwitter + "&email=" + ourEmail +
+                                "&nationality=" + ourNationality + "&birth=" + ourBirth;
+
+                        url = new URL(destination);
+                        in = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                        in.close();
+
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } catch (SQLException e) {

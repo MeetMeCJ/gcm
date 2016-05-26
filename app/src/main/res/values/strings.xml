@@ -26,8 +26,18 @@
     <!-- -->
 
     <!-- Manager -->
-    <string name="str_telephone">telefono</string>
-    <string name="str_token">token</string>
+    <string name="key_telephone">telefono</string>
+    <string name="key_token">token</string>
+    <string name="key_description">description</string>
+    <string name="key_nationality">nationality</string>
+    <string name="key_email">email</string>
+    <string name="key_facebook">facebook</string>
+    <string name="key_birth">birth</string>
+    <string name="key_nick">nick</string>
+    <string name="key_privacity">privacity</string>
+    <string name="key_twitter">twitter</string>
+    <string name="key_last_connection">connection</string>
+    <string name="key_privacy">see</string>
     <string name="str_register_broadcast">registerBroadcast</string>
     <string name="str_register">registrar</string>
     <!-- -->
@@ -73,7 +83,7 @@
     <string name="str_setting_notifications">Notificaciones</string>
     <string name="str_setting_notification">NOTIFICACIONES DE MENSAJES</string>
     <string name="str_setting_vibration">Vibrar</string>
-    <string name="str_setting_vibration_option_default" >Predeterminado</string>
+    <string name="str_setting_vibration_option_default">Predeterminado</string>
     <string name="str_setting_vibration_option_short">Corto</string>
     <string name="str_setting_vibration_option_long">Largo</string>
     <string name="str_setting_emergent_notification">Notificación emergente</string>

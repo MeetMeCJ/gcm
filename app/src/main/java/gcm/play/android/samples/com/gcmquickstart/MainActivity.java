@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        String ourToken = prefs.getString(getResources().getString(R.string.str_token), "");
+        String ourToken = prefs.getString(getResources().getString(R.string.key_token), "");
         Log.v("ASDF", "NUESTRO TOKEN " + ourToken);
 
     }
@@ -61,5 +61,17 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Manager.syncOurSelves(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Manager.syncOurSelves(this);
     }
 }

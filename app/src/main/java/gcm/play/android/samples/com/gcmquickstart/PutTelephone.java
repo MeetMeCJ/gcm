@@ -83,7 +83,7 @@ public class PutTelephone extends AppCompatActivity {
 
             SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(getResources().getString(R.string.str_telephone), telephone.getText().toString());
+            editor.putString(getResources().getString(R.string.key_telephone), telephone.getText().toString());
             editor.commit();
 
             Intent intent = new Intent(this, RegistrationIntentService.class);

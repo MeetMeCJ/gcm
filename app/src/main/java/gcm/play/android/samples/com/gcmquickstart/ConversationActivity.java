@@ -81,7 +81,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(getBaseContext(),ProfileUserActivity.class);
-                i.putExtra(getString(R.string.str_token),contact);
+                i.putExtra(getString(R.string.key_token),contact);
                 startActivity(i);
             }
         });
@@ -94,7 +94,7 @@ public class ConversationActivity extends AppCompatActivity {
     public void ini() {
         preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
 
-        contact = getIntent().getExtras().getParcelable(getString(R.string.str_token));
+        contact = getIntent().getExtras().getParcelable(getString(R.string.key_token));
 
         token=contact.getToken();
 
@@ -138,7 +138,7 @@ public class ConversationActivity extends AppCompatActivity {
                 Chat message = new Chat();
                 message.setMessage(myText.getText().toString());
                 message.setTokenconversation(token);
-                message.setTokensender(preferences.getString(getString(R.string.str_token), ""));
+                message.setTokensender(preferences.getString(getString(R.string.key_token), ""));
 
                 Date fecha = new Date();
                 String date = fecha.getDay() + "/" + fecha.getMonth() + "/" + (1900 + fecha.getYear());
@@ -157,6 +157,8 @@ public class ConversationActivity extends AppCompatActivity {
             }
         }
         myText.setText("");
+
+        Manager.syncOurSelves(this);
     }
 
     public void goToLastMessage(View v) {
@@ -166,8 +168,8 @@ public class ConversationActivity extends AppCompatActivity {
     public void sendMessage(final String message, final String destination) {
 
         SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        final String ourToken = prefs.getString(getResources().getString(R.string.str_token), "");
-        final String ourTelephone = prefs.getString(getString(R.string.str_telephone), "");
+        final String ourToken = prefs.getString(getResources().getString(R.string.key_token), "");
+        final String ourTelephone = prefs.getString(getString(R.string.key_telephone), "");
 
         new AsyncTask() {
 

@@ -86,7 +86,7 @@ public class ProfileUserActivity extends AppCompatActivity {
     }
 
     public void ini() {
-        contact = getIntent().getExtras().getParcelable(getString(R.string.str_token));
+        contact = getIntent().getExtras().getParcelable(getString(R.string.key_token));
 
         getSupportActionBar().setTitle(contact.getName());
 

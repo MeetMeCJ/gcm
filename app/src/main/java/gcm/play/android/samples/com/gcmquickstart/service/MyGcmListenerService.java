@@ -103,7 +103,7 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private void sendNotification(String from, String message, Contact contact) {
         Intent intent = new Intent(this, ConversationActivity.class);
-        intent.putExtra(getString(R.string.str_token), contact);
+        intent.putExtra(getString(R.string.key_token), contact);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -153,7 +153,13 @@ public class MyGcmListenerService extends GcmListenerService {
         Date hoy = new Date();
         try {
             Dao dao = helper.getChatDao();
-            Chat user = new Chat(message, tokenSender, tokenSender, hoy.getDay() + "/" + hoy.getMonth() + "/" + (1900 + hoy.getYear()), hoy.getHours() + ":" + hoy.getMinutes());
+
+            String minute = "";
+            if (hoy.getMinutes() < 10)
+                minute = "0";
+            minute += hoy.getMinutes();
+
+            Chat user = new Chat(message, tokenSender, tokenSender, hoy.getDay() + "/" + hoy.getMonth() + "/" + (1900 + hoy.getYear()), hoy.getHours() + ":" + minute);
             dao.create(user);
         } catch (SQLException e) {
             Log.e("Helper", "Create user ERROR");
@@ -166,6 +172,7 @@ public class MyGcmListenerService extends GcmListenerService {
     /**
      * Actualizamos el token del usuario y de los mensajes en caso de encontrar algun usuario por el telefono
      * pero no por el token.
+     *
      * @param helper
      * @param tokenSender
      * @param contact

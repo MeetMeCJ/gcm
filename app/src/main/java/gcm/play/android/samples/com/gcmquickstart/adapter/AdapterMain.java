@@ -99,8 +99,9 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
         @Override
         public void onClick(View v) {
             Manager.updateContact(v.getContext(),contact);
+            Manager.syncOurSelves(v.getContext());
             Intent i = new Intent(v.getContext(), ConversationActivity.class);
-            i.putExtra(v.getContext().getString(R.string.str_token), contact);
+            i.putExtra(v.getContext().getString(R.string.key_token), contact);
             v.getContext().startActivity(i);
         }
     }

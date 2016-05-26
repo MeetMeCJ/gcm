@@ -72,7 +72,8 @@
                 android:text="@string/str_setting_who_see"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="13dp"
-                android:layout_margin="3dp" />
+                android:layout_margin="3dp"
+                android:textColor="#dc000000" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -119,7 +120,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingSeePhotoProfile">
 
                 <TextView
                     android:id="@+id/textView3"
@@ -149,7 +151,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
+                android:onClick="settingSeeDescription">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -195,7 +199,8 @@
                 android:text="@string/str_setting_config_chats"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="13dp"
-                android:layout_margin="3dp" />
+                android:layout_margin="3dp"
+                android:textColor="#dc000000" />
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -211,7 +216,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingFontSize">
 
                 <TextView
                     android:id="@+id/textView12"
@@ -257,7 +263,8 @@
                 android:text="@string/str_setting_notification"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="13dp"
-                android:layout_margin="3dp" />
+                android:layout_margin="3dp"
+                android:textColor="#dc000000" />
 
             <ImageView
                 android:id="@+id/imageView9"
@@ -273,7 +280,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingSeeNotificationMessage">
 
                 <TextView
                     android:id="@+id/textView17"
@@ -303,7 +311,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingVibrationMessage">
 
                 <TextView
                     android:id="@+id/textView15"
@@ -331,7 +340,8 @@
                 android:text="@string/str_setting_notification_group"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="13dp"
-                android:layout_margin="3dp" />
+                android:layout_margin="3dp"
+                android:textColor="#dc000000" />
 
             <ImageView
                 android:id="@+id/imageView10"
@@ -347,7 +357,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingSeeNotificationGroup">
 
                 <TextView
                     android:id="@+id/textView22"
@@ -377,7 +388,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="settingVibrationGroup">
 
                 <TextView
                     android:id="@+id/textView20"
