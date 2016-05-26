@@ -66,6 +66,9 @@
     <string name="str_setting_chats">Chats</string>
     <string name="str_setting_config_chats">AJUSTES DE CHATS</string>
     <string name="str_setting_font_size">Tamaño de fuente:</string>
+    <string name="str_setting_font_size_big">Grande</string>
+    <string name="str_setting_font_size_medium">Mediano</string>
+    <string name="str_setting_font_size_small">Pequeño</string>
     <string name="str_setting_font_size_info">Tamaño de fuente para la pantalla de chat</string>
     <string name="str_setting_notifications">Notificaciones</string>
     <string name="str_setting_notification">NOTIFICACIONES DE MENSAJES</string>

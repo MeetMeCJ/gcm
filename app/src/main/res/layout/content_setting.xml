@@ -105,7 +105,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/setting_option_see_anyone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingSeeLastTime" />
             </LinearLayout>
 
             <ImageView
@@ -129,12 +130,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/setting_option_profile_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_option_see_anyone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingSeePhotoProfile" />
             </LinearLayout>
 
             <ImageView
@@ -158,12 +160,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/setting_option_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_option_see_anyone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingSeeDescription" />
             </LinearLayout>
 
             <ImageView
@@ -219,12 +222,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/setting_option_font_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_font_size_info"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingFontSize" />
             </LinearLayout>
 
             <ImageView
@@ -280,12 +284,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/setting_option_notification_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_emergent_notification_always"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingSeeNotificationMessage" />
             </LinearLayout>
 
             <ImageView
@@ -309,12 +314,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/setting_option_vibration_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_vibration_option_long"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingVibrationMessage" />
 
             </LinearLayout>
 
@@ -352,12 +358,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/setting_option_notification_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_emergent_notification_always"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingSeeNotificationGroup" />
             </LinearLayout>
 
             <ImageView
@@ -381,12 +388,13 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/setting_option_vibration_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_setting_vibration_option_long"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    android:onClick="settingVibrationGroup" />
 
             </LinearLayout>
         </LinearLayout>

@@ -106,7 +106,7 @@ public class Manager {
 
         Log.v("ASDF", "Manager registrando token");
 
-        String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+        String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
 
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -149,7 +149,7 @@ public class Manager {
                 List<Contact> listUser = getListContacts(context);
 
                 for (final Contact telephoneContact : listUser) {
-                    String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
 
                     URL url = null;
                     BufferedReader in = null;
