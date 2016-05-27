@@ -9,12 +9,12 @@
 
     <color name="color_accent">#fd9243</color>
     <color name="color_accent_light">#ffa766</color>
-    <color name="color_accent_light_ultra">#ffc091</color>
+    <color name="color_accent_light_ultra">#3cffc091</color>
 
     <color name="color_message_background">#6effd5b6</color>
 
-    <color name="color_message_other">#8254b7ac</color>
-    <color name="color_message_myself">#a1ffc091</color>
+    <color name="color_message_other">#f054b7ac</color>
+    <color name="color_message_myself">#f0ffc091</color>
 
     <color name="blue_grey_500">#607D8B</color>
     <color name="blue_grey_600">#546E7A</color>
