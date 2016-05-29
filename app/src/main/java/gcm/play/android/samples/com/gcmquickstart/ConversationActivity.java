@@ -80,8 +80,8 @@ public class ConversationActivity extends AppCompatActivity {
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getBaseContext(),ProfileUserActivity.class);
-                i.putExtra(getString(R.string.key_token),contact);
+                Intent i = new Intent(getBaseContext(), ProfileUserActivity.class);
+                i.putExtra(getString(R.string.key_token), contact);
                 startActivity(i);
             }
         });
@@ -96,7 +96,7 @@ public class ConversationActivity extends AppCompatActivity {
 
         contact = getIntent().getExtras().getParcelable(getString(R.string.key_token));
 
-        token=contact.getToken();
+        token = contact.getToken();
 
         myText = (EditText) findViewById(R.id.conversation_editText);
 
@@ -118,7 +118,7 @@ public class ConversationActivity extends AppCompatActivity {
         if (!registerReciver) {
 
             LocalBroadcastManager.getInstance(this).registerReceiver(mConversationBroadcastReceiver,
-            new IntentFilter(QuickstartPreferences.CONVERSATION));
+                    new IntentFilter(QuickstartPreferences.CONVERSATION));
 
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(getResources().getString(R.string.str_register_broadcast), true);
@@ -142,7 +142,10 @@ public class ConversationActivity extends AppCompatActivity {
 
                 Date fecha = new Date();
                 String date = fecha.getDay() + "/" + fecha.getMonth() + "/" + (1900 + fecha.getYear());
-                message.setTime(fecha.getHours() + ":" + fecha.getMinutes());
+                String minute = "";
+                if (fecha.getMinutes() < 0)
+                    minute = "0";
+                message.setTime(fecha.getHours() + ":" + minute + fecha.getMinutes());
                 message.setDate(date);
                 dao.create(message);
 
@@ -166,12 +169,12 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     public void sendMessage(final String message, final String destination) {
-
         SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         final String ourToken = prefs.getString(getResources().getString(R.string.key_token), "");
         final String ourTelephone = prefs.getString(getString(R.string.key_telephone), "");
 
-        new AsyncTask() {
+        Log.v("ASDF", "hebra");
+        AsyncTask asyncTask = new AsyncTask() {
 
             private String aux;
 
@@ -225,7 +228,10 @@ public class ConversationActivity extends AppCompatActivity {
                 }
                 return "";
             }
-        }.execute(null, null, null);
+        };
+        asyncTask.execute(null, null, null);
+        Log.v("ASDF", "hebra lanzada");
+
     }
 
 

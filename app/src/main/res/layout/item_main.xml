@@ -30,7 +30,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/itemName"
@@ -66,6 +67,10 @@
                     android:text="Small Text"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:visibility="visible" />
+
+                <Space
+                    android:layout_width="600dp"
+                    android:layout_height="fill_parent" />
             </LinearLayout>
 
         </LinearLayout>

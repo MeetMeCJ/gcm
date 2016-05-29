@@ -4,6 +4,12 @@
     android:layout_height="wrap_content"
     android:id="@+id/itemConversationParent">
 
+    <Space
+        android:layout_width="600dp"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:id="@+id/item_conversation_space_left" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"

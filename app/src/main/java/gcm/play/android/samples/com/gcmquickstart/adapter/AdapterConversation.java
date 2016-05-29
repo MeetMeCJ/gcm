@@ -4,11 +4,11 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 /**
  * Created by Admin on 17/05/2016.
  */
-public class AdapterConversation extends RecyclerView.Adapter<AdapterConversation.ViewHolderAdaptador>{
+public class AdapterConversation extends RecyclerView.Adapter<AdapterConversation.ViewHolderAdaptador> {
 
     private List<Chat> chats;
 
@@ -57,6 +57,8 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
         private TextView txtMessage;
         private TextView txtConnection;
 
+        private Space spaceLeft;
+
         private LinearLayout linearLayout;
         private LinearLayout itemConversationParent;
         private Chat chat;
@@ -70,6 +72,7 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
             itemConversationParent = (LinearLayout) itemView.findViewById(R.id.itemConversationParent);
             txtConnection = (TextView) itemView.findViewById(R.id.itemConversationTime);
             txtMessage = (TextView) itemView.findViewById(R.id.itemConversationMessage);
+            spaceLeft = (Space) itemView.findViewById(R.id.item_conversation_space_left);
         }
 
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -77,10 +80,10 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
             this.chat = chat;
             if (chat.getTokensender().equals(chat.getTokenconversation())) {
                 linearLayout.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.shape_conversation_message_other));
-                itemConversationParent.setGravity(Gravity.START);
+                spaceLeft.setVisibility(View.GONE);
             } else {
                 linearLayout.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.shape_conversation_message_myself));
-                itemConversationParent.setGravity(Gravity.END);
+                spaceLeft.setVisibility(View.VISIBLE);
             }
             txtMessage.setText(chat.getMessage());
             txtConnection.setText(chat.getTime());
