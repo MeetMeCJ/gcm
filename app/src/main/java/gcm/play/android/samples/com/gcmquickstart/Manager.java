@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.support.v7.util.SortedList;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -34,6 +35,11 @@ import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 import gcm.play.android.samples.com.gcmquickstart.service.SyncContact;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by Admin on 20/04/2016.
@@ -209,8 +215,8 @@ public class Manager {
                                             currentContact.setFacebook(contactServer.getFacebook());
                                             currentContact.setTwitter(contactServer.getTwitter());
                                             currentContact.setEmail(contactServer.getEmail());
-                                            currentContact.setNacimiento(contactServer.getNacimiento());
-                                            currentContact.setNacionalidad(contactServer.getNacionalidad());
+                                            currentContact.setBirth(contactServer.getBirth());
+                                            currentContact.setNationality(contactServer.getNationality());
 
                                             dao.update(currentContact);
                                         } else {
@@ -284,7 +290,7 @@ public class Manager {
 
                     List<Contact> listContact = dao.queryForEq(Contact.TELEPHONE, contact.getTelephone());
                     Contact currentContact = listContact.get(0);
-                    String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
 
                     URL url = null;
                     BufferedReader in = null;
@@ -320,8 +326,8 @@ public class Manager {
                             currentContact.setFacebook(contactServer.getFacebook());
                             currentContact.setTwitter(contactServer.getTwitter());
                             currentContact.setEmail(contactServer.getEmail());
-                            currentContact.setNacimiento(contactServer.getNacimiento());
-                            currentContact.setNacionalidad(contactServer.getNacionalidad());
+                            currentContact.setBirth(contactServer.getBirth());
+                            currentContact.setNationality(contactServer.getNationality());
 
                             dao.update(currentContact);
 
@@ -376,7 +382,7 @@ public class Manager {
                 try {
                     dao = helper.getContactDao();
 
-                    String urlOrigin = "http://192.168.1.34:28914/MeetMe/servlet";
+                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
 
                     URL url = null;
                     BufferedReader in = null;
@@ -445,5 +451,27 @@ public class Manager {
         }
         cursor.close();
         return list;
+    }
+
+    public static void consultaRetrofit(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiContact api = retrofit.create(ApiContact.class);
+
+        Call call = api.getContactByTelephone("672105570");
+
+        call.enqueue(new Callback<Contact>() {
+            @Override
+            public void onResponse(Response<Contact> response, Retrofit retrofit) {
+                Log.v("ASDF", "fin call "+ response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.getLocalizedMessage();
+            }
+        });
     }
 }

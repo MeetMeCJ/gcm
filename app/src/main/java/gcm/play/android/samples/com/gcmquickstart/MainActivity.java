@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         String ourToken = prefs.getString(getResources().getString(R.string.key_token), "");
         Log.v("ASDF", "NUESTRO TOKEN " + ourToken);
 
+        Manager.consultaRetrofit();
+
     }
 
     @Override

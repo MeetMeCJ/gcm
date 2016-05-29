@@ -3,6 +3,7 @@ package gcm.play.android.samples.com.gcmquickstart.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 @DatabaseTable
 public class Contact implements Parcelable {
+
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String NICK = "nick";
@@ -37,39 +39,51 @@ public class Contact implements Parcelable {
     @DatabaseField(columnName = NAME)
     private String name;
 
+    @SerializedName("nick")
     @DatabaseField(columnName = NICK)
     private String nick;
 
+    @SerializedName("telephone")
     @DatabaseField(columnName = TELEPHONE)
     private String telephone;
 
+    @SerializedName("token")
     @DatabaseField(columnName = TOKEN)
     private String token;
 
+    @SerializedName("description")
     @DatabaseField(columnName = DESCRIPTION)
     private String description;
 
+    @SerializedName("lastconnection")
     @DatabaseField(columnName = LASTCONNECTION)
     private String lastconnection;
 
+    @SerializedName("seeconnection")
     @DatabaseField(columnName = SEECONNECTION)
     private String seeconnection;
 
+    @SerializedName("facebook")
     @DatabaseField(columnName = FACEBOOK)
     private String facebook;
 
+    @SerializedName("twitter")
     @DatabaseField(columnName = TWITTER)
     private String twitter;
 
+    @SerializedName("email")
     @DatabaseField(columnName = EMAIL)
     private String email;
 
+    @SerializedName("birth")
     @DatabaseField(columnName = BIRTH)
-    private String nacimiento;
+    private String birth;
 
+    @SerializedName("nationality")
     @DatabaseField(columnName = NATIONALITY)
-    private String nacionalidad;
+    private String nationality;
 
+    @SerializedName("privacy")
     @DatabaseField(columnName = PRIVACY)
     private String privacy;
 
@@ -77,7 +91,24 @@ public class Contact implements Parcelable {
     public Contact() {
     }
 
-    public Contact(Long id, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String facebook, String twitter, String email, String nacimiento, String nacionalidad, String privacy) {
+
+
+    public Contact(String nick, String telephone, String token, String description, String lastconnection, String facebook, String email, String nacimiento, String twitter, String seeconnection, String nationality, String privacy) {
+        this.nick = nick;
+        this.telephone = telephone;
+        this.token = token;
+        this.description = description;
+        this.lastconnection = lastconnection;
+        this.facebook = facebook;
+        this.email = email;
+        this.birth = birth;
+        this.twitter = twitter;
+        this.seeconnection = seeconnection;
+        this.nationality = nationality;
+        this.privacy = privacy;
+    }
+
+    public Contact(Long id, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String facebook, String twitter, String email, String birth, String nationality, String privacy) {
         this.id = id;
         this.name = name;
         this.nick = nick;
@@ -89,12 +120,12 @@ public class Contact implements Parcelable {
         this.facebook = facebook;
         this.twitter = twitter;
         this.email = email;
-        this.nacimiento = nacimiento;
-        this.nacionalidad = nacionalidad;
+        this.birth = birth;
+        this.nationality = nationality;
         this.privacy = privacy;
     }
 
-    public Contact(String privacy, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String facebook, String twitter, String email, String nacimiento, String nacionalidad) {
+    public Contact(String privacy, String name, String nick, String telephone, String token, String description, String lastconnection, String seeconnection, String facebook, String twitter, String email, String birth, String nationality) {
         this.privacy = privacy;
         this.name = name;
         this.nick = nick;
@@ -106,8 +137,8 @@ public class Contact implements Parcelable {
         this.facebook = facebook;
         this.twitter = twitter;
         this.email = email;
-        this.nacimiento = nacimiento;
-        this.nacionalidad = nacionalidad;
+        this.birth = birth;
+        this.nationality = nationality;
     }
 
     protected Contact(Parcel in) {
@@ -121,8 +152,8 @@ public class Contact implements Parcelable {
         facebook = in.readString();
         twitter = in.readString();
         email = in.readString();
-        nacimiento = in.readString();
-        nacionalidad = in.readString();
+        birth = in.readString();
+        nationality = in.readString();
         privacy = in.readString();
     }
 
@@ -162,20 +193,20 @@ public class Contact implements Parcelable {
         this.email = email;
     }
 
-    public String getNacimiento() {
-        return nacimiento;
+    public String getBirth() {
+        return birth;
     }
 
-    public void setNacimiento(String nacimiento) {
-        this.nacimiento = nacimiento;
+    public void setBirth(String nacimiento) {
+        this.birth = birth;
     }
 
-    public String getNacionalidad() {
-        return nacionalidad;
+    public String getNationality() {
+        return nationality;
     }
 
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
+    public void setNationality(String nacionalidad) {
+        this.nationality = nationality;
     }
 
     public Long getId() {
@@ -265,8 +296,8 @@ public class Contact implements Parcelable {
             setTwitter(json.getString("twitter"));
             setFacebook(json.getString("facebook"));
             setEmail(json.getString("email"));
-            setNacionalidad(json.getString("nationality"));
-            setNacimiento(json.getString("birth"));
+            setNationality(json.getString("nationality"));
+            setBirth(json.getString("birth"));
 
 
         } catch (JSONException e) {
@@ -288,8 +319,8 @@ public class Contact implements Parcelable {
             result.put("facebook", facebook);
             result.put("twitter", twitter);
             result.put("email", email);
-            result.put("nationality", nacionalidad);
-            result.put("birth", nacimiento);
+            result.put("nationality", nationality);
+            result.put("birth", birth);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -310,8 +341,8 @@ public class Contact implements Parcelable {
                 ", facebook='" + facebook + '\'' +
                 ", twitter='" + twitter + '\'' +
                 ", email='" + email + '\'' +
-                ", nacimiento='" + nacimiento + '\'' +
-                ", nacionalidad='" + nacionalidad + '\'' +
+                ", birth='" + birth + '\'' +
+                ", nationality='" + nationality + '\'' +
                 ", privacy='" + privacy + '\'' +
                 '}';
     }
@@ -333,8 +364,8 @@ public class Contact implements Parcelable {
         dest.writeString(facebook);
         dest.writeString(twitter);
         dest.writeString(email);
-        dest.writeString(nacimiento);
-        dest.writeString(nacionalidad);
+        dest.writeString(birth);
+        dest.writeString(nationality);
         dest.writeString(privacy);
     }
 }

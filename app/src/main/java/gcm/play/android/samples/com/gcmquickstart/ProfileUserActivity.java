@@ -112,8 +112,8 @@ public class ProfileUserActivity extends AppCompatActivity {
             case "mis contactos":
             case "todos":
                 email.setText(contact.getEmail());
-                nationality.setText(contact.getNacimiento());
-                birth.setText(contact.getNacimiento());
+                nationality.setText(contact.getBirth());
+                birth.setText(contact.getBirth());
                 description.setText(contact.getDescription());
                 facebook.setText(contact.getFacebook());
                 twitter.setText(contact.getTwitter());
