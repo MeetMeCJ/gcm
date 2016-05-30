@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.FragmentPageSlider"
     android:orientation="vertical"
-    android:background="@drawable/shape_splash_background">
+    android:background="@drawable/shape_splash_background2">
 
     <!-- TODO: Update blank fragment layout -->
 

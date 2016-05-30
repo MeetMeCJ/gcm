@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.v7.util.SortedList;
+
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -35,11 +36,13 @@ import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 import gcm.play.android.samples.com.gcmquickstart.service.SyncContact;
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
+import retrofit.http.Query;
 
 /**
  * Created by Admin on 20/04/2016.
@@ -110,43 +113,57 @@ public class Manager {
         }.execute(null, null, null);
     }
 
+
     public static void registrationToServer(Context c, String token) {
-
-        Log.v("ASDF", "Manager registrando token");
-
-        String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
-
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(c.getResources().getString(R.string.key_token), token);
         editor.commit();
-
         String tlf = prefs.getString(c.getResources().getString(R.string.key_telephone), "");
 
-        URL url = null;
-        BufferedReader in = null;
-
-        try {
-            String destination = urlOrigin + "?op=alta&action=registrar&tlf=" + tlf + "&token=" + token;
-            Log.v("ASDF", "url " + destination);
-            url = new URL(destination);
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-            in.close();
-
-            editor.putBoolean(c.getResources().getString(R.string.str_register), true);
-            editor.commit();
-
-        } catch (MalformedURLException e) {
-            Log.e("ASDF", "error1 " + e.toString());
-        } catch (IOException e) {
-            Log.e("ASDF", "error2 " + e.toString());
-        }
-        Log.v("ASDF", "Fin gestor ");
+        Manager.registerRetrofit(tlf, token, c, editor);
 
         if (prefs.getBoolean(c.getResources().getString(R.string.str_register), false))
             c.startService(new Intent(c, SyncContact.class));
-        //Manager.syncContact(c);
     }
+
+//    public static void registrationToServer(Context c, String token) {
+//
+//        Log.v("ASDF", "Manager registrando token");
+//
+//        String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
+//
+//        SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putString(c.getResources().getString(R.string.key_token), token);
+//        editor.commit();
+//
+//        String tlf = prefs.getString(c.getResources().getString(R.string.key_telephone), "");
+//
+//        URL url = null;
+//        BufferedReader in = null;
+//
+//        try {
+//            String destination = urlOrigin + "?op=alta&action=registrar&tlf=" + tlf + "&token=" + token;
+//            Log.v("ASDF", "url " + destination);
+//            url = new URL(destination);
+//            in = new BufferedReader(new InputStreamReader(url.openStream()));
+//            in.close();
+//
+//            editor.putBoolean(c.getResources().getString(R.string.str_register), true);
+//            editor.commit();
+//
+//        } catch (MalformedURLException e) {
+//            Log.e("ASDF", "error1 " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("ASDF", "error2 " + e.toString());
+//        }
+//        Log.v("ASDF", "Fin gestor ");
+//
+//        if (prefs.getBoolean(c.getResources().getString(R.string.str_register), false))
+//            c.startService(new Intent(c, SyncContact.class));
+//        //Manager.syncContact(c);
+//    }
 
     /**
      * Sincroniza todos los contactos con los del servidor
@@ -186,7 +203,7 @@ public class Manager {
                             Log.v("ASDF", "no es false");
                             JSONObject obj = new JSONObject(res);
                             Contact contactServer = new Contact();
-                            contactServer.getUsuario(obj.getJSONObject("r"));
+                            contactServer.getUsuario(obj);
                             contactServer.setName(telephoneContact.getName());
 
                             DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
@@ -453,19 +470,19 @@ public class Manager {
         return list;
     }
 
-    public static void consultaRetrofit(){
+    public static void searchRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.15:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);
 
-        Call call = api.getContactByTelephone("672105570");
+        retrofit.Call call = api.getContactByTelephone("672105570");
 
         call.enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
-                Log.v("ASDF", "fin call "+ response.body());
+                Log.v("ASDF", "searchretrofit " + response.body());
             }
 
             @Override
@@ -474,4 +491,104 @@ public class Manager {
             }
         });
     }
+
+
+    public static void registerRetrofit(String telephone, String token, final Context c, final SharedPreferences.Editor editor) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiContact api = retrofit.create(ApiContact.class);
+
+        Call call = api.createContact(telephone, token);
+
+        call.enqueue(new Callback<Contact>() {
+            @Override
+            public void onResponse(Response<Contact> response, Retrofit retrofit) {
+                Log.v("ASDF", "registerretrofit " + response.body());
+                if (response.isSuccess()) {
+                    editor.putBoolean(c.getResources().getString(R.string.str_register), true);
+                    editor.commit();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.getLocalizedMessage();
+            }
+        });
+    }
+
+    public static void updateRetrofit(Contact contact) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiContact api = retrofit.create(ApiContact.class);
+
+
+        Call call = updateContactRetrofit(api, contact);
+        Log.v("ASDF", "Call update contact" + contact.toString());
+
+        call.enqueue(new Callback<Contact>() {
+            @Override
+            public void onResponse(Response<Contact> response, Retrofit retrofit) {
+                Log.v("ASDF", "updateretrofit " + response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.getLocalizedMessage();
+            }
+        });
+    }
+
+    public static Call updateContactRetrofit(ApiContact apicontact, Contact contact) {
+        return apicontact.updateContact(contact.getTelephone(), contact.getToken(), contact.getNick(), contact.getDescription(), contact.getLastconnection(), contact.getSeeconnection(),
+                contact.getFacebook(), contact.getTwitter(), contact.getEmail(), contact.getBirth(), contact.getNationality(), contact.getPrivacy());
+    }
+
+    public static void syncOurSelvesRetrofit(final Context context) {
+        updateRetrofit(createMySelf(context));
+    }
+
+    public static Contact createMySelf(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
+
+        String ourTelephone = prefs.getString(context.getString(R.string.key_telephone), "").replace("+34", "").replace(" ", "");
+        String ourToken = prefs.getString(context.getString(R.string.key_token), "");
+        String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "").replace(" ", "%20");
+        String ourDescription = prefs.getString(context.getString(R.string.key_description), "I am using MeetMe").replace(" ", "%20");
+        String ourEmail = prefs.getString(context.getString(R.string.key_email), "").replace(" ", "%20");
+        String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "").replace(" ", "%20");
+        String ourBirth = prefs.getString(context.getString(R.string.key_birth), "").replace(" ", "%20");
+        String ourNick = prefs.getString(context.getString(R.string.key_nick), "Nick").replace(" ", "%20");
+        String ourPrivacy = prefs.getString(context.getString(R.string.key_privacy), "Amigos").replace(" ", "%20");
+        String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "").replace(" ", "%20");
+        String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos").replace(" ", "%20");
+
+        Date lastConnection = new Date();
+        String minute = "";
+
+        if (lastConnection.getMinutes() < 10)
+            minute = "0";
+        minute += lastConnection.getMinutes();
+
+        String ourLastHours = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + (Calendar.getInstance().get(Calendar.YEAR)) +
+                "%20" + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE);
+
+        //String nick, String telephone, String token, String description, String lastconnection, String facebook, String email, String nacimiento, String twitter, String seeconnection, String nationality, String privacy
+        Contact contact = new Contact(ourNick, ourTelephone,  ourToken,  ourDescription,  ourLastHours,
+                 ourFacebook,  ourEmail,  ourBirth,  ourTwitter, ourLastConnection,  ourNationality,  ourPrivacy);
+
+
+        //return new Contact("","123456","","desmodif","","","","","","","","");
+        return contact;
+    }
+
+
 }
+
+
+
+

@@ -9,7 +9,8 @@
 
     <color name="color_accent">#fd9243</color>
     <color name="color_accent_light">#ffa766</color>
-    <color name="color_accent_light_ultra">#3cffc091</color>
+    <color name="color_accent_light_ultra">#ffc091</color>
+    <color name="color_accent_light_ultra_transparent">#3cffc091</color>
 
     <color name="color_message_background">#6effd5b6</color>
 

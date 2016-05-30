@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/imageView15"
-        android:background="@color/color_accent_light_ultra"
+        android:background="@color/color_accent_light_ultra_transparent"
         android:scaleType="centerCrop" />
 
     <EditText
