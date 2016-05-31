@@ -8,6 +8,8 @@ import com.squareup.okhttp.RequestBody;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -29,19 +31,19 @@ public interface ApiContact {
     @POST("servlet?op=alta&action=registrar")
     Call<Contact> createContact(@Query("tlf") String telephone, @Query("token") String token);
 
+    @FormUrlEncoded
     @POST("servlet?op=alta&action=actualizar")
-    Call<Contact> updateContact(@Query("tlf") String telephone,
-                                @Query("token") String token,
-                                @Query("nick") String nick,
-                                @Query("description") String description,
-                                @Query("lastconnection") String lastconnection,
-                                @Query("seeconnection") String seeconnection,
-                                @Query("facebook") String facebook,
-                                @Query("twitter") String twitter,
-                                @Query("email") String email,
-                                @Query("birth") String birth,
-                                @Query("nationality") String nationality,
-                                @Query("privacy") String privacy);
-
+    Call<Contact> updateContact(@Field("tlf") String telephone,
+                                @Field("token") String token,
+                                @Field("nick") String nick,
+                                @Field("description") String description,
+                                @Field("last") String lastconnection,
+                                @Field("see") String seeconnection,
+                                @Field("facebook") String facebook,
+                                @Field("twitter") String twitter,
+                                @Field("email") String email,
+                                @Field("birth") String birth,
+                                @Field("nationality") String nationality,
+                                @Field("privacy") String privacy);
 
 }

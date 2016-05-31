@@ -96,7 +96,7 @@ public class Contact implements Parcelable {
         this.telephone = telephone;
     }
 
-    public Contact(String nick, String telephone, String token, String description, String lastconnection, String facebook, String email, String nacimiento, String twitter, String seeconnection, String nationality, String privacy) {
+    public Contact(String nick, String telephone, String token, String description, String lastconnection, String facebook, String email, String birth, String twitter, String seeconnection, String nationality, String privacy) {
         this.nick = nick;
         this.telephone = telephone;
         this.token = token;

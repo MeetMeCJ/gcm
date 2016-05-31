@@ -63,7 +63,7 @@ public class Manager {
             @Override
             protected Object doInBackground(Object[] params) {
                 try {
-                    Log.v("ASDF", "empieza la hebra a mandar un msg");
+
                     // Prepare JSON containing the GCM message content. What to send and where to send.
                     JSONObject jGcmData = new JSONObject();
                     JSONObject jData = new JSONObject();
@@ -81,7 +81,7 @@ public class Manager {
                     // Create connection to send GCM Message request.
                     //URL url = new URL("https://android.googleapis.com/gcm/send");
                     URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
-                    Log.v("ASDF", url.toString());
+
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestProperty("Authorization", "key=" + API_KEY);
                     conn.setRequestProperty("Content-Type", "application/json");
@@ -97,12 +97,10 @@ public class Manager {
                     String resp = IOUtils.toString(inputStream);
                     System.out.println(resp);
 
-                    Log.v("ASDF", "respuesta " + resp);
-                    Log.v("ASDF", "lo manda");
-
 
                 } catch (IOException e) {
                     Log.v("ASDF", "error " + e.toString());
+
                     e.printStackTrace();
                 } catch (JSONException e) {
                     Log.v("ASDF", "error2 " + e.toString());
@@ -113,7 +111,12 @@ public class Manager {
         }.execute(null, null, null);
     }
 
-
+    /**
+     * Método que registra un nuevo usuario en el servidor
+     *
+     * @param c     contexto
+     * @param token token identificador del nuevo usuario
+     */
     public static void registrationToServer(Context c, String token) {
         SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -127,148 +130,145 @@ public class Manager {
             c.startService(new Intent(c, SyncContact.class));
     }
 
-//    public static void registrationToServer(Context c, String token) {
-//
-//        Log.v("ASDF", "Manager registrando token");
-//
-//        String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
-//
-//        SharedPreferences prefs = c.getSharedPreferences(c.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(c.getResources().getString(R.string.key_token), token);
-//        editor.commit();
-//
-//        String tlf = prefs.getString(c.getResources().getString(R.string.key_telephone), "");
-//
-//        URL url = null;
-//        BufferedReader in = null;
-//
-//        try {
-//            String destination = urlOrigin + "?op=alta&action=registrar&tlf=" + tlf + "&token=" + token;
-//            Log.v("ASDF", "url " + destination);
-//            url = new URL(destination);
-//            in = new BufferedReader(new InputStreamReader(url.openStream()));
-//            in.close();
-//
-//            editor.putBoolean(c.getResources().getString(R.string.str_register), true);
-//            editor.commit();
-//
-//        } catch (MalformedURLException e) {
-//            Log.e("ASDF", "error1 " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("ASDF", "error2 " + e.toString());
-//        }
-//        Log.v("ASDF", "Fin gestor ");
-//
-//        if (prefs.getBoolean(c.getResources().getString(R.string.str_register), false))
-//            c.startService(new Intent(c, SyncContact.class));
-//        //Manager.syncContact(c);
-//    }
+    /**
+     * Método que actualiza al usuario en el servidor
+     *
+     * @param context
+     */
+    public static void syncOurSelves(final Context context) {
+        updateRetrofit(createMySelf(context));
+    }
+
 
     /**
      * Sincroniza todos los contactos con los del servidor
      *
      * @param context
      */
+//    public static void syncContact(final Context context) {
+//
+//        new AsyncTask() {
+//
+//            @Override
+//            protected Object doInBackground(Object[] params) {
+//                List<Contact> listUser = getListContacts(context);
+//
+//                for (final Contact telephoneContact : listUser) {
+//                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
+//
+//                    URL url = null;
+//                    BufferedReader in = null;
+//                    String res = "";
+//
+//                    try {
+//                        String destination = urlOrigin + "?op=consulta&action=tlf&tlf=" + telephoneContact.getTelephone().replace("+34", "").replace(" ", "");
+//
+//                        url = new URL(destination);
+//                        in = new BufferedReader(new InputStreamReader(url.openStream()));
+//                        String linea;
+//
+//                        while ((linea = in.readLine()) != null) {
+//                            res += linea;
+//                        }
+//
+//                        in.close();
+//
+//
+//                        if (!res.contains("false")) {
+//
+//                            JSONObject obj = new JSONObject(res);
+//                            Contact contactServer = new Contact();
+//                            contactServer.getUsuario(obj);
+//                            contactServer.setName(telephoneContact.getName());
+//
+//                            DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+//                            Dao dao;
+//                            List<Contact> contacts = null;
+//
+//                            try {
+//                                dao = helper.getContactDao();
+//                                contacts = dao.queryForAll();
+//
+//                                if (!contacts.isEmpty()) {
+//                                    for (Contact currentContact : contacts) {
+//                                        String telf = currentContact.getTelephone().replace(" ", "");
+//                                        Long id = currentContact.getId();
+//
+//
+//                                        if (telf.contains(contactServer.getTelephone().toString())) {
+//                                            updateChat(currentContact, contactServer, helper);
+//
+//                                            currentContact = replaceCurrentContactToServer(currentContact, contactServer);
+//
+//                                            dao.update(currentContact);
+//                                        } else {
+//                                            dao.create(contactServer);
+//                                        }
+//
+//                                    }
+//                                } else {
+//                                    dao.createOrUpdate(contactServer);
+//                                }
+//                            } catch (java.sql.SQLException e) {
+//                                e.printStackTrace();
+//                                Log.e("Helper", "Search user error");
+//                            }
+//                        }
+//                        Thread.sleep(300);
+//
+//                    } catch (MalformedURLException e) {
+//                        Log.e("ASDF", "error3 " + e.toString());
+//                    } catch (IOException e) {
+//                        Log.e("ASDF", "error4 " + e.toString());
+//                    } catch (JSONException e) {
+//                        Log.e("ASDF", "error5 " + e.toString());
+//                    } catch (InterruptedException e) {
+//                        Log.e("ASDF", "error6 " + e.toString());
+//                    }
+//
+//
+//                }
+//                return null;
+//            }
+//
+//
+//        }.execute(null, null, null);
+//    }
     public static void syncContact(final Context context) {
-        Log.v("ASDF", "Sincornizando contactos");
-        new AsyncTask() {
+        List<Contact> listUser = getListContacts(context);
 
-            @Override
-            protected Object doInBackground(Object[] params) {
-                List<Contact> listUser = getListContacts(context);
+        DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+        Dao dao;
+        List<Contact> contacts = null;
 
-                for (final Contact telephoneContact : listUser) {
-                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
+        try {
+            dao = helper.getContactDao();
+            contacts = dao.queryForAll();
 
-                    URL url = null;
-                    BufferedReader in = null;
-                    String res = "";
 
-                    try {
-                        String destination = urlOrigin + "?op=consulta&action=tlf&tlf=" + telephoneContact.getTelephone().replace("+34", "").replace(" ", "");
-                        Log.v("ASDF", "url " + destination);
-                        url = new URL(destination);
-                        in = new BufferedReader(new InputStreamReader(url.openStream()));
-                        String linea;
+            for (final Contact telephoneContact : listUser) {
 
-                        while ((linea = in.readLine()) != null) {
-                            res += linea;
-                        }
-
-                        in.close();
-                        Log.v("ASDF", "json " + res);
-
-                        if (!res.contains("false")) {
-                            Log.v("ASDF", "no es false");
-                            JSONObject obj = new JSONObject(res);
-                            Contact contactServer = new Contact();
-                            contactServer.getUsuario(obj);
-                            contactServer.setName(telephoneContact.getName());
-
-                            DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
-                            Dao dao;
-                            List<Contact> contacts = null;
-
-                            try {
-                                dao = helper.getContactDao();
-                                contacts = dao.queryForAll();
-
-                                if (!contacts.isEmpty()) {
-                                    for (Contact currentContact : contacts) {
-                                        String telf = currentContact.getTelephone().replace(" ", "");
-                                        Long id = currentContact.getId();
-
-                                        Log.v("ASDF", "" + contactServer.toString());
-                                        if (telf.contains(contactServer.getTelephone().toString())) {
-                                            updateChat(currentContact, contactServer, helper);
-
-                                            currentContact.setNick(contactServer.getNick());
-                                            currentContact.setToken(contactServer.getToken());
-                                            currentContact.setDescription(contactServer.getDescription());
-                                            currentContact.setLastconnection(contactServer.getLastconnection());
-                                            currentContact.setSeeconnection(contactServer.getSeeconnection());
-                                            currentContact.setPrivacy(contactServer.getPrivacy());
-                                            currentContact.setFacebook(contactServer.getFacebook());
-                                            currentContact.setTwitter(contactServer.getTwitter());
-                                            currentContact.setEmail(contactServer.getEmail());
-                                            currentContact.setBirth(contactServer.getBirth());
-                                            currentContact.setNationality(contactServer.getNationality());
-
-                                            dao.update(currentContact);
-                                        } else {
-                                            dao.create(contactServer);
-                                        }
-
-                                    }
-                                } else {
-                                    dao.createOrUpdate(contactServer);
-                                }
-                            } catch (java.sql.SQLException e) {
-                                e.printStackTrace();
-                                Log.e("Helper", "Search user error");
-                            }
-                        }
-                        Thread.sleep(300);
-
-                    } catch (MalformedURLException e) {
-                        Log.e("ASDF", "error3 " + e.toString());
-                    } catch (IOException e) {
-                        Log.e("ASDF", "error4 " + e.toString());
-                    } catch (JSONException e) {
-                        Log.e("ASDF", "error5 " + e.toString());
-                    } catch (InterruptedException e) {
-                        Log.e("ASDF", "error6 " + e.toString());
+                if (!contacts.isEmpty()) {
+                    for (Contact currentContact : contacts) {
+                        String telf = currentContact.getTelephone().replace(" ", "");
+                        searchRetrofitByTelephone(telf, currentContact, dao, helper);
                     }
-
-
+                } else {
+                    searchRetrofitByTelephone(telephoneContact.getTelephone(), dao, helper);
                 }
-                return null;
             }
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+            Log.e("Helper", "Search user error");
+        }
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-
-        }.execute(null, null, null);
     }
+
 
     /**
      * Actuliza todos los chat de un contacto (token)
@@ -290,144 +290,36 @@ public class Manager {
     }
 
     /**
-     * Sincroniza con la base ede datos un unico contacto
+     * Sincroniza con la base de datos el contacto
      *
      * @param context
      * @param contact
      */
     public static void updateContact(final Context context, final Contact contact) {
-        new AsyncTask() {
 
-            @Override
-            protected Object doInBackground(Object[] params) {
-                DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
-                Dao dao = null;
-                try {
-                    dao = helper.getContactDao();
+        DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+        Dao dao = null;
+        try {
+            dao = helper.getContactDao();
 
-                    List<Contact> listContact = dao.queryForEq(Contact.TELEPHONE, contact.getTelephone());
-                    Contact currentContact = listContact.get(0);
-                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
+            List<Contact> listContact = dao.queryForEq(Contact.TELEPHONE, contact.getTelephone());
+            Contact currentContact = listContact.get(0);
 
-                    URL url = null;
-                    BufferedReader in = null;
-                    String res = "";
+            searchRetrofitByTelephone(contact.getTelephone(), currentContact, dao, helper);
 
-                    try {
-                        String destination = urlOrigin + "?op=consulta&action=tlf&tlf=" + contact.getTelephone().replace("+34", "").replace(" ", "");
-                        Log.v("ASDF", "url " + destination);
-                        url = new URL(destination);
-                        in = new BufferedReader(new InputStreamReader(url.openStream()));
-                        String linea;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                        while ((linea = in.readLine()) != null) {
-                            res += linea;
-                        }
-
-                        in.close();
-                        Log.v("ASDF", "json " + res);
-
-                        if (!res.contains("false")) {
-                            JSONObject obj = new JSONObject(res);
-                            Contact contactServer = new Contact();
-                            contactServer.getUsuario(obj.getJSONObject("r"));
-
-                            updateChat(currentContact, contactServer, helper);
-
-                            currentContact.setNick(contactServer.getNick());
-                            currentContact.setToken(contactServer.getToken());
-                            currentContact.setDescription(contactServer.getDescription());
-                            currentContact.setLastconnection(contactServer.getLastconnection());
-                            currentContact.setSeeconnection(contactServer.getSeeconnection());
-                            currentContact.setPrivacy(contactServer.getPrivacy());
-                            currentContact.setFacebook(contactServer.getFacebook());
-                            currentContact.setTwitter(contactServer.getTwitter());
-                            currentContact.setEmail(contactServer.getEmail());
-                            currentContact.setBirth(contactServer.getBirth());
-                            currentContact.setNationality(contactServer.getNationality());
-
-                            dao.update(currentContact);
-
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
     }
 
-    public static void syncOurSelves(final Context context) {
-        new AsyncTask() {
-
-            @Override
-            protected Object doInBackground(Object[] params) {
-                DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
-
-                SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-
-                String ourTelephone = prefs.getString(context.getString(R.string.key_telephone), "").replace("+34", "").replace(" ", "");
-                String ourToken = prefs.getString(context.getString(R.string.key_token), "");
-                String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "").replace(" ", "%20");
-                String ourDescripcion = prefs.getString(context.getString(R.string.key_description), "I am using MeetMe").replace(" ", "%20");
-                String ourEmail = prefs.getString(context.getString(R.string.key_email), "").replace(" ", "%20");
-                String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "").replace(" ", "%20");
-                String ourBirth = prefs.getString(context.getString(R.string.key_birth), "").replace(" ", "%20");
-                String ourNick = prefs.getString(context.getString(R.string.key_nick), "Nick").replace(" ", "%20");
-                String ourPrivacity = prefs.getString(context.getString(R.string.key_privacy), "Amigos").replace(" ", "%20");
-                String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "").replace(" ", "%20");
-                String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos").replace(" ", "%20");
-
-                Date lastConnection = new Date();
-                String minute = "";
-
-                if (lastConnection.getMinutes() < 10)
-                    minute = "0";
-                minute += lastConnection.getMinutes();
-
-                String ourLastHours = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + (Calendar.getInstance().get(Calendar.YEAR)) +
-                        "%20" + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE);
-
-
-                Dao dao = null;
-                try {
-                    dao = helper.getContactDao();
-
-                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
-
-                    URL url = null;
-                    BufferedReader in = null;
-                    String res = "";
-
-                    try {
-                        String destination = urlOrigin + "?op=alta&action=actualizar&tlf=" + ourTelephone + "&token=" + ourToken +
-                                "&nick=" + ourNick + "&description=" + ourDescripcion + "&last=" + ourLastHours + "&see=" + ourLastConnection +
-                                "&privacy=" + ourPrivacity + "&facebook=" + ourFacebook + "&twitter=" + ourTwitter + "&email=" + ourEmail +
-                                "&nationality=" + ourNationality + "&birth=" + ourBirth;
-
-                        url = new URL(destination);
-                        Log.v("ASDF", destination);
-                        in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-                        in.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
-    }
-
+/***********************************************************************************************************************************************************************************************************/
+    /**
+     * Metódo que devuelve todos los contactos del móvil
+     *
+     * @param contexto
+     * @return Lista de contactos
+     */
     public static List<Contact> getListContacts(Context contexto) {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         String proyeccion[] = null;
@@ -452,6 +344,13 @@ public class Manager {
         return lista;
     }
 
+    /**
+     * Método que devuelve la lista de teléfonos de un contacto
+     *
+     * @param context
+     * @param id      identificador del usuario
+     * @return Lista de teléfonos
+     */
     public static List<String> getListTelephones(Context context, long id) {
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String proyeccion[] = null;
@@ -470,19 +369,99 @@ public class Manager {
         return list;
     }
 
-    public static void searchRetrofit() {
+    /**
+     * Método que busca un usuario en la base de datos por token y lo guarda a su vez en la base de datos local
+     *
+     * @param token
+     */
+    public static void searchRetrofitByToken(String token) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.15:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);
 
-        retrofit.Call call = api.getContactByTelephone("672105570");
+        retrofit.Call call = api.getContactByToken(token);
 
         call.enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
-                Log.v("ASDF", "searchretrofit " + response.body());
+                //actualizar
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.getLocalizedMessage();
+            }
+        });
+    }
+
+    /**
+     * Método que busca un usuario en la base de datos por teléfono y lo guarda a su vez en la base de datos local
+     *
+     * @param telephone
+     */
+    public static void searchRetrofitByTelephone(String telephone, final Contact currentContact, final Dao dao, final DBHelper helper) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiContact api = retrofit.create(ApiContact.class);
+
+        retrofit.Call call = api.getContactByTelephone(telephone);
+        call.enqueue(new Callback<Contact>() {
+            @Override
+            public void onResponse(Response<Contact> response, Retrofit retrofit) {
+
+                if (response.isSuccess()) {
+                    Contact contactServer = response.body();
+                    try {
+                        if (currentContact.getTelephone().equals(contactServer.getTelephone())) {
+                            Log.v("ASDF", "serverCONTACT" + contactServer.toString());
+                            updateChat(currentContact, contactServer, helper);
+                            dao.createOrUpdate(replaceCurrentContactToServer(currentContact, contactServer));
+
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.getLocalizedMessage();
+            }
+        });
+    }
+
+    public static void searchRetrofitByTelephone(final String telephone, final Dao dao, final DBHelper helper) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiContact api = retrofit.create(ApiContact.class);
+
+        retrofit.Call call = api.getContactByTelephone(telephone);
+        call.enqueue(new Callback<Contact>() {
+            @Override
+            public void onResponse(Response<Contact> response, Retrofit retrofit) {
+
+                if (response.isSuccess()) {
+
+                    Contact contactServer = response.body();
+                    try {
+
+                        if (contactServer.getTelephone() != null) {
+                            if (contactServer.getTelephone().equals(telephone)) {
+                                Log.v("ASDF", "serverCONTACT" + contactServer.toString());
+                                dao.createOrUpdate(contactServer);
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
@@ -493,6 +472,14 @@ public class Manager {
     }
 
 
+    /**
+     * Método encargado de llamar al servidor para el registro de un nuevo usuario
+     *
+     * @param telephone que se va a registrar
+     * @param token     identificador del teléfono
+     * @param c         contexto
+     * @param editor    editor de SharedPreferences
+     */
     public static void registerRetrofit(String telephone, String token, final Context c, final SharedPreferences.Editor editor) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.15:8080/MeetMe/")
@@ -505,7 +492,7 @@ public class Manager {
         call.enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
-                Log.v("ASDF", "registerretrofit " + response.body());
+
                 if (response.isSuccess()) {
                     editor.putBoolean(c.getResources().getString(R.string.str_register), true);
                     editor.commit();
@@ -519,6 +506,11 @@ public class Manager {
         });
     }
 
+    /**
+     * Método que se encarga de realizar la llamada al servidor para actualizar un Contacto
+     *
+     * @param contact que se va a actualizar
+     */
     public static void updateRetrofit(Contact contact) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.15:8080/MeetMe/")
@@ -528,12 +520,12 @@ public class Manager {
 
 
         Call call = updateContactRetrofit(api, contact);
-        Log.v("ASDF", "Call update contact" + contact.toString());
+
 
         call.enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
-                Log.v("ASDF", "updateretrofit " + response.body());
+
             }
 
             @Override
@@ -543,29 +535,40 @@ public class Manager {
         });
     }
 
+
+    /**
+     * Devuelve una llamada al servidor pasándole el Contacto, dicha llamada es para actualizar el mismo.
+     *
+     * @param apicontact
+     * @param contact    que se va a actualizar
+     * @return Call
+     */
     public static Call updateContactRetrofit(ApiContact apicontact, Contact contact) {
         return apicontact.updateContact(contact.getTelephone(), contact.getToken(), contact.getNick(), contact.getDescription(), contact.getLastconnection(), contact.getSeeconnection(),
                 contact.getFacebook(), contact.getTwitter(), contact.getEmail(), contact.getBirth(), contact.getNationality(), contact.getPrivacy());
     }
 
-    public static void syncOurSelvesRetrofit(final Context context) {
-        updateRetrofit(createMySelf(context));
-    }
-
+    /**
+     * Es un método que devuelve un objeto de tipo Contact con nuestros datos
+     *
+     * @param context
+     * @return contact
+     */
     public static Contact createMySelf(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
 
         String ourTelephone = prefs.getString(context.getString(R.string.key_telephone), "").replace("+34", "").replace(" ", "");
         String ourToken = prefs.getString(context.getString(R.string.key_token), "");
-        String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "").replace(" ", "%20");
-        String ourDescription = prefs.getString(context.getString(R.string.key_description), "I am using MeetMe").replace(" ", "%20");
-        String ourEmail = prefs.getString(context.getString(R.string.key_email), "").replace(" ", "%20");
-        String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "").replace(" ", "%20");
-        String ourBirth = prefs.getString(context.getString(R.string.key_birth), "").replace(" ", "%20");
-        String ourNick = prefs.getString(context.getString(R.string.key_nick), "Nick").replace(" ", "%20");
-        String ourPrivacy = prefs.getString(context.getString(R.string.key_privacy), "Amigos").replace(" ", "%20");
-        String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "").replace(" ", "%20");
-        String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos").replace(" ", "%20");
+        String ourNationality = prefs.getString(context.getString(R.string.key_nationality), "");
+        String ourDescription = prefs.getString(context.getString(R.string.key_description), "I am using MeetMe");
+        String ourEmail = prefs.getString(context.getString(R.string.key_email), "");
+        String ourFacebook = prefs.getString(context.getString(R.string.key_facebook), "");
+        String ourBirth = prefs.getString(context.getString(R.string.key_birth), "");
+        String ourNick = prefs.getString(context.getString(R.string.key_nick), "Nick");
+        String ourPrivacy = prefs.getString(context.getString(R.string.key_privacy), "Amigos");
+        String ourTwitter = prefs.getString(context.getString(R.string.key_twitter), "");
+        String ourLastConnection = prefs.getString(context.getString(R.string.key_last_connection), "Amigos");
+
 
         Date lastConnection = new Date();
         String minute = "";
@@ -577,16 +580,28 @@ public class Manager {
         String ourLastHours = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + (Calendar.getInstance().get(Calendar.YEAR)) +
                 "%20" + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE);
 
-        //String nick, String telephone, String token, String description, String lastconnection, String facebook, String email, String nacimiento, String twitter, String seeconnection, String nationality, String privacy
-        Contact contact = new Contact(ourNick, ourTelephone,  ourToken,  ourDescription,  ourLastHours,
-                 ourFacebook,  ourEmail,  ourBirth,  ourTwitter, ourLastConnection,  ourNationality,  ourPrivacy);
+        Contact contact = new Contact(ourNick, ourTelephone, ourToken, ourDescription, ourLastHours,
+                ourFacebook, ourEmail, ourBirth, ourTwitter, ourLastConnection, ourNationality, ourPrivacy);
 
-
-        //return new Contact("","123456","","desmodif","","","","","","","","");
         return contact;
     }
 
+    public static Contact replaceCurrentContactToServer(Contact currentContact, Contact contactServer) {
+        currentContact.setNick(contactServer.getNick());
+        currentContact.setToken(contactServer.getToken());
+        currentContact.setDescription(contactServer.getDescription());
+        currentContact.setLastconnection(contactServer.getLastconnection());
+        currentContact.setSeeconnection(contactServer.getSeeconnection());
+        currentContact.setPrivacy(contactServer.getPrivacy());
+        currentContact.setFacebook(contactServer.getFacebook());
+        currentContact.setTwitter(contactServer.getTwitter());
+        currentContact.setEmail(contactServer.getEmail());
+        currentContact.setBirth(contactServer.getBirth());
+        currentContact.setNationality(contactServer.getNationality());
 
+        return currentContact;
+
+    }
 }
 
 
