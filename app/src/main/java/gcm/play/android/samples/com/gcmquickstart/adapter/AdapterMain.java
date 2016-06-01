@@ -46,10 +46,10 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
             Contact contact = contacts.get(pos);
             viewHolder.bindContact(contact);
         } else {
-            Chat chat = chats.get(0);
+            Chat chat = chats.get(chats.size()-1);
             for (Contact current : contacts) {
                 if (chat.getTokenconversation().equals(current.getToken()))
-                    viewHolder.bindChat(current, chat.getMessage());
+                    viewHolder.bindChat(current, chat);
             }
         }
     }
@@ -89,11 +89,11 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
             txtConnection.setText(contact.getLastconnection());
         }
 
-        public void bindChat(Contact contact, String lastMessage) {
+        public void bindChat(Contact contact, Chat chat) {
             this.contact = contact;
             txtPerson.setText(contact.getName());
-            txtMessage.setText(lastMessage);
-            txtConnection.setText(contact.getLastconnection());
+            txtMessage.setText(chat.getMessage());
+            txtConnection.setText(chat.getDate() + " " + chat.getTime());
         }
 
         @Override
