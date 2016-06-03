@@ -64,7 +64,7 @@
     <string name="str_put_phone">Introduzca su número de telefono.</string>
     <string name="title_activity_conversation">ConversationActivity</string>
     <string name="title_activity_profile_user">ProfileUserActivity</string>
-    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_setting">Ajustes</string>
     <string name="str_setting_acount">Cuenta</string>
     <string name="str_setting_who_see">QUIÉN PUEDE VER MI INFORMACIÓN PERSONAL</string>
     <string name="str_setting_last_hour">Hora de últ. vez</string>

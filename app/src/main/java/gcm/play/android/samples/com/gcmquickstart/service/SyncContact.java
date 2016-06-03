@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import gcm.play.android.samples.com.gcmquickstart.Manager;
+import gcm.play.android.samples.com.gcmquickstart.manager.Manager;
 
 /**
  * Created by Admin on 18/05/2016.

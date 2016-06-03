@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 
+import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPageSlider;
 
 public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentInteractionListener {
@@ -58,8 +59,6 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
         setProgressButtonEnabled(true);
         setVibrate(false);
         setFlowAnimation();
-
-
     }
 
     @Override

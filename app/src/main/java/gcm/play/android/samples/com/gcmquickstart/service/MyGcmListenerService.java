@@ -21,8 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import gcm.play.android.samples.com.gcmquickstart.ConversationActivity;
-import gcm.play.android.samples.com.gcmquickstart.QuickstartPreferences;
+import gcm.play.android.samples.com.gcmquickstart.ui.ConversationActivity;
 import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
@@ -77,6 +76,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
 
+        //COMPRUEBA QUE EN LA ACTIVIDAD CONVERSATION ESTE ABIERTA PARA MANDAR EL MENSAJE
         if (preferences.getBoolean(getResources().getString(R.string.str_register_broadcast), false)) {
             Intent registrationComplete = new Intent(QuickstartPreferences.CONVERSATION);
             LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
@@ -112,7 +112,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_ic_notification)
+                .setSmallIcon(R.drawable.chat_notificaciones)
                 .setContentTitle(from)
                 .setContentText(message)
                 .setAutoCancel(true)
@@ -162,6 +162,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
             Chat user = new Chat(message, tokenSender, tokenSender, Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" +
                     (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + Calendar.getInstance().get(Calendar.YEAR), hoy.getHours() + ":" + minute);
+
             dao.create(user);
         } catch (SQLException e) {
             Log.e("Helper", "Create user ERROR");

@@ -29,8 +29,7 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
-import gcm.play.android.samples.com.gcmquickstart.Manager;
-import gcm.play.android.samples.com.gcmquickstart.QuickstartPreferences;
+import gcm.play.android.samples.com.gcmquickstart.manager.Manager;
 import gcm.play.android.samples.com.gcmquickstart.R;
 
 public class RegistrationIntentService extends IntentService {

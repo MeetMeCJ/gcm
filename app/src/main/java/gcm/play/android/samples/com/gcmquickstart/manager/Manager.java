@@ -1,4 +1,4 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.manager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
-import android.support.v7.util.SortedList;
 
 import android.util.Log;
 
@@ -32,6 +31,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import gcm.play.android.samples.com.gcmquickstart.ApiContact;
+import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -42,74 +43,11 @@ import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
-import retrofit.http.Query;
 
 /**
  * Created by Admin on 20/04/2016.
  */
 public class Manager {
-    public static final String API_KEY = "AIzaSyCF2MH1r1DOBlF3Lz7ma1hNFEQVJldt71U";
-
-    public static void sendMessage(Context contexto, final String message, final String destination) {
-
-        SharedPreferences prefs = contexto.getSharedPreferences(contexto.getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        final String ourToken = prefs.getString(contexto.getResources().getString(R.string.key_token), "");
-        final String ourTelephone = prefs.getString(contexto.getString(R.string.key_telephone), "");
-
-        new AsyncTask() {
-
-            private String aux;
-
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-
-                    // Prepare JSON containing the GCM message content. What to send and where to send.
-                    JSONObject jGcmData = new JSONObject();
-                    JSONObject jData = new JSONObject();
-                    jData.put("message", message);
-                    jData.put("origin", ourToken);
-                    jData.put("telephone", ourTelephone);
-                    // Where to send GCM message.
-
-                    jGcmData.put("to", destination);
-                    //jGcmData.put("to", "/topics/global");
-
-                    // What to send in GCM message.
-                    jGcmData.put("data", jData);
-
-                    // Create connection to send GCM Message request.
-                    //URL url = new URL("https://android.googleapis.com/gcm/send");
-                    URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
-
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestProperty("Authorization", "key=" + API_KEY);
-                    conn.setRequestProperty("Content-Type", "application/json");
-                    conn.setRequestMethod("POST");
-                    conn.setDoOutput(true);
-
-                    // Send GCM message content.
-                    OutputStream outputStream = conn.getOutputStream();
-                    outputStream.write(jGcmData.toString().getBytes());
-
-                    // Read GCM response.
-                    InputStream inputStream = conn.getInputStream();
-                    String resp = IOUtils.toString(inputStream);
-                    System.out.println(resp);
-
-
-                } catch (IOException e) {
-                    Log.v("ASDF", "error " + e.toString());
-
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    Log.v("ASDF", "error2 " + e.toString());
-                    e.printStackTrace();
-                }
-                return "";
-            }
-        }.execute(null, null, null);
-    }
 
     /**
      * Método que registra un nuevo usuario en el servidor
@@ -154,7 +92,7 @@ public class Manager {
                 List<Contact> listUser = getListContacts(context);
 
                 for (final Contact telephoneContact : listUser) {
-                    String urlOrigin = "http://192.168.1.15:8080/MeetMe/servlet";
+                    String urlOrigin = "http://192.168.1.10:8080/MeetMe/servlet";
 
                     URL url = null;
                     BufferedReader in = null;
@@ -378,7 +316,7 @@ public class Manager {
      */
     public static void searchRetrofitByToken(String token) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .baseUrl("http://192.168.1.10:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);
@@ -405,7 +343,7 @@ public class Manager {
      */
     public static void searchRetrofitByTelephone(String telephone, final Contact currentContact, final Dao dao, final DBHelper helper) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .baseUrl("http://192.168.1.10:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);
@@ -415,6 +353,7 @@ public class Manager {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
 
+                Log.v("ASDF","actualizando contacto");
                 if (response.isSuccess()) {
                     Contact contactServer = response.body();
                     try {
@@ -439,7 +378,7 @@ public class Manager {
 
     public static void searchRetrofitByTelephone(final String telephone, final Dao dao, final DBHelper helper) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .baseUrl("http://192.168.1.10:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);
@@ -498,7 +437,7 @@ public class Manager {
      */
     public static void registerRetrofit(String telephone, String token, final Context c, final SharedPreferences.Editor editor) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .baseUrl("http://192.168.1.10:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);
@@ -529,7 +468,7 @@ public class Manager {
      */
     public static void updateRetrofit(Contact contact) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.15:8080/MeetMe/")
+                .baseUrl("http://192.168.1.10:8080/MeetMe/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiContact api = retrofit.create(ApiContact.class);

@@ -1,4 +1,4 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
+import gcm.play.android.samples.com.gcmquickstart.manager.Manager;
+import gcm.play.android.samples.com.gcmquickstart.R;
 
 public class SettingActivity extends AppCompatActivity {
 

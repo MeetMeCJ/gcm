@@ -1,7 +1,5 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,10 +9,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MyProfile extends AppCompatActivity {
+import gcm.play.android.samples.com.gcmquickstart.R;
+import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
+
+public class ProfileUserActivity extends AppCompatActivity {
+    private EditText etDescription;
     private TextView txtCounter;
 
-    private EditText etDescription;
+    private Contact contact;
+
+    private Toolbar toolbar;
+
     private EditText telephone;
     private EditText email;
     private EditText nationality;
@@ -24,15 +29,12 @@ public class MyProfile extends AppCompatActivity {
     private EditText facebook;
     private EditText twitter;
 
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_profile_user);
+        toolbar = (Toolbar) findViewById(R.id.profileAppbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -45,6 +47,7 @@ public class MyProfile extends AppCompatActivity {
                 finish();
             }
         });
+
         getSupportActionBar().openOptionsMenu();
         etDescription = (EditText) findViewById(R.id.profileDescription);
         txtCounter = (TextView) findViewById(R.id.txtCounter2);
@@ -84,17 +87,9 @@ public class MyProfile extends AppCompatActivity {
     }
 
     public void ini() {
-        preferences = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
-        editor = preferences.edit();
+        contact = getIntent().getExtras().getParcelable(getString(R.string.key_token));
 
-        String ourTelephone = preferences.getString(getString(R.string.key_telephone), "");
-        String ourNationality = preferences.getString(getString(R.string.key_nationality), "");
-        String ourDescripcion = preferences.getString(getString(R.string.key_description), "I am using MeetMe");
-        String ourEmail = preferences.getString(getString(R.string.key_email), "");
-        String ourFacebook = preferences.getString(getString(R.string.key_facebook), "");
-        String ourBirth = preferences.getString(getString(R.string.key_birth), "");
-        String ourNick = preferences.getString(getString(R.string.key_nick), "Nick");
-        String ourTwitter = preferences.getString(getString(R.string.key_twitter), "");
+        getSupportActionBar().setTitle(contact.getName());
 
         telephone = (EditText) findViewById(R.id.profileTelephone);
         email = (EditText) findViewById(R.id.profileEmail);
@@ -105,39 +100,31 @@ public class MyProfile extends AppCompatActivity {
         facebook = (EditText) findViewById(R.id.profileFacebook);
         twitter = (EditText) findViewById(R.id.profileTwitter);
 
-        getSupportActionBar().setTitle(ourNick);
-
-        email.setText(ourEmail);
-        nationality.setText(ourNationality);
-        birth.setText(ourBirth);
-        description.setText(ourDescripcion);
-        facebook.setText(ourFacebook);
-        twitter.setText(ourTwitter);
-        telephone.setText(ourTelephone);
-        nick.setText(ourNick);
-
         telephone.setEnabled(false);
+        email.setEnabled(false);
+        nationality.setEnabled(false);
+        birth.setEnabled(false);
+        nick.setEnabled(false);
+        description.setEnabled(false);
+        facebook.setEnabled(false);
+        twitter.setEnabled(false);
+
+        switch (contact.getPrivacy().toLowerCase()) {
+            case "mis contactos":
+            case "todos":
+                email.setText(contact.getEmail());
+                nationality.setText(contact.getNationality());
+                birth.setText(contact.getBirth());
+                description.setText(contact.getDescription());
+                facebook.setText(contact.getFacebook());
+                twitter.setText(contact.getTwitter());
+            case "nadie":
+            default:
+                telephone.setText(contact.getTelephone());
+                nick.setText(contact.getNick());
+
+        }
+
+
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Manager.syncOurSelves(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        editor.putString(getString(R.string.key_nationality), nationality.getText().toString().replace("ñ","n"));
-        editor.putString(getString(R.string.key_description), description.getText().toString());
-        editor.putString(getString(R.string.key_email), email.getText().toString());
-        editor.putString(getString(R.string.key_facebook), facebook.getText().toString());
-        editor.putString(getString(R.string.key_birth), birth.getText().toString());
-        editor.putString(getString(R.string.key_nick), nick.getText().toString());
-        editor.putString(getString(R.string.key_twitter), twitter.getText().toString());
-        editor.commit();
-
-        Manager.syncOurSelves(this);
-    }
-
 }

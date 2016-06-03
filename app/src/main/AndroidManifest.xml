@@ -18,7 +18,7 @@
         <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
         <activity
-            android:name=".Splash"
+            android:name=".ui.Splash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -28,15 +28,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PutTelephone" />
+        <activity android:name=".ui.PutTelephone" />
         <activity
-            android:name=".ConversationActivity"
+            android:name=".ui.ConversationActivity"
             android:label="@string/title_activity_conversation"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ProfileUserActivity"
+            android:name=".ui.ProfileUserActivity"
             android:label="@string/title_activity_profile_user"
             android:theme="@style/AppTheme" />
 
@@ -83,11 +83,11 @@
             android:exported="false" />
 
         <activity
-            android:name=".SettingActivity"
+            android:name=".ui.SettingActivity"
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".MyProfile"
+            android:name=".ui.MyProfile"
             android:label="@string/title_activity_my_profile"
             android:theme="@style/AppTheme"></activity>
     </application>

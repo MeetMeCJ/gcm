@@ -3,6 +3,7 @@ package gcm.play.android.samples.com.gcmquickstart.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import gcm.play.android.samples.com.gcmquickstart.ConversationActivity;
-import gcm.play.android.samples.com.gcmquickstart.Manager;
+import gcm.play.android.samples.com.gcmquickstart.ui.ConversationActivity;
+import gcm.play.android.samples.com.gcmquickstart.manager.Manager;
 import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
@@ -86,7 +87,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
             this.contact = contact;
             txtPerson.setText(contact.getName());
             txtMessage.setText(contact.getDescription());
-            txtConnection.setText(contact.getLastconnection());
+            txtConnection.setText(Html.fromHtml(contact.getLastconnection()+"."));
         }
 
         public void bindChat(Contact contact, Chat chat) {

@@ -1,4 +1,4 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,10 +32,13 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import gcm.play.android.samples.com.gcmquickstart.manager.Manager;
+import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.adapter.AdapterConversation;
 import gcm.play.android.samples.com.gcmquickstart.db.DBHelper;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
+import gcm.play.android.samples.com.gcmquickstart.service.QuickstartPreferences;
 
 public class ConversationActivity extends AppCompatActivity {
     public static final String API_KEY = "AIzaSyCF2MH1r1DOBlF3Lz7ma1hNFEQVJldt71U";

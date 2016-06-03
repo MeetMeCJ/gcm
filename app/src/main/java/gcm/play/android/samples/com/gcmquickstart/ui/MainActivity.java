@@ -1,4 +1,4 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import gcm.play.android.samples.com.gcmquickstart.manager.Manager;
+import gcm.play.android.samples.com.gcmquickstart.R;
 import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPagerMain;
 import gcm.play.android.samples.com.gcmquickstart.service.SyncContact;
 

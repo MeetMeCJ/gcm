@@ -1,4 +1,4 @@
-package gcm.play.android.samples.com.gcmquickstart;
+package gcm.play.android.samples.com.gcmquickstart.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import gcm.play.android.samples.com.gcmquickstart.R;
+import gcm.play.android.samples.com.gcmquickstart.service.QuickstartPreferences;
 import gcm.play.android.samples.com.gcmquickstart.service.RegistrationIntentService;
 
 public class PutTelephone extends AppCompatActivity {

@@ -77,7 +77,7 @@ public class FragmentMain extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.fragmentRecyclerView);
-        
+
         AdapterMain adapterMain;
 
         List<Chat> lista = new ArrayList<>();

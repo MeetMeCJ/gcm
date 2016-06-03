@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="gcm.play.android.samples.com.gcmquickstart.PutTelephone"
+    tools:context=".ui.PutTelephone"
     android:background="@drawable/shape_splash_background">
 
     <TextView
