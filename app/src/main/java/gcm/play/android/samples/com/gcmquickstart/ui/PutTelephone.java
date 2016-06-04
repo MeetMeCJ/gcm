@@ -59,8 +59,7 @@ public class PutTelephone extends AppCompatActivity {
                 }
             }
         };
-
-        // Registering BroadcastReceiver
+        // Registrar BroadcastReceiver
         registerReceiver();
     }
 

@@ -100,8 +100,6 @@ public class FragmentMain extends Fragment {
             adapterMain = new AdapterMain(contacts, null);
 
         rv.setAdapter(adapterMain);
-
-
         rv.setLayoutManager(new LinearLayoutManager(c, LinearLayoutManager.VERTICAL, false));
 
         return v;

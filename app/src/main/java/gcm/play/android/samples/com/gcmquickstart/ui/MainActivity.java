@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.preference), Context.MODE_PRIVATE);
         String ourToken = prefs.getString(getResources().getString(R.string.key_token), "");
-        Log.v("ASDF", "NUESTRO TOKEN " + ourToken);
-
-
     }
 
     @Override

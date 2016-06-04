@@ -10,8 +10,8 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Chat {
     public static final String ID = "id";
     public static final String MESSAGE = "message";
-    public static final String CONVERSATION = "tokenconversation";//Siempre el del otro
-    public static final String TOKENSENDER = "tokensender";//Puede ser el nuestro o el del otro
+    public static final String CONVERSATION = "tokenconversation";
+    public static final String TOKENSENDER = "tokensender";
     public static final String DATE = "date";
     public static final String TIME = "time";
 

@@ -35,9 +35,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
         LayoutInflater i = (LayoutInflater) parent.getContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
         View view = i.inflate(R.layout.item_main, null);
-
         ViewHolderAdaptador tvh = new ViewHolderAdaptador(view);
-
         return tvh;
     }
 
@@ -71,12 +69,10 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolderAdap
         private TextView txtPerson;
         private TextView txtMessage;
         private TextView txtConnection;
-
         private Contact contact;
 
         public ViewHolderAdaptador(View itemView) {
             super(itemView);
-
             txtPerson = (TextView) itemView.findViewById(R.id.itemName);
             txtConnection = (TextView) itemView.findViewById(R.id.itemConnection);
             txtMessage = (TextView) itemView.findViewById(R.id.itemMessage);

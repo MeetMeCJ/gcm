@@ -133,7 +133,6 @@ public class ConversationActivity extends AppCompatActivity {
 
     public void conversationSend(View v) {
         if (!myText.getText().toString().isEmpty() && !myText.getText().toString().trim().equals("")) {
-            //Manager.sendMessage(this, myText.getText().toString(), token);
             sendMessage(myText.getText().toString(), token);
             Dao dao;
             try {
@@ -185,22 +184,18 @@ public class ConversationActivity extends AppCompatActivity {
             protected Object doInBackground(Object[] params) {
                 try {
                     Log.v("ASDF", "empieza la hebra a mandar un msg");
-                    // Prepare JSON containing the GCM message content. What to send and where to send.
+
                     JSONObject jGcmData = new JSONObject();
                     JSONObject jData = new JSONObject();
                     jData.put("message", message);
                     jData.put("origin", ourToken);
                     jData.put("telephone", ourTelephone);
-                    // Where to send GCM message.
+
 
                     jGcmData.put("to", destination);
-                    //jGcmData.put("to", "/topics/global");
 
-                    // What to send in GCM message.
                     jGcmData.put("data", jData);
 
-                    // Create connection to send GCM Message request.
-                    //URL url = new URL("https://android.googleapis.com/gcm/send");
                     URL url = new URL("https://gcm-http.googleapis.com/gcm/send");
                     Log.v("ASDF", url.toString());
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -209,19 +204,12 @@ public class ConversationActivity extends AppCompatActivity {
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
 
-                    // Send GCM message content.
                     OutputStream outputStream = conn.getOutputStream();
                     outputStream.write(jGcmData.toString().getBytes());
 
-                    // Read GCM response.
                     InputStream inputStream = conn.getInputStream();
                     String resp = IOUtils.toString(inputStream);
                     System.out.println(resp);
-
-                    Log.v("ASDF", "respuesta " + resp);
-                    Log.v("ASDF", "lo manda");
-
-
                 } catch (IOException e) {
                     Log.v("ASDF", "error " + e.toString());
                     e.printStackTrace();
@@ -233,7 +221,6 @@ public class ConversationActivity extends AppCompatActivity {
             }
         };
         asyncTask.execute(null, null, null);
-        Log.v("ASDF", "hebra lanzada");
 
     }
 

@@ -288,7 +288,6 @@ public class Contact implements Parcelable {
         try {
             ArrayList<String> telephones = new ArrayList<>();
             telephones.add(json.getInt("telephone") + "");
-
             setDescription(json.getString("description"));
             setNick(json.getString("nick"));
             setPrivacy(json.getString("privacy"));
@@ -301,8 +300,6 @@ public class Contact implements Parcelable {
             setEmail(json.getString("email"));
             setNationality(json.getString("nationality"));
             setBirth(json.getString("birth"));
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

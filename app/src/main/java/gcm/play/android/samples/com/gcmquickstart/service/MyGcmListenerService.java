@@ -85,7 +85,6 @@ public class MyGcmListenerService extends GcmListenerService {
 
         }
 
-
         registerMessage(helper, message, tokenSender);
 
         /**
@@ -122,7 +121,7 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     /**
@@ -135,13 +134,10 @@ public class MyGcmListenerService extends GcmListenerService {
     public void registerContact(DBHelper helper, String tokenSender, String telephoneSender) {
         try {
             Dao dao = helper.getContactDao();
-
             Contact newContact = new Contact();
             newContact.setTelephone(telephoneSender);
             newContact.setToken(tokenSender);
-
             dao.createOrUpdate(newContact);
-
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
@@ -186,7 +182,6 @@ public class MyGcmListenerService extends GcmListenerService {
             Dao dao = helper.getContactDao();
             oldToeken = contact.getToken();
             contact.setToken(tokenSender);
-
             dao.update(contact);
 
         } catch (java.sql.SQLException e) {
@@ -216,13 +211,10 @@ public class MyGcmListenerService extends GcmListenerService {
         try {
             Dao dao = helper.getContactDao();
             contacts = dao.queryForEq(Contact.TOKEN, tokenSender);
-
             if (!contacts.isEmpty() || contact != null)
                 contact = contacts.get(0);
-
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
-            Log.e("Helper", "Search user error");
         }
         return contact;
     }
@@ -239,7 +231,6 @@ public class MyGcmListenerService extends GcmListenerService {
 
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
-            Log.e("Helper", "Search user error");
         }
         return contact;
     }

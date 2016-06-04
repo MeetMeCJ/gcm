@@ -56,7 +56,7 @@ public class SettingActivity extends AppCompatActivity {
         editor = preferences.edit();
 
         ini();
-        //Sacamos de las preferencias compartida lo que esta marcado para cada opcion y lo escribimos en su lugar
+
     }
 
     public void ini() {
@@ -119,14 +119,11 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 });
         builder.create().show();
-
-
         Manager.syncOurSelves(this);
     }
 
 
     public void settingSeePhotoProfile(View v) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.str_setting_see_photo)
                 .setItems(privacy, new DialogInterface.OnClickListener() {
@@ -152,34 +149,23 @@ public class SettingActivity extends AppCompatActivity {
         builder.setTitle(R.string.str_setting_see_description)
                 .setItems(privacy, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Guardamos en un preferencia compartida que se ha guardado en esta
                         editor.putString(getString(R.string.key_privacy), privacy[which]);
                         optionSeeDescription.setText(privacy[which]);
-                        //Nos bajamos del servidor el objeto contact con nuetro numero de telefono
-                        //Lo editamos metiendole en privacidad este nuevo campo
-                        //y lo actualizamos en el servidor
                         editor.commit();
                     }
                 });
         builder.create().show();
 
         Manager.syncOurSelves(this);
-
     }
 
     public void settingSeeNotificationMessage(View v) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.str_setting_notification)
                 .setItems(notificationMessage, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Guardamos en un preferencia compartida que se ha guardado en esta
                         editor.putString(getString(R.string.str_setting_notification), notificationMessage[which]);
                         optionSeeNotificationMessage.setText(notificationMessage[which]);
-
-                        //Nos bajamos del servidor el objeto contact con nuetro numero de telefono
-                        //Lo editamos metiendole en privacidad este nuevo campo
-                        //y lo actualizamos en el servidor
                         editor.commit();
                     }
                 });
@@ -193,13 +179,8 @@ public class SettingActivity extends AppCompatActivity {
         builder.setTitle(R.string.str_setting_notification_group)
                 .setItems(notificationMessage, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Guardamos en un preferencia compartida que se ha guardado en esta
                         editor.putString(getString(R.string.str_setting_notification_group), notificationMessage[which]);
                         optionSeeNotificationGroup.setText(notificationMessage[which]);
-
-                        //Nos bajamos del servidor el objeto contact con nuetro numero de telefono
-                        //Lo editamos metiendole en privacidad este nuevo campo
-                        //y lo actualizamos en el servidor
                         editor.commit();
                     }
                 });
@@ -214,13 +195,8 @@ public class SettingActivity extends AppCompatActivity {
         builder.setTitle(R.string.str_setting_vibration)
                 .setItems(durationVibration, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Guardamos en un preferencia compartida que se ha guardado en esta
                         editor.putString(getString(R.string.str_setting_vibration), durationVibration[which]);
                         optionVibrationMessage.setText(preferences.getString(getString(R.string.str_setting_vibration), durationVibration[which]));
-
-                        //Nos bajamos del servidor el objeto contact con nuetro numero de telefono
-                        //Lo editamos metiendole en privacidad este nuevo campo
-                        //y lo actualizamos en el servidor
                         editor.commit();
                     }
                 });
@@ -233,13 +209,8 @@ public class SettingActivity extends AppCompatActivity {
         builder.setTitle(R.string.str_setting_vibration)
                 .setItems(durationVibration, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Guardamos en un preferencia compartida que se ha guardado en esta
                         editor.putString(getString(R.string.str_setting_vibration), durationVibration[which]);
                         optionVibrationGroup.setText(preferences.getString(getString(R.string.str_setting_vibration), durationVibration[which]));
-
-                        //Nos bajamos del servidor el objeto contact con nuetro numero de telefono
-                        //Lo editamos metiendole en privacidad este nuevo campo
-                        //y lo actualizamos en el servidor
                         editor.commit();
                     }
                 });
@@ -252,13 +223,8 @@ public class SettingActivity extends AppCompatActivity {
         builder.setTitle(R.string.str_setting_font_size_info)
                 .setItems(sizeFont, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Guardamos en un preferencia compartida que se ha guardado en esta
                         editor.putString(getString(R.string.str_setting_font_size), sizeFont[which]);
                         optionFontSize.setText(preferences.getString(getString(R.string.str_setting_font_size), sizeFont[which]));
-
-                        //Nos bajamos del servidor el objeto contact con nuetro numero de telefono
-                        //Lo editamos metiendole en privacidad este nuevo campo
-                        //y lo actualizamos en el servidor
                         editor.commit();
                     }
                 });

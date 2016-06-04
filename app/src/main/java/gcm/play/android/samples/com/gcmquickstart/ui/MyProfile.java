@@ -69,8 +69,6 @@ public class MyProfile extends AppCompatActivity {
                                           int after) {
                 //Este método se llama para informale de que, dentro de s, count empezando en start está a punto
                 // de ser reemplazado por nuevo texto con longitud after
-
-
             }
 
             @Override

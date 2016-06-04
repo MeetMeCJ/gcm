@@ -16,6 +16,7 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Contact;
  * Created by Admin on 27/04/2016.
  */
 public class DBHelper extends OrmLiteSqliteOpenHelper {
+
     private static final String DATABASE_NAME = "meetme.db";
     private static final int DATABASE_VERSION = 2;
 

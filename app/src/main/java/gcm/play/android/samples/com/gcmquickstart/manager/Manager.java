@@ -172,6 +172,7 @@ public class Manager {
 
         }.execute(null, null, null);
     }
+
 //    public static void syncContact(final Context context) {
 //        List<Contact> listUser = getListContacts(context);
 //
@@ -276,7 +277,6 @@ public class Manager {
             contact = new Contact();
             contact.setId(cursor.getLong(indexId));
             contact.setName(cursor.getString(indexName));
-            //contact.setTelephone(getListTelephones(contexto, contact.getId()));
             contact.setTelephone(getListTelephones(contexto, contact.getId()).get(0));
             lista.add(contact);
         }
@@ -353,12 +353,11 @@ public class Manager {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
 
-                Log.v("ASDF","actualizando contacto");
                 if (response.isSuccess()) {
                     Contact contactServer = response.body();
                     try {
                         if (currentContact.getTelephone().equals(contactServer.getTelephone())) {
-                            Log.v("ASDF", "serverCONTACT" + contactServer.toString());
+
                             updateChat(currentContact, contactServer, helper);
                             dao.createOrUpdate(replaceCurrentContactToServer(currentContact, contactServer));
 
@@ -384,25 +383,17 @@ public class Manager {
         ApiContact api = retrofit.create(ApiContact.class);
 
         retrofit.Call call = api.getContactByTelephone(telephone);
-        Log.v("ASDF", "sE LANZA LA HEBRA");
+
         call.enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Response<Contact> response, Retrofit retrofit) {
 
                 if (response.isSuccess()) {
-                    Log.v("ASDF", "respuesta del servidor correcta");
-
                     Contact contactServer = response.body();
-
-                    Log.v("ASDF", "CONTACTSERVER" + contactServer.toString());
-
                     try {
 
                         if (contactServer.getTelephone().equals("not registered")) {
-                            Log.v("ASDF", "Nos llega un contacto válido");
                             if (contactServer.getTelephone().equals(telephone)) {
-                                Log.v("ASDF", "serverCONTACT" + contactServer.toString());
-                                Log.v("ASDF", "registra a " + contactServer.toString());
                                 dao.createOrUpdate(contactServer);
                             }
                         }
@@ -414,11 +405,10 @@ public class Manager {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.v("ASDF", "Ha saltado una excepción al intentar conectar al servidor");
-                //t.getLocalizedMessage();
+                t.getLocalizedMessage();
             }
         });
-        Log.v("ASDF", "eSPERAMOS A LA HEBRA");
+
         try {
             call.wait();
         } catch (InterruptedException e) {
@@ -553,9 +543,7 @@ public class Manager {
         currentContact.setEmail(contactServer.getEmail());
         currentContact.setBirth(contactServer.getBirth());
         currentContact.setNationality(contactServer.getNationality());
-
         return currentContact;
-
     }
 }
 

@@ -30,11 +30,7 @@ import gcm.play.android.samples.com.gcmquickstart.fragment.FragmentPageSlider;
 
 public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentInteractionListener {
 
-
     private static final String TAG = "Splash";
-
-
-//Esto es un comentario modificado
 
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
@@ -48,7 +44,6 @@ public class Splash extends AppIntro2 implements FragmentPageSlider.OnFragmentIn
         FragmentPageSlider second_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_2), getString(R.string.str_splash_content_frag_2), R.drawable.message);
         FragmentPageSlider third_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_3), getString(R.string.str_splash_content_frag_3), R.drawable.smartphone);
         FragmentPageSlider fourth_fragment = FragmentPageSlider.newInstance(getString(R.string.str_splash_title_frag_4), getString(R.string.str_splash_content_frag_4), R.drawable.light_bulb);
-
         addSlide(first_fragment);
         addSlide(second_fragment);
         addSlide(third_fragment);

@@ -22,7 +22,6 @@ import gcm.play.android.samples.com.gcmquickstart.pojo.Chat;
 public class AdapterConversation extends RecyclerView.Adapter<AdapterConversation.ViewHolderAdaptador> {
 
     private List<Chat> chats;
-
     public AdapterConversation(List<Chat> chats) {
         this.chats = chats;
     }
@@ -32,7 +31,6 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
         LayoutInflater i = (LayoutInflater) parent.getContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
         View view = i.inflate(R.layout.item_conversation, null);
-
         ViewHolderAdaptador tvh = new ViewHolderAdaptador(view);
 
         return tvh;
@@ -40,9 +38,7 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
 
     @Override
     public void onBindViewHolder(ViewHolderAdaptador viewHolder, int pos) {
-
         Chat chat = chats.get(pos);
-
         viewHolder.bindChat(chat);
     }
 
@@ -67,7 +63,6 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
         public ViewHolderAdaptador(View itemView) {
             super(itemView);
             this.itemView = itemView;
-
             linearLayout = (LinearLayout) itemView.findViewById(R.id.itemConversationLayout);
             itemConversationParent = (LinearLayout) itemView.findViewById(R.id.itemConversationParent);
             txtConnection = (TextView) itemView.findViewById(R.id.itemConversationTime);
