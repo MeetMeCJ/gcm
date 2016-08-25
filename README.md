@@ -28,10 +28,10 @@ Praesent scelerisque, mauris vitae finibus euismod, urna dui condimentum tortor,
 
 Screenshots
 -----------
-![Screenshot](app/src/main/intro1.jpg =270x480)
-![Screenshot](app/src/main/intro3.jpg =270x480)
-![Screenshot](app/src/main/main.jpg =270x480)
-![Screenshot](app/src/main/setting.jpg =270x480)
+![Screenshot](app/src/main/intro1.jpg =540x960)
+![Screenshot](app/src/main/intro3.jpg =540x960)
+![Screenshot](app/src/main/main.jpg =540x960)
+![Screenshot](app/src/main/setting.jpg =540x960)
 
 Conceptos basicos
 --------------------
