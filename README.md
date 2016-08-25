@@ -15,7 +15,7 @@ Indice
  1. [Como surgio la idea](https://github.com/MeetMeCJ/gcm#como-surgio-la-idea)
  2. [Screenshots](https://github.com/MeetMeCJ/gcm#screenshots)
  3. [Conceptos basicos](https://github.com/MeetMeCJ/gcm#conceptos-basicos)
-   1 [Codigo](https://github.com/MeetMeCJ/gcm#codigo)
+ - [Codigo](https://github.com/MeetMeCJ/gcm#codigo)
  4. [Soporte](https://github.com/MeetMeCJ/gcm#soporte)
  5. [Licencia](https://github.com/MeetMeCJ/gcm#licencia)
 
@@ -28,10 +28,10 @@ Praesent scelerisque, mauris vitae finibus euismod, urna dui condimentum tortor,
 
 Screenshots
 -----------
-![Screenshot](app/src/main/intro1.jpg =720x1280)
-![Screenshot](app/src/main/intro3.jpg =270x480)
-![Screenshot](app/src/main/main.jpg =270x480)
-![Screenshot](app/src/main/setting.jpg =270x480)
+![Screenshot](app/src/main/intro1.jpg)
+![Screenshot](app/src/main/intro3.jpg)
+![Screenshot](app/src/main/main.jpg)
+![Screenshot](app/src/main/setting.jpg)
 
 Conceptos basicos
 --------------------
